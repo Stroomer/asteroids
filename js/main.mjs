@@ -15,7 +15,7 @@ function init() {
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
-  asteroids.push(new Asteroid(20, 20, 8, -60));
+  asteroids.push(new Asteroid(20, 20, 8, -60, 16));
 
   frameTime = { previous: 0, secondsPassed: 0 };
   window.requestAnimationFrame(frame);
