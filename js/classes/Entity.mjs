@@ -17,15 +17,13 @@ export default class Entity {
     this.y = (this.y + this.dy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
   }
 
-  draw(ctx) {
-    const { x, y, size } = this;
+  draw(ctx) {    
+    this.render(ctx, this.x, this.y); // main draw
     
-    this.render(ctx, x, y); // main draw
-    
-    if (x < size)                 this.render(ctx, x + SCREEN_WIDTH, y);
-    if (x > SCREEN_WIDTH - size)  this.render(ctx, x - SCREEN_WIDTH, y);
-    if (y < size)                 this.render(ctx, x, y + SCREEN_HEIGHT);
-    if (y > SCREEN_HEIGHT - size) this.render(ctx, x, y - SCREEN_HEIGHT);
+    if (this.x < this.size)                 this.render(ctx, this.x + SCREEN_WIDTH, this.y);
+    if (this.x > SCREEN_WIDTH - this.size)  this.render(ctx, this.x - SCREEN_WIDTH, this.y);
+    if (this.y < this.size)                 this.render(ctx, this.x, this.y + SCREEN_HEIGHT);
+    if (this.y > SCREEN_HEIGHT - this.size) this.render(ctx, this.x, this.y - SCREEN_HEIGHT);
   }
 
   render(ctx, x, y) {

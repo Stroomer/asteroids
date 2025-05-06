@@ -10,17 +10,26 @@ export default class Player extends Entity {
     this.keys = keys;
   }
 
-  checkInput() {
-    const { up, down, left, right, fire } = this.keys;    
-
-    //console.log(up, down, left, right, fire);
-    
+  update(dt) {
+    //console.log("PLAYER UPDATE");
       
-    if (isDown(up))    console.log(`${this.name} THRUST`);
-    if (isDown(down))  console.log(`${this.name} BREAK`);
-    if (isDown(left))  console.log(`${this.name} ROTATE CCW`);
-    if (isDown(right)) console.log(`${this.name} ROTATE CW`);
-    if (isDown(fire))  console.log(`${this.name} FIRE`);
+      if (isDown(this.keys.up)) {
+        // ACCELERATION changes VELOCITY with respect to TIME
+        this.dx +=  Math.sin(this.angle) * 20.0 * dt;    
+        this.dy += -Math.cos(this.angle) * 20.0 * dt;    
+      }
+      
+      // VELOCITY changes POSITION with respect to TIME
+
+      // https://youtu.be/QgDR8LrRZhk
+
+
+    if (isDown(this.keys.down))  this.dx -= Math.sin(this.angle);
+    if (isDown(this.keys.left))  this.angle -= 5.0;
+    if (isDown(this.keys.right)) this.angle += 5.0;
+    if (isDown(this.keys.fire)) console.log(`${this.name} FIRE`);
+      
+    super.update(dt);
   }
 
   render(ctx, x, y) {
