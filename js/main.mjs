@@ -1,4 +1,4 @@
-import { BACKGROUND_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
+import { BACKGROUND_COLOR, FIXED_STEP_FPS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
 import { KEYBOARD } from './constants.mjs';
 import Asteroid from './classes/Asteroid.mjs';
 import Player from './classes/Player.mjs';
@@ -22,19 +22,34 @@ function init() {
   players.push(new Player({ name: 'Player1', x: 0, y: 0, dx: 80.0, dy: 45.0, size: 32, angle: 0.0, keys: KEYBOARD[0] }));
   //players.push(new Player({ name: 'Player2', x: SCREEN_WIDTH / 2 - 50, y: SCREEN_HEIGHT / 2 + 50, dx: 0, dy: 0, size: 32, angle: 0.0, keys: { up: P2_UP, down: P2_DOWN, left: P2_LEFT, right: P2_RIGHT, fire: P2_FIRE } }));
 
-  frameTime = { previous: 0, secondsPassed: 0 };
-  window.requestAnimationFrame(frame);
+  // frameTime = { previous: 0, secondsPassed: 0 };
+  // window.requestAnimationFrame(frame);
+  frame();
 }
 
-function frame(time) {
-  window.requestAnimationFrame(frame);
-  frameTime = { secondsPassed: (time - frameTime.previous) / 1000, previous: time };
+// function frame(time) {
+//   window.requestAnimationFrame(frame);
+//   frameTime = { secondsPassed: (time - frameTime.previous) / 1000, previous: time };
+//   update(frameTime.secondsPassed);
+//   draw(ctx);
+// }
 
-  update(frameTime.secondsPassed);
-  draw(ctx);
+let previousTimeMs = 0;
+function frame() {
+  requestAnimationFrame((currentTimeMs) => {
+    const deltaTimeMs = currentTimeMs - previousTimeMs;
+    if (deltaTimeMs >= FIXED_STEP_FPS) {
+      update(FIXED_STEP_FPS);
+      previousTimeMs = currentTimeMs;
+    }
+    draw(ctx);
+    frame();
+  });
 }
 
 function update(dt) {
+  console.log(dt);
+
   for (const asteroid of asteroids) {
     asteroid.update(dt);
   }

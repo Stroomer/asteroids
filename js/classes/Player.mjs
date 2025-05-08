@@ -41,7 +41,7 @@ export default class Player extends Entity {
     ctx.fillStyle = 'pink';
     ctx.fillRect(Math.floor(x), Math.floor(y), this.size, this.size);
     
-    console.log(x, y);
+    // console.log(x, y);
     
 
     return;
