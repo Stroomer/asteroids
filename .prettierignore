@@ -1,5 +1,6 @@
 /js/listeners.mjs
 /js/utils.mjs
+/js/keyboard.mjs
 /js/constants.mjs
 /js/classes/Entity.mjs
 /js/classes/Asteroid.mjs

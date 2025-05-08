@@ -1,4 +1,5 @@
-import { resize, keydown, keyup } from './utils.mjs';
+import { resize } from './utils.mjs';
+import { keydown, keyup } from './keyboard.mjs';
 import { init } from './main.mjs';
 
 window.addEventListener('load',    init);
