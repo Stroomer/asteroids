@@ -1,4 +1,4 @@
-import { SCREEN_MARGIN } from './constants.mjs';
+import { SCREEN_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT } from './constants.mjs';
 
 export function resize(event) {
   const canvas = document.getElementById('screen');
@@ -25,3 +25,21 @@ export function renderPath(ctx, pivotX, pivotY, path, scale, color) {
   ctx.closePath();
   ctx.stroke();
 }
+
+export class FpsCounter {
+	constructor() {
+		this.fps = 0;
+	}
+
+  update(time) {
+		this.fps = Math.trunc(1 / time);
+	}
+
+	draw(context) {
+		context.font = '14px Arial';
+		context.fillStyle = '#00FF00';
+		context.textAlign = 'right';
+		context.fillText(`${this.fps}`, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
+	}
+}
+

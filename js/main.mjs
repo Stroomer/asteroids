@@ -1,14 +1,15 @@
-import { BACKGROUND_COLOR, FIXED_STEP_FPS, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
+import { BACKGROUND_COLOR, FRAME_INTERVAL, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
 import { KEYBOARD } from './constants.mjs';
 import Asteroid from './classes/Asteroid.mjs';
 import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
-import { resize } from './utils.mjs';
+import { FpsCounter, resize } from './utils.mjs';
 
 const canvas = document.getElementById('screen');
 const ctx = canvas.getContext('2d');
 const asteroids = [];
 const players = [];
+const fpsCounter = new FpsCounter();
 
 let frameTime;
 
@@ -19,37 +20,43 @@ function init() {
 
   //asteroids.push(new Asteroid({ name: 'Asteroid', x: 0, y: 0, dx: 33, dy: 32, size: 16, angle: 0.0 }));
 
-  players.push(new Player({ name: 'Player1', x: 0, y: 0, dx: 80.0, dy: 45.0, size: 32, angle: 0.0, keys: KEYBOARD[0] }));
-  //players.push(new Player({ name: 'Player2', x: SCREEN_WIDTH / 2 - 50, y: SCREEN_HEIGHT / 2 + 50, dx: 0, dy: 0, size: 32, angle: 0.0, keys: { up: P2_UP, down: P2_DOWN, left: P2_LEFT, right: P2_RIGHT, fire: P2_FIRE } }));
+  players.push(new Player({ name: 'Player1', x: 16, y: 16, dx: 80.0, dy: 45.0, size: 32, angle: 0.0, keys: KEYBOARD[0] }));
 
-  // frameTime = { previous: 0, secondsPassed: 0 };
-  // window.requestAnimationFrame(frame);
   frame();
 }
 
-// function frame(time) {
-//   window.requestAnimationFrame(frame);
-//   frameTime = { secondsPassed: (time - frameTime.previous) / 1000, previous: time };
-//   update(frameTime.secondsPassed);
-//   draw(ctx);
-// }
+const FIXED_TIMESTEP = 1 / 60; // 60 updates per second
+const MAX_UPDATES = 5; // Avoid spiral of death
 
-let previousTimeMs = 0;
+let previousTimeMs = performance.now();
+let accumulator = 0;
+
 function frame() {
   requestAnimationFrame((currentTimeMs) => {
-    const deltaTimeMs = currentTimeMs - previousTimeMs;
-    if (deltaTimeMs >= FIXED_STEP_FPS) {
-      update(FIXED_STEP_FPS);
-      previousTimeMs = currentTimeMs;
+    let deltaTimeSec = (currentTimeMs - previousTimeMs) / 1000;
+    previousTimeMs = currentTimeMs;
+
+    // Avoid spiral of death on huge frame delays
+    deltaTimeSec = Math.min(deltaTimeSec, 0.25);
+
+    accumulator += deltaTimeSec;
+
+    let updateCount = 0;
+    while (accumulator >= FIXED_TIMESTEP && updateCount < MAX_UPDATES) {
+      update(FIXED_TIMESTEP); // Step game forward by fixed amount
+      accumulator -= FIXED_TIMESTEP;
+      updateCount++;
     }
-    draw(ctx);
+
+    draw(ctx); // Use latest state to render
+    fpsCounter.update(deltaTimeSec);
+    fpsCounter.draw(ctx);
+
     frame();
   });
 }
 
 function update(dt) {
-  console.log(dt);
-
   for (const asteroid of asteroids) {
     asteroid.update(dt);
   }

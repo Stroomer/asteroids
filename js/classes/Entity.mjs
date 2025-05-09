@@ -11,15 +11,17 @@ export default class Entity {
     this.size     = size;
     this.halfsize = size / 2;
     this.angle    = angle;
-    this.px       = x + this.halfsize; 
-    this.py       = y + this.halfsize; 
+    
+    //this.px = x + this.halfsize; 
+    //this.py       = y + this.halfsize; 
   }
 
   update(dt) {
     this.x = (this.x + this.dx * dt + SCREEN_WIDTH)  % SCREEN_WIDTH;
     this.y = (this.y + this.dy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
-    this.px = this.x + this.halfsize; 
-    this.py = this.y + this.halfsize; 
+    
+    //this.px = this.x + this.halfsize; 
+    //this.py = this.y + this.halfsize; 
   }
 
   draw(ctx) {    

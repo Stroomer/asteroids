@@ -38,7 +38,8 @@ export default class Player extends Entity {
     // rotate
     // translate 
     // draw polygon 
-    ctx.fillStyle = 'pink';
+    
+    ctx.fillStyle = 'yellow';
     ctx.fillRect(Math.floor(x), Math.floor(y), this.size, this.size);
     
     // console.log(x, y);

@@ -1,11 +1,5 @@
 export const MAX_FPS = 60;
-export const FIXED_STEP_FPS = 0.015;
-
-//console.log(1000 / 0.015);
-
-
-// console.log(1000 / 60);
-// console.log(1000 / 62);
+export const FRAME_INTERVAL = 1 / MAX_FPS;
 
 export const BACKGROUND_COLOR = 'black';
 export const P1_COLOR         = 'cyan';
