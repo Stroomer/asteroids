@@ -6,32 +6,42 @@ export default class Entity {
     this.name     = name;
     this.x        = x;
     this.y        = y;
-    this.dx       = dx;
+    this.dx       = -dx;
     this.dy       = dy;
     this.size     = size;
     this.halfsize = size / 2;
     this.angle    = angle;
-    
-    //this.px = x + this.halfsize; 
-    //this.py       = y + this.halfsize; 
   }
 
   update(dt) {
     this.x = (this.x + this.dx * dt + SCREEN_WIDTH)  % SCREEN_WIDTH;
     this.y = (this.y + this.dy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
-    
-    //this.px = this.x + this.halfsize; 
-    //this.py = this.y + this.halfsize; 
   }
 
   draw(ctx) {    
-    // main draw
-    this.render(ctx, this.x, this.y);
-    // wrap draw
-    if (this.x < this.size)                 this.render(ctx, this.x + SCREEN_WIDTH, this.y);  // Near left
-    if (this.x > SCREEN_WIDTH - this.size)  this.render(ctx, this.x - SCREEN_WIDTH, this.y);  // Near right
-    if (this.y < this.size)                 this.render(ctx, this.x, this.y + SCREEN_HEIGHT); // Near top
-    if (this.y > SCREEN_HEIGHT - this.size) this.render(ctx, this.x, this.y - SCREEN_HEIGHT); // Near bottom
+    const { x, y, halfsize } = this;
+
+    // Draw the main entity
+    this.render(ctx, x - halfsize, y - halfsize, 'yellow');
+
+    const nearLeft   = x - halfsize < 0;
+    const nearRight  = x + halfsize > SCREEN_WIDTH;
+    const nearTop    = y - halfsize < 0;
+    const nearBottom = y + halfsize > SCREEN_HEIGHT;
+
+    // Horizontal wraps
+    if (nearLeft)   this.render(ctx, x - halfsize + SCREEN_WIDTH, y - halfsize);
+    if (nearRight)  this.render(ctx, x - halfsize - SCREEN_WIDTH, y - halfsize);
+
+    // Vertical wraps
+    if (nearTop)    this.render(ctx, x - halfsize, y - halfsize + SCREEN_HEIGHT);
+    if (nearBottom) this.render(ctx, x - halfsize, y - halfsize - SCREEN_HEIGHT);
+
+    // Diagonal corners (only if necessary)
+    if (nearLeft && nearTop)          this.render(ctx, x - halfsize + SCREEN_WIDTH, y - halfsize + SCREEN_HEIGHT);
+    else if (nearLeft && nearBottom)  this.render(ctx, x - halfsize + SCREEN_WIDTH, y - halfsize - SCREEN_HEIGHT);
+    else if (nearRight && nearTop)    this.render(ctx, x - halfsize - SCREEN_WIDTH, y - halfsize + SCREEN_HEIGHT);
+    else if (nearRight && nearBottom) this.render(ctx, x - halfsize - SCREEN_WIDTH, y - halfsize - SCREEN_HEIGHT);
   }
 
   render(ctx, x, y) {

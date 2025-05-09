@@ -20,7 +20,7 @@ function init() {
 
   //asteroids.push(new Asteroid({ name: 'Asteroid', x: 0, y: 0, dx: 33, dy: 32, size: 16, angle: 0.0 }));
 
-  players.push(new Player({ name: 'Player1', x: 16, y: 16, dx: 80.0, dy: 45.0, size: 32, angle: 0.0, keys: KEYBOARD[0] }));
+  players.push(new Player({ name: 'Player1', x: SCREEN_WIDTH, y: 0, dx: 0.0, dy: 10.0, size: 40, angle: 0.0, keys: KEYBOARD[0] }));
 
   frame();
 }
