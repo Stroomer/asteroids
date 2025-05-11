@@ -1,8 +1,9 @@
-import { KEYBOARD } from './constants.mjs';
+import { KEYBOARD, DEBUG } from './constants.mjs';
 
 const keys    = new Set();
 const player1 = KEYBOARD[0];
 const player2 = KEYBOARD[1];
+const debug   = DEBUG;
 
 export function keydown(event) {
   event.preventDefault();
@@ -17,6 +18,8 @@ export function keydown(event) {
     case 'KeyA':         keys.add(player2.left);  break;
     case 'KeyD':         keys.add(player2.right); break;
     case 'ControlLeft':  keys.add(player2.fire);  break;
+    case 'Space':        keys.add(debug.space);   break;
+    case 'Enter':        keys.add(debug.enter);   break;
     default:             console.log('unknown key down');  
   }
 }
@@ -34,6 +37,8 @@ export function keyup(event) {
     case 'KeyA':         keys.delete(player2.left);  break;
     case 'KeyD':         keys.delete(player2.right); break;
     case 'ControlLeft':  keys.delete(player2.fire);  break;
+    case 'Space':        keys.delete(debug.space);   break;
+    case 'Enter':        keys.delete(debug.enter);   break;
     default:           console.log('unknown key up');  
   }
 }

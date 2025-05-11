@@ -2,20 +2,23 @@
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants.mjs';
 
 export default class Entity {
-  constructor({ name = "", x = 0.0, y = 0.0, dx = 1.0, dy = 1.0, size = 16, angle = 0.0 }) {
-    this.name     = name;
-    this.x        = x;
-    this.y        = y;
-    this.dx       = -dx;
-    this.dy       = dy;
-    this.size     = size;
-    this.halfsize = size / 2;
-    this.angle    = angle;
+  constructor({ name, x, y, dx, dy, size, angle }) {
+    this.name     = name;       // string
+    this.x        = x;          // float
+    this.y        = y;          // float
+    this.dx       = -dx;        // float
+    this.dy       = dy;         // float 
+    this.size     = size;       // int
+    this.halfsize = size / 2;   // int
+    this.angle    = angle;      // float
   }
 
   update(dt) {
     this.x = (this.x + this.dx * dt + SCREEN_WIDTH)  % SCREEN_WIDTH;
     this.y = (this.y + this.dy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
+
+    console.log(`player xy: [${this.x}, ${this.y}]`);
+    
   }
 
   draw(ctx) {    

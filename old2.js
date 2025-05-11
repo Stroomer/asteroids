@@ -1,15 +1,10 @@
-import { BACKGROUND_COLOR, DEBUG, FRAME_INTERVAL, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
+import { BACKGROUND_COLOR, FRAME_INTERVAL, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
 import { KEYBOARD } from './constants.mjs';
-import Asteroid from './classes/Asteroid.mjs';
-import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
-import { FpsCounter, resize } from './utils.mjs';
+import { resize } from './utils.mjs';
 
 const canvas = document.getElementById('screen');
 const ctx = canvas.getContext('2d');
-const asteroids = [];
-const players = [];
-const fpsCounter = new FpsCounter();
 
 let frameTime;
 
@@ -17,20 +12,6 @@ function init() {
   resize();
 
   ctx.fillStyle = BACKGROUND_COLOR;
-
-  //asteroids.push(new Asteroid({ name: 'Asteroid', x: 0, y: 0, dx: 33, dy: 32, size: 16, angle: 0.0 }));
-
-  const name = 'Player1';
-  const x = SCREEN_WIDTH / 2;
-  const y = SCREEN_HEIGHT / 2;
-  const dx = 0.0;
-  const dy = 0.0;
-  const size = 100;
-  const angle = 0.0;
-  const keys = KEYBOARD[0];
-  const debug = DEBUG;
-
-  players.push(new Player({ name, x, y, dx, dy, size, angle, keys, debug }));
 
   frame();
 }
@@ -59,33 +40,25 @@ function frame() {
     }
 
     draw(ctx); // Use latest state to render
-    fpsCounter.update(deltaTimeSec);
-    fpsCounter.draw(ctx);
-
     frame();
   });
 }
 
-function update(dt) {
-  for (const asteroid of asteroids) {
-    asteroid.update(dt);
-  }
-  for (const player of players) {
-    player.update(dt);
-  }
-}
+function update(dt) {}
 
 function draw(ctx) {
+  ctx.imageSmoothingEnabled = false;
+  ctx.strokeStyle = 'pink';
   ctx.fillStyle = BACKGROUND_COLOR;
+
+  // fill background black
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (const asteroid of asteroids) {
-    asteroid.draw(ctx);
-  }
-
-  for (const player of players) {
-    player.draw(ctx);
-  }
+  // draw pixelated line
+  ctx.beginPath();
+  ctx.moveTo(20 - 0.5, 75 - 0.5);
+  ctx.lineTo(250 - 0.5, 175 - 0.5);
+  ctx.stroke();
 }
 
 export { init };
