@@ -23,9 +23,6 @@ export default class Asteroid extends Entity {
     }
 
     update(dt) {
-        console.log('asteroid.update()');
-        
-
         super.update(dt);
     }
 

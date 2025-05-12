@@ -8,6 +8,7 @@ export const DEBUG_COLOR      = "rgba(255, 99, 71, 0.5)";
 export const BACKGROUND_COLOR = 'black';
 export const PLAYER_COLOR     = 'cyan';
 export const ASTEROID_COLOR   = 'lightgrey';
+export const BULLET_COLOR     = 'red';
 
 export const SCREEN_WIDTH     = 320;
 export const SCREEN_HEIGHT    = 320;

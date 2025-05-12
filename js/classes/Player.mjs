@@ -28,7 +28,9 @@ export default class Player extends Entity {
 
     if (isDown(this.keys.left))   this.angle -= 5.0 * dt;
     if (isDown(this.keys.right))  this.angle += 5.0 * dt;
-    if (isDown(this.keys.fire))   console.log(`${this.name} FIRE`);
+    if (isDown(this.keys.fire)) {
+      
+    }
     
     if (isDown(this.debug.space)) {
       this.dx = this.dy = 0;

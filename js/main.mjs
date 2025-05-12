@@ -19,23 +19,14 @@ function init() {
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
+  
+
+
   asteroids.push(new Asteroid({ name:'Asteroid', x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 10.0, dy: 5.0, scale: 4, angle: 0.0 }));
 
-  const name = 'Player1';
-  const x = SCREEN_WIDTH / 2;
-  const y = SCREEN_HEIGHT / 2;
-  const dx = 0.0;
-  const dy = 0.0;
-  const scale = 8;
-  const angle = 0.0;
-  const keys = KEYBOARD[0];
-  const debug = DEBUG;
+  players.push(new Player({ name:'Player1', x:SCREEN_WIDTH/2, y:SCREEN_HEIGHT/2, dx:0.0, dy:0.0, scale:8, angle:0.0, keys:KEYBOARD[0], debug:DEBUG }));
 
-  players.push(new Player({ name, x, y, dx, dy, scale, angle, keys, debug }));
-
-
-  entities.push(...players)
-  entities.push(...asteroids);
+  entities.push(...players, ...asteroids)
 
   frame();
 }
