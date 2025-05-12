@@ -3,7 +3,7 @@ import { KEYBOARD } from './constants.mjs';
 import Asteroid from './classes/Asteroid.mjs';
 import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
-import { FpsCounter, resize } from './utils.mjs';
+import { FpsCounter, getRandInt, resize } from './utils.mjs';
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
@@ -19,7 +19,7 @@ function init() {
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
-  //asteroids.push(new Asteroid({ name: 'Asteroid', x: 0, y: 0, dx: 33, dy: 32, size: 16, angle: 0.0 }));
+  asteroids.push(new Asteroid({ name:'Asteroid', x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 10.0, dy: 5.0, scale: 4, angle: 0.0 }));
 
   const name = 'Player1';
   const x = SCREEN_WIDTH / 2;
@@ -88,14 +88,6 @@ function draw(ctx) {
   for (let i = 0; i < entityCount; i++) {
     entities[i].draw(ctx);
   }
-
-  // for (const asteroid of asteroids) {
-  //   asteroid.draw(ctx);
-  // }
-
-  // for (const player of players) {
-  //   player.draw(ctx);
-  // }
 }
 
 export { init };

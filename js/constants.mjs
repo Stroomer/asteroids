@@ -1,17 +1,19 @@
-export const MAX_FPS = 60;
-export const FRAME_INTERVAL = 1 / MAX_FPS;
+export const MAX_FPS          = 60;
+export const FRAME_INTERVAL   = 1 / MAX_FPS;
+export const PI               = Math.PI;
 
-export const DEBUGGING = true;
-export const DEBUG_COLOR = "rgba(255, 99, 71, 0.5)";
+export const DEBUGGING        = true;
+export const DEBUG_COLOR      = "rgba(255, 99, 71, 0.5)";
 
 export const BACKGROUND_COLOR = 'black';
-export const P1_COLOR         = 'cyan';
-export const P2_COLOR         = 'blue';
+export const PLAYER_COLOR     = 'cyan';
 export const ASTEROID_COLOR   = 'lightgrey';
 
 export const SCREEN_WIDTH     = 320;
 export const SCREEN_HEIGHT    = 320;
 export const SCREEN_MARGIN    = 20;
+
+
 
 const CURSOR_UP        = 38;
 const CURSOR_DOWN      = 40;
