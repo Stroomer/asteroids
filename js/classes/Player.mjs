@@ -3,20 +3,31 @@ import Entity from './Entity.mjs';
 import { P1_COLOR } from '../constants.mjs';
 import { isDown, isUp } from '../keyboard.mjs';
 
+
 export default class Player extends Entity {
-  constructor({ name, x, y, dx, dy, size, keys, debug }) {
-    super({ name, x, y, dx, dy, size, angle:0.0 });
-      
+  constructor({ name, x, y, dx, dy, scale, angle, keys, debug }) {
+    super({ name, x, y, dx, dy, scale, angle });
+    
     this.keys  = keys;
     this.debug = debug;
     
     this.accel = 40.0;
-    this.mx    = [0.0, -2.5, 2.5];
-    this.my    = [-5.5, 2.5, 2.5];
-    this.sx    = [];
-    this.sy    = [];
-    this.vertices = this.mx.length;
+    
+    this.model = [{x:0.0, y:-5.5}, {x:-2.5, y:2.5}, {x:2.5, y:2.5}];
 
+    
+
+    this.mx     = [0.0, -2.5, 2.5];
+    this.my     = [-5.5, 2.5, 2.5];
+    this.sx     = [];
+    this.sy     = [];
+    //this.verts  = this.mx.length;
+    
+    // this.width = 0;
+    // this.height = 0;
+
+    // calculate radius
+    //this.radius = this.getRadius();
   }
 
   update(dt) {
@@ -48,15 +59,14 @@ export default class Player extends Entity {
     super.update(dt);
   }
 
-  render(ctx, color) {
-    ctx.fillStyle = color;
-    super.render(ctx);
-  }
+  // render(ctx, color) {
+  //   // console.log('player render');
+  //   ctx.fillStyle = color;
+  //   super.render(ctx);
+  // }
 
   draw(ctx) {
-    this.render(ctx, P1_COLOR);
-    super.draw();
-
-    
+    ctx.fillStyle = P1_COLOR;
+    super.draw(ctx);
   }
 }

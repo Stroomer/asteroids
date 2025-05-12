@@ -5,10 +5,11 @@ import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
 import { FpsCounter, resize } from './utils.mjs';
 
-const canvas = document.getElementById('screen');
-const ctx = canvas.getContext('2d');
-const asteroids = [];
-const players = [];
+const canvas     = document.getElementById('screen');
+const ctx        = canvas.getContext('2d');
+const asteroids  = [];
+const players    = [];
+const entities   = [];
 const fpsCounter = new FpsCounter();
 
 let frameTime;
@@ -25,18 +26,22 @@ function init() {
   const y = SCREEN_HEIGHT / 2;
   const dx = 0.0;
   const dy = 0.0;
-  const size = 100;
+  const scale = 8;
   const angle = 0.0;
   const keys = KEYBOARD[0];
   const debug = DEBUG;
 
-  players.push(new Player({ name, x, y, dx, dy, size, angle, keys, debug }));
+  players.push(new Player({ name, x, y, dx, dy, scale, angle, keys, debug }));
+
+
+  entities.push(...players)
+  entities.push(...asteroids);
 
   frame();
 }
 
 const FIXED_TIMESTEP = 1 / 60; // 60 updates per second
-const MAX_UPDATES = 5; // Avoid spiral of death
+const MAX_UPDATES    = 5;      // Avoid spiral of death
 
 let previousTimeMs = performance.now();
 let accumulator = 0;
@@ -67,11 +72,10 @@ function frame() {
 }
 
 function update(dt) {
-  for (const asteroid of asteroids) {
-    asteroid.update(dt);
-  }
-  for (const player of players) {
-    player.update(dt);
+  const entityCount = entities.length;
+
+  for (let i = 0; i < entityCount; i++) {
+    entities[i].update(dt);
   }
 }
 
@@ -79,13 +83,19 @@ function draw(ctx) {
   ctx.fillStyle = BACKGROUND_COLOR;
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  for (const asteroid of asteroids) {
-    asteroid.draw(ctx);
+  const entityCount = entities.length;
+
+  for (let i = 0; i < entityCount; i++) {
+    entities[i].draw(ctx);
   }
 
-  for (const player of players) {
-    player.draw(ctx);
-  }
+  // for (const asteroid of asteroids) {
+  //   asteroid.draw(ctx);
+  // }
+
+  // for (const player of players) {
+  //   player.draw(ctx);
+  // }
 }
 
 export { init };

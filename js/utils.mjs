@@ -11,24 +11,6 @@ export function resize(event) {
   ctx.strokeStyle = 'yellow';
 }
 
-// export function renderPath(ctx, pivotX, pivotY, path, scale, color) {
-//   console.log('renderPath', pivotX, pivotY, path, color);
-  
-//   let x = pivotX + (path[0] * scale); 
-//   let y = pivotY + (path[1] * scale);
-//   ctx.fillStyle = color;
-//   ctx.strokeStyle = color;
-//   ctx.beginPath();
-//   ctx.moveTo(x, y);
-//   for (let i = 0; i < path.length; i += 2) {
-//     x = pivotX + (path[i]   * scale); 
-//     y = pivotY + (path[i+1] * scale);
-//     ctx.lineTo(x, y);  
-//   }
-//   ctx.closePath();
-//   ctx.stroke();
-// }
-
 export class FpsCounter {
 	constructor() {
 		this.fps = 0;
@@ -66,5 +48,5 @@ export function drawPixelLine(ctx, x0, y0, x1, y1) {
 		y0 += sy;
 	  }
 	}
-  }
+}
 

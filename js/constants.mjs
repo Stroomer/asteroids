@@ -1,6 +1,9 @@
 export const MAX_FPS = 60;
 export const FRAME_INTERVAL = 1 / MAX_FPS;
 
+export const DEBUGGING = true;
+export const DEBUG_COLOR = "rgba(255, 99, 71, 0.5)";
+
 export const BACKGROUND_COLOR = 'black';
 export const P1_COLOR         = 'cyan';
 export const P2_COLOR         = 'blue';
