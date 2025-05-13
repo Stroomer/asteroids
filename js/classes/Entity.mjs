@@ -3,7 +3,8 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT, DEBUGGING, DEBUG_COLOR, PLAYER_COLOR } fro
 import { drawPixelLine  } from '../utils.mjs';
 
 export default class Entity {
-  constructor({ x, y, dx, dy, scale, angle }) {
+  constructor({ id, x, y, dx, dy, scale, angle }) {
+    this.id    = id;
     this.x     = x;
     this.y     = y;
     this.dx    = -dx;

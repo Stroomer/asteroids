@@ -3,7 +3,7 @@ import { KEYBOARD } from './constants.mjs';
 import Asteroid from './classes/Asteroid.mjs';
 import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
-import { FpsCounter, getRandInt, resize } from './utils.mjs';
+import { FpsCounter, getRandInt, getId, resize } from './utils.mjs';
 import Bullet from './classes/Bullet.mjs';
 
 const canvas     = document.getElementById('screen');
@@ -18,6 +18,10 @@ function init() {
 
   createPlayers(1);
   createAsteroids(3);
+
+  
+   
+
 
   frame();
 }
@@ -73,11 +77,12 @@ function draw(ctx) {
 }
 
 function createPlayers(playerCount) {
-  entities.push( new Player( { id:1, x:SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2, dx: 0.0, dy: 0.0, scale: 8, angle: 0.0, keys: KEYBOARD[0], debug: DEBUG }) );
+  entities.push( new Player( { id:getId(), x:SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2, dx: 0.0, dy: 0.0, scale: 8, angle: 0.0, keys: KEYBOARD[0], debug: DEBUG }) );
 }
 
 function createAsteroids(asteroidCount) {
   for (let i = 0; i < asteroidCount; i++) {
+    const id    = getId();
     const x     = getRandInt(0, SCREEN_WIDTH);
     const y     = getRandInt(0, SCREEN_HEIGHT);
     const scale = getRandInt(2, 6);
@@ -85,8 +90,16 @@ function createAsteroids(asteroidCount) {
     const dy    = 10.0;
     const angle = 0.0;
 
-    entities.push(new Asteroid({ x, y, dx, dy, scale, angle }));  
+    entities.push(new Asteroid({ id, x, y, dx, dy, scale, angle }));  
   }
 }
 
-export { init };
+function createBullet({ id, x, y, dx, dy, scale, angle }) {
+
+  //console.log('bullet', id, x, y, dx, dy, scale, angle);
+  
+
+  entities.push( new Bullet({ id, x, y, dx, dy, scale, angle }) );  
+}
+
+export { init, createBullet };

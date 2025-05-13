@@ -2,11 +2,13 @@
 import Entity from './Entity.mjs';
 import { PLAYER_COLOR } from '../constants.mjs';
 import { isDown, isUp } from '../keyboard.mjs';
+import { createBullet } from '../main.mjs';
+import { getId } from '../utils.mjs';
 
 
 export default class Player extends Entity {
-  constructor({ x, y, dx, dy, scale, angle, keys, debug, fireBullet }) {
-    super({ x, y, dx, dy, scale, angle });
+  constructor({ id, x, y, dx, dy, scale, angle, keys, debug, fireBullet }) {
+    super({ id, x, y, dx, dy, scale, angle });
     
     this.name       = "Player";
     this.keys       = keys;
@@ -31,8 +33,22 @@ export default class Player extends Entity {
     if (isDown(this.keys.left))   this.angle -= 5.0 * dt;
     if (isDown(this.keys.right))  this.angle += 5.0 * dt;
     if (isDown(this.keys.fire)) {
-      this.canShoot = false;
-      //this.fireBullet(this.x, this.y, 50.0, 50.0, 2, this.angle);
+      if (this.canShoot) {
+        this.canShoot = false;
+
+        const id = getId();
+        const x  = this.x;
+        const y  = this.y;
+        const dx = this.dx * 4; //50.0  * Math.sin(this.angle);
+        const dy = this.dy * 4;  //-50.0 * Math.cos(this.angle);
+        const scale = 0;
+        const angle = 0;
+
+        console.log(this.angle);
+        
+
+        createBullet({ id, x, y, dx, dy, scale, angle });
+      }
     }
     
     if (isUp(this.keys.fire)) {

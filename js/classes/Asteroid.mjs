@@ -3,8 +3,8 @@ import Entity from "./Entity.mjs";
 import { ASTEROID_COLOR, PI, PLAYER_COLOR } from "../constants.mjs";
 
 export default class Asteroid extends Entity {
-    constructor({ x, y, dx, dy, scale, angle, debug }) {
-        super({ x, y, dx, dy, scale, angle });
+    constructor({ id, x, y, dx, dy, scale, angle, debug }) {
+        super({ id, x, y, dx, dy, scale, angle });
 
         this.name  = "Asteroid";
         this.debug = debug;

@@ -1,5 +1,7 @@
 import { SCREEN_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT } from './constants.mjs';
 
+let uid = 0;
+
 export function resize(event) {
   const canvas = document.getElementById('screen');
   const ctx    = canvas.getContext('2d');
@@ -11,25 +13,12 @@ export function resize(event) {
   ctx.strokeStyle = 'yellow';
 }
 
-export function getRandInt(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+export function getId() {
+	return ++uid;
 }
 
-export class FpsCounter {
-	constructor() {
-		this.fps = 0;
-	}
-
-  	update(time) {
-		this.fps = Math.trunc(1 / time);
-	}
-
-	draw(context) {
-		context.font = '14px Arial';
-		context.fillStyle = '#00FF00';
-		context.textAlign = 'right';
-		context.fillText(`${this.fps}`, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
-	}
+export function getRandInt(min, max) {
+	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export function drawPixelLine(ctx, x0, y0, x1, y1) {
@@ -54,3 +43,19 @@ export function drawPixelLine(ctx, x0, y0, x1, y1) {
 	}
 }
 
+export class FpsCounter {
+	constructor() {
+		this.fps = 0;
+	}
+
+  	update(time) {
+		this.fps = Math.trunc(1 / time);
+	}
+
+	draw(context) {
+		context.font = '14px Arial';
+		context.fillStyle = '#00FF00';
+		context.textAlign = 'right';
+		context.fillText(`${this.fps}`, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
+	}
+}
