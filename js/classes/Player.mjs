@@ -36,11 +36,11 @@ export default class Player extends Entity {
       if (this.canShoot) {
         this.canShoot = false;
 
-        const id = getId();
-        const x  = this.x;
-        const y  = this.y;
-        const dx = this.dx * 4; //50.0  * Math.sin(this.angle);
-        const dy = this.dy * 4;  //-50.0 * Math.cos(this.angle);
+        const id    = getId();
+        const x     = this.x;
+        const y     = this.y;
+        const dx    = 50.0  * Math.sin(this.angle) * dt;
+        const dy    = -50.0 * Math.cos(this.angle) * dt;
         const scale = 0;
         const angle = 0;
 
