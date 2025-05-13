@@ -9,6 +9,7 @@ const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
 const asteroids  = [];
 const players    = [];
+const bullets    = [];
 const entities   = [];
 const fpsCounter = new FpsCounter();
 
@@ -19,12 +20,13 @@ function init() {
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
+  players.push(new Player({ x:SCREEN_WIDTH/2, y:SCREEN_HEIGHT/2, dx:0.0, dy:0.0, scale:8, angle:0.0, keys:KEYBOARD[0], debug:DEBUG, fire }));  
+
+  asteroids.push(new Asteroid({ x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 10.0, dy: -5.0, scale: getRandInt(2, 6), angle: 0.0 }));
+  asteroids.push(new Asteroid({ x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 7.0, dy: -12.0, scale: getRandInt(2, 6), angle: 0.0 }));
+  asteroids.push(new Asteroid({ x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 4.0, dy: 15.0,  scale: getRandInt(2, 6), angle: 0.0 }));
+
   
-
-
-  asteroids.push(new Asteroid({ name:'Asteroid', x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 10.0, dy: 5.0, scale: 4, angle: 0.0 }));
-
-  players.push(new Player({ name:'Player1', x:SCREEN_WIDTH/2, y:SCREEN_HEIGHT/2, dx:0.0, dy:0.0, scale:8, angle:0.0, keys:KEYBOARD[0], debug:DEBUG }));
 
   entities.push(...players, ...asteroids)
 
@@ -79,6 +81,10 @@ function draw(ctx) {
   for (let i = 0; i < entityCount; i++) {
     entities[i].draw(ctx);
   }
+}
+
+function fire() {
+  console.log("fire bullet!");
 }
 
 export { init };

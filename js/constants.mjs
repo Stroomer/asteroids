@@ -31,7 +31,7 @@ const CTRL_LEFT        = -17;
 const SPACE            = 32;
 const ENTER            = 13;
 
-export const KEYBOARD  = [ { up: CURSOR_UP, down: CURSOR_DOWN, left: CURSOR_LEFT, right: CURSOR_RIGHT, fire: CTRL_RIGHT },
+export const KEYBOARD  = [ { up: CURSOR_UP, down: CURSOR_DOWN, left: CURSOR_LEFT, right: CURSOR_RIGHT, fire: SPACE },
                            { up: KEY_W, down: KEY_S, left: KEY_A, right: KEY_D, fire: CTRL_LEFT }];
                                   
 export const DEBUG     = { space: SPACE, enter: ENTER };

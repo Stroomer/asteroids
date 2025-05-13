@@ -3,9 +3,10 @@ import Entity from "./Entity.mjs";
 import { ASTEROID_COLOR, PI } from "../constants.mjs";
 
 export default class Asteroid extends Entity {
-    constructor({ name, x, y, dx, dy, scale, angle, debug }) {
-        super({ name, x, y, dx, dy, scale, angle });
+    constructor({ x, y, dx, dy, scale, angle, debug }) {
+        super({ x, y, dx, dy, scale, angle });
 
+        this.name  = "Asteroid";
         this.debug = debug;
         this.model = this.generateModel({ vertexCount:20, scale });
     }

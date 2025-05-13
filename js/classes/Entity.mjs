@@ -3,8 +3,7 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT, DEBUGGING, DEBUG_COLOR, PLAYER_COLOR } fro
 import { drawPixelLine  } from '../utils.mjs';
 
 export default class Entity {
-  constructor({ name, x, y, dx, dy, scale, angle }) {
-    this.name  = name;
+  constructor({ x, y, dx, dy, scale, angle }) {
     this.x     = x;
     this.y     = y;
     this.dx    = -dx;
@@ -19,11 +18,11 @@ export default class Entity {
   }
 
   render(ctx, model, x, y, angle, scale) {
-    const vCount = model.length;
+    const vertexCount = model.length;
 	  const sx = [];
 	  const sy = [];
 
-    for (let i = 0; i < vCount; i++) {
+    for (let i = 0; i < vertexCount; i++) {
       const vertex = model[i];
       sx[i] = (vertex.x * Math.cos(angle) - vertex.y * Math.sin(angle)) * scale + x;
       sy[i] = (vertex.x * Math.sin(angle) + vertex.y * Math.cos(angle)) * scale + y;
@@ -31,11 +30,11 @@ export default class Entity {
       sy[i] = Math.floor(sy[i]);
     }
 
-    for (let i = 0; i < vCount; i++) {
+    for (let i = 0; i < vertexCount; i++) {
       const x0 = sx[i];
       const y0 = sy[i];
-      const x1 = sx[(i + 1) % vCount];
-   	  const y1 = sy[(i + 1) % vCount];
+      const x1 = sx[(i + 1) % vertexCount];
+   	  const y1 = sy[(i + 1) % vertexCount];
 	    drawPixelLine(ctx, x0, y0, x1, y1);
     }
 
