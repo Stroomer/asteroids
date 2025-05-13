@@ -4,31 +4,20 @@ import Asteroid from './classes/Asteroid.mjs';
 import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
 import { FpsCounter, getRandInt, resize } from './utils.mjs';
+import Bullet from './classes/Bullet.mjs';
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
-const asteroids  = [];
-const players    = [];
-const bullets    = [];
 const entities   = [];
 const fpsCounter = new FpsCounter();
-
-let frameTime;
 
 function init() {
   resize();
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
-  players.push(new Player({ x:SCREEN_WIDTH/2, y:SCREEN_HEIGHT/2, dx:0.0, dy:0.0, scale:8, angle:0.0, keys:KEYBOARD[0], debug:DEBUG, fire }));  
-
-  asteroids.push(new Asteroid({ x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 10.0, dy: -5.0, scale: getRandInt(2, 6), angle: 0.0 }));
-  asteroids.push(new Asteroid({ x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 7.0, dy: -12.0, scale: getRandInt(2, 6), angle: 0.0 }));
-  asteroids.push(new Asteroid({ x:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), y:getRandInt(SCREEN_WIDTH/2, SCREEN_HEIGHT/2), dx: 4.0, dy: 15.0,  scale: getRandInt(2, 6), angle: 0.0 }));
-
-  
-
-  entities.push(...players, ...asteroids)
+  createPlayers(1);
+  createAsteroids(3);
 
   frame();
 }
@@ -83,8 +72,21 @@ function draw(ctx) {
   }
 }
 
-function fire() {
-  console.log("fire bullet!");
+function createPlayers(playerCount) {
+  entities.push( new Player( { id:1, x:SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2, dx: 0.0, dy: 0.0, scale: 8, angle: 0.0, keys: KEYBOARD[0], debug: DEBUG }) );
+}
+
+function createAsteroids(asteroidCount) {
+  for (let i = 0; i < asteroidCount; i++) {
+    const x     = getRandInt(0, SCREEN_WIDTH);
+    const y     = getRandInt(0, SCREEN_HEIGHT);
+    const scale = getRandInt(2, 6);
+    const dx    = 5.0;
+    const dy    = 10.0;
+    const angle = 0.0;
+
+    entities.push(new Asteroid({ x, y, dx, dy, scale, angle }));  
+  }
 }
 
 export { init };

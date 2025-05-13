@@ -1,6 +1,6 @@
 // Asteroid.mjs
 import Entity from "./Entity.mjs";
-import { ASTEROID_COLOR, PI } from "../constants.mjs";
+import { ASTEROID_COLOR, PI, PLAYER_COLOR } from "../constants.mjs";
 
 export default class Asteroid extends Entity {
     constructor({ x, y, dx, dy, scale, angle, debug }) {
@@ -16,8 +16,8 @@ export default class Asteroid extends Entity {
         for (let i = 0; i < vertexCount; i++) {
             const radius = 1.0 * scale;
             const angle = (i / vertexCount) * PI * 2;
-            const x = radius * Math.sin(angle);
-            const y = radius * Math.cos(angle);
+            const x = (radius * Math.sin(angle));
+            const y = (radius * Math.cos(angle));
             model.push({ x, y });
         }
         return model;

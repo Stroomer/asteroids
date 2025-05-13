@@ -3,8 +3,8 @@ import Entity from './Entity.mjs';
 import { BULLET_COLOR, PI } from '../constants.mjs';
 
 export default class Bullet extends Entity {
-  constructor({ name, x, y, dx, dy, scale, angle, debug }) {
-    super({ name, x, y, dx, dy, scale, angle });
+  constructor({ x, y, dx, dy, scale, angle, debug }) {
+    super({ x, y, dx, dy, scale, angle });
 
     this.debug = debug;
     this.model = [{ x, y }];
