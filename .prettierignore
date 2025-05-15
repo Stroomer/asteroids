@@ -5,4 +5,6 @@
 /js/constants.mjs
 /js/classes/Entity.mjs
 /js/classes/Asteroid.mjs
+/js/classes/Bullet.mjs
 /js/classes/Player.mjs
+/js/classes/Factory.mjs

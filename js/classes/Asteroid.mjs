@@ -1,17 +1,23 @@
 // Asteroid.mjs
 import Entity from "./Entity.mjs";
-import { ASTEROID_COLOR, PI, PLAYER_COLOR } from "../constants.mjs";
+import { ASTEROID_COLOR, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants.mjs";
+import { randomInt } from "../utils.mjs";
 
 export default class Asteroid extends Entity {
-    constructor({ id, x, y, dx, dy, scale, angle, debug }) {
-        super({ id, x, y, dx, dy, scale, angle });
+    constructor() {
+        super();
 
-        this.name  = "Asteroid";
-        this.debug = debug;
-        this.model = this.generateModel({ vertexCount:20, scale });
+        this.name  = `Asteroid`;
+        this.x     = randomInt(0, SCREEN_WIDTH);
+        this.y     = randomInt(0, SCREEN_HEIGHT);
+        this.dx    = -randomInt(5, 10);
+        this.dy    = randomInt(5, 10);
+        this.scale = randomInt(2, 8);
+        this.angle = 0.0;
+        this.model = this.generateModel(20, this.scale);
     }
 
-    generateModel({ vertexCount, scale }) {
+    generateModel(vertexCount, scale) {
         const model = [];
         for (let i = 0; i < vertexCount; i++) {
             const radius = 1.0 * scale;

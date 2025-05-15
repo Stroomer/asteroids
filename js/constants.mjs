@@ -5,10 +5,16 @@ export const PI               = Math.PI;
 export const DEBUGGING        = true;
 export const DEBUG_COLOR      = "rgba(255, 99, 71, 0.5)";
 
+export const PLAYER           = 1;
+export const ASTEROID         = 2;
+export const BULLET           = 3;
+
 export const BACKGROUND_COLOR = 'black';
 export const PLAYER_COLOR     = 'cyan';
 export const ASTEROID_COLOR   = 'white';
 export const BULLET_COLOR     = 'red';
+
+export const BULLET_SPEED     = 50.0;
 
 export const SCREEN_WIDTH     = 320;
 export const SCREEN_HEIGHT    = 320;

@@ -1,24 +1,21 @@
-import { SCREEN_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT } from './constants.mjs';
+import { SCREEN_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT, PI } from './constants.mjs';
 
 let uid = 0;
-
-export function resize(event) {
-  const canvas = document.getElementById('screen');
-  const ctx    = canvas.getContext('2d');
-  const size   = Math.min(window.innerWidth, window.innerHeight) - SCREEN_MARGIN;
-
-  canvas.style.width = canvas.style.height = `${size}px`;
-  ctx.imageSmoothingEnabled = false;
-  ctx.lineWidth = 8;
-  ctx.strokeStyle = 'yellow';
-}
 
 export function getId() {
 	return ++uid;
 }
 
-export function getRandInt(min, max) {
+export function randomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+export function radiansToDegrees(radians) {
+  return radians * (180/PI);
+}
+
+export function degreesToRadians(degrees) {
+  return degrees * (PI/180);
 }
 
 export function drawPixelLine(ctx, x0, y0, x1, y1) {

@@ -6,6 +6,8 @@ const player2 = KEYBOARD[1];
 const debug   = DEBUG;
 
 export function keydown(event) {
+  //console.log(event.ctrlKey);
+  // console.log(event.metaKey);
   event.preventDefault();
   switch (event.code) {
     case 'ArrowUp':      keys.add(player1.up);    break;
@@ -50,3 +52,5 @@ export function isDown(key) {
 export function isUp(key) {
   return keys.has(key) ? false : true;
 }
+
+

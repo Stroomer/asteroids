@@ -1,22 +1,25 @@
 // Asteroid.mjs
 import Entity from './Entity.mjs';
-import { PLAYER_COLOR } from '../constants.mjs';
+import { BULLET_SPEED, KEYBOARD, PLAYER_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
 import { isDown, isUp } from '../keyboard.mjs';
-import { createBullet } from '../main.mjs';
-import { getId } from '../utils.mjs';
-
+import Factory from './Factory.mjs';
+import { fireBullet } from '../main.mjs';
 
 export default class Player extends Entity {
-  constructor({ id, x, y, dx, dy, scale, angle, keys, debug, fireBullet }) {
-    super({ id, x, y, dx, dy, scale, angle });
-    
-    this.name       = "Player";
-    this.keys       = keys;
-    this.debug      = debug;
-    this.accel      = 40.0;
-    this.model      = [{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }];
-    this.fireBullet = fireBullet;
-    this.canShoot   = true;
+  constructor(index) {
+    super();
+
+    this.name = `Player`;
+    this.x     = SCREEN_WIDTH  / 4 * (index === 1 ? 1 : 3);
+    this.y     = SCREEN_HEIGHT / 2;
+    this.dx    = 0.0;
+    this.dy    = 0.0;
+    this.scale = 5;
+    this.angle = 0.0;
+    this.accel = 40.0;
+    this.model = [{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }];
+    this.keys  = KEYBOARD[(index === 1 ? 0 : 1)];
+    this.canShoot = true;
   }
 
   update(dt) {
@@ -32,23 +35,15 @@ export default class Player extends Entity {
 
     if (isDown(this.keys.left))   this.angle -= 5.0 * dt;
     if (isDown(this.keys.right))  this.angle += 5.0 * dt;
-    if (isDown(this.keys.fire)) {
-      if (this.canShoot) {
-        this.canShoot = false;
-
-        const id    = getId();
-        const x     = this.x;
-        const y     = this.y;
-        const dx    = 50.0  * Math.sin(this.angle) * dt;
-        const dy    = -50.0 * Math.cos(this.angle) * dt;
-        const scale = 0;
-        const angle = 0;
-
-        console.log(this.angle);
-        
-
-        createBullet({ id, x, y, dx, dy, scale, angle });
-      }
+    if (isDown(this.keys.fire) && this.canShoot) {      
+      
+      //console.log("fire");
+      
+      
+      this.canShoot = false;
+      //console.log(this.x, this.y, this.angle);
+      
+      fireBullet(this.x, this.y, this.angle, dt);
     }
     
     if (isUp(this.keys.fire)) {

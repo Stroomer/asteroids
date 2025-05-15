@@ -1,10 +1,12 @@
-import { BACKGROUND_COLOR, DEBUG, FRAME_INTERVAL, SCREEN_HEIGHT, SCREEN_WIDTH } from './constants.mjs';
+import { PLAYER, ASTEROID, BACKGROUND_COLOR, BULLET } from './constants.mjs';
 import { KEYBOARD } from './constants.mjs';
-import Asteroid from './classes/Asteroid.mjs';
-import Player from './classes/Player.mjs';
 import * as listeners from './listeners.mjs';
-import { FpsCounter, getRandInt, getId, resize } from './utils.mjs';
+import { FpsCounter, randomInt, getId } from './utils.mjs';
+import { resize } from './window.mjs';
+import Player from './classes/Player.mjs';
+import Asteroid from './classes/Asteroid.mjs';
 import Bullet from './classes/Bullet.mjs';
+import Factory from './classes/Factory.mjs';
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
@@ -16,12 +18,8 @@ function init() {
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
-  createPlayers(1);
-  createAsteroids(3);
-
-  
-   
-
+  Factory.CREATE(entities, PLAYER, 2)
+  Factory.CREATE(entities, ASTEROID, 10);
 
   frame();
 }
@@ -36,10 +34,7 @@ function frame() {
   requestAnimationFrame((currentTimeMs) => {
     let deltaTimeSec = (currentTimeMs - previousTimeMs) / 1000;
     previousTimeMs = currentTimeMs;
-
-    // Avoid spiral of death on huge frame delays
-    deltaTimeSec = Math.min(deltaTimeSec, 0.25);
-
+    deltaTimeSec = Math.min(deltaTimeSec, 0.25);  // Avoid spiral of death on huge frame delays
     accumulator += deltaTimeSec;
 
     let updateCount = 0;
@@ -50,6 +45,7 @@ function frame() {
     }
 
     draw(ctx); // Use latest state to render
+
     fpsCounter.update(deltaTimeSec);
     fpsCounter.draw(ctx);
 
@@ -76,30 +72,8 @@ function draw(ctx) {
   }
 }
 
-function createPlayers(playerCount) {
-  entities.push( new Player( { id:getId(), x:SCREEN_WIDTH / 2, y: SCREEN_HEIGHT / 2, dx: 0.0, dy: 0.0, scale: 8, angle: 0.0, keys: KEYBOARD[0], debug: DEBUG }) );
+function fireBullet(x, y, angle) {
+  Factory.CREATE(entities, BULLET, 1, x, y, angle);
 }
 
-function createAsteroids(asteroidCount) {
-  for (let i = 0; i < asteroidCount; i++) {
-    const id    = getId();
-    const x     = getRandInt(0, SCREEN_WIDTH);
-    const y     = getRandInt(0, SCREEN_HEIGHT);
-    const scale = getRandInt(2, 6);
-    const dx    = 5.0;
-    const dy    = 10.0;
-    const angle = 0.0;
-
-    entities.push(new Asteroid({ id, x, y, dx, dy, scale, angle }));  
-  }
-}
-
-function createBullet({ id, x, y, dx, dy, scale, angle }) {
-
-  //console.log('bullet', id, x, y, dx, dy, scale, angle);
-  
-
-  entities.push( new Bullet({ id, x, y, dx, dy, scale, angle }) );  
-}
-
-export { init, createBullet };
+export { init, fireBullet };

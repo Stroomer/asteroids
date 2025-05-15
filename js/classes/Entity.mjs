@@ -1,16 +1,10 @@
 // Updated Entity.mjs
-import { SCREEN_WIDTH, SCREEN_HEIGHT, DEBUGGING, DEBUG_COLOR, PLAYER_COLOR } from '../constants.mjs';
-import { drawPixelLine  } from '../utils.mjs';
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants.mjs';
+import { drawPixelLine, getId  } from '../utils.mjs';
 
 export default class Entity {
-  constructor({ id, x, y, dx, dy, scale, angle }) {
-    this.id    = id;
-    this.x     = x;
-    this.y     = y;
-    this.dx    = -dx;
-    this.dy    = dy;
-    this.scale = scale;
-    this.angle = angle;
+  constructor() {
+    this.id = getId();
   }
 
   update(dt) {
@@ -25,17 +19,18 @@ export default class Entity {
 
     for (let i = 0; i < vertexCount; i++) {
       const vertex = model[i];
-      sx[i] = (vertex.x * Math.cos(angle) - vertex.y * Math.sin(angle)) * scale + x;
-      sy[i] = (vertex.x * Math.sin(angle) + vertex.y * Math.cos(angle)) * scale + y;
-      sx[i] = Math.floor(sx[i]);
-      sy[i] = Math.floor(sy[i]);
+      sx[i] = (vertex.x * Math.cos(angle) - vertex.y * Math.sin(angle)) * scale;
+      sy[i] = (vertex.x * Math.sin(angle) + vertex.y * Math.cos(angle)) * scale;
+      sx[i] = Math.floor(sx[i] + x);
+      sy[i] = Math.floor(sy[i] + y);
     }
 
     for (let i = 0; i < vertexCount; i++) {
       const x0 = sx[i];
       const y0 = sy[i];
       const x1 = sx[(i + 1) % vertexCount];
-   	  const y1 = sy[(i + 1) % vertexCount];
+      const y1 = sy[(i + 1) % vertexCount];
+      
 	    drawPixelLine(ctx, x0, y0, x1, y1);
     }
 
