@@ -1,13 +1,15 @@
 // Asteroid.mjs
 import Entity from './Entity.mjs';
-import { BULLET_SPEED, KEYBOARD, PLAYER_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
+import { BULLET, BULLET_SPEED, KEYBOARD, PLAYER_COLOR, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
 import { isDown, isUp } from '../keyboard.mjs';
 import Factory from './Factory.mjs';
-import { fireBullet } from '../main.mjs';
 
 export default class Player extends Entity {
-  constructor(index) {
+  constructor(index, entities) {
     super();
+
+    console.log(index);
+    
 
     this.name = `Player`;
     this.x     = SCREEN_WIDTH  / 4 * (index === 1 ? 1 : 3);
@@ -20,6 +22,8 @@ export default class Player extends Entity {
     this.model = [{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }];
     this.keys  = KEYBOARD[(index === 1 ? 0 : 1)];
     this.canShoot = true;
+
+    this.entities = entities;
   }
 
   update(dt) {
@@ -36,20 +40,13 @@ export default class Player extends Entity {
     if (isDown(this.keys.left))   this.angle -= 5.0 * dt;
     if (isDown(this.keys.right))  this.angle += 5.0 * dt;
     if (isDown(this.keys.fire) && this.canShoot) {      
-      
-      //console.log("fire");
-      
-      
       this.canShoot = false;
-      //console.log(this.x, this.y, this.angle);
-      
-      fireBullet(this.x, this.y, this.angle, dt);
+      Factory.CREATE(this.entities, BULLET, 1, { x:this.x, y:this.y, angle:this.angle });
     }
     
     if (isUp(this.keys.fire)) {
       this.canShoot = true;
     }
-
 
     // if (isDown(this.debug.space)) {
     //   this.dx = this.dy = 0;

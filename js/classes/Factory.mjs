@@ -5,17 +5,15 @@ import Asteroid from './Asteroid.mjs';
 import Bullet from './Bullet.mjs';
 
 export default class Factory {
-  static CREATE(entities, type, amount, props) {
-    for (let i = 0; i < amount; i++) {
-      switch (type) {
-        case PLAYER:    if (i === 2) return;
-                        entities.push(new Player(i));
-        break;
-        case ASTEROID:  entities.push(new Asteroid());
-        break;
-        case BULLET:    entities.push(new Bullet(props));
-        break;
-      }
+  static CREATE(entities, type, amount=1, props=null) {
+    switch (type) {
+      case PLAYER:    for (let i = 0; i < amount; i++) entities.push(new Player(i+1, entities));
+      break;
+      case ASTEROID:  for(let i = 0; i < amount; i++)  entities.push(new Asteroid());
+      break;
+      case BULLET:    entities.push(new Bullet(props));
+      break;
     }
+    
   }
 }

@@ -72,8 +72,4 @@ function draw(ctx) {
   }
 }
 
-function fireBullet(x, y, angle) {
-  Factory.CREATE(entities, BULLET, 1, x, y, angle);
-}
-
-export { init, fireBullet };
+export { init };
