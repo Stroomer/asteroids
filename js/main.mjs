@@ -22,10 +22,11 @@ function init() {
   ctx.fillStyle = BACKGROUND_COLOR;
 
   Factory.CREATE(entities, PLAYER, 1);
-  // Factory.CREATE(entities, ASTEROID, 60);
+  Factory.CREATE(entities, ASTEROID, 20);
 
   boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2);
   quadtree = new QuadTree(boundary, 4);
+  
   console.log(quadtree);
 
   for (let i = 0; i < 4; i++) {
