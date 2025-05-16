@@ -5,14 +5,14 @@ import { isDown, isUp } from '../keyboard.mjs';
 import Factory from './Factory.mjs';
 
 export default class Player extends Entity {
-  constructor(index, entities) {
+  constructor(index, amountOfPlayer, entities) {
     super();
 
     console.log(index);
     
 
     this.name = `Player`;
-    this.x     = SCREEN_WIDTH  / 4 * (index === 1 ? 1 : 3);
+    this.x     = SCREEN_WIDTH  / 4 * (amountOfPlayer === 1 ? 2 : (index === 1 ? 1 : 3));
     this.y     = SCREEN_HEIGHT / 2;
     this.dx    = 0.0;
     this.dy    = 0.0;
@@ -20,7 +20,7 @@ export default class Player extends Entity {
     this.angle = 0.0;
     this.accel = 40.0;
     this.model = [{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }];
-    this.keys  = KEYBOARD[(index === 1 ? 0 : 1)];
+    this.keys  = KEYBOARD[(index === 1 ? 1 : 0)];
     this.canShoot = true;
 
     this.entities = entities;
@@ -41,6 +41,10 @@ export default class Player extends Entity {
     if (isDown(this.keys.right))  this.angle += 5.0 * dt;
     if (isDown(this.keys.fire) && this.canShoot) {      
       this.canShoot = false;
+
+      console.log(this.x, this.y);
+      
+
       Factory.CREATE(this.entities, BULLET, 1, { x:this.x, y:this.y, angle:this.angle });
     }
     

@@ -1,4 +1,4 @@
-import { PLAYER, ASTEROID, BACKGROUND_COLOR, BULLET } from './constants.mjs';
+import { PLAYER, ASTEROID, BACKGROUND_COLOR, BULLET, SCREEN_WIDTH, SCREEN_HEIGHT } from './constants.mjs';
 import { KEYBOARD } from './constants.mjs';
 import * as listeners from './listeners.mjs';
 import { FpsCounter, randomInt, getId } from './utils.mjs';
@@ -7,20 +7,34 @@ import Player from './classes/Player.mjs';
 import Asteroid from './classes/Asteroid.mjs';
 import Bullet from './classes/Bullet.mjs';
 import Factory from './classes/Factory.mjs';
+import { Point, QuadTree, Rectangle } from './classes/QuadTree.mjs';
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
 const entities   = [];
 const fpsCounter = new FpsCounter();
 
+let quadtree, boundary;
+
 function init() {
   resize();
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
-  Factory.CREATE(entities, PLAYER, 2)
-  Factory.CREATE(entities, ASTEROID, 10);
+  Factory.CREATE(entities, PLAYER, 1);
+  // Factory.CREATE(entities, ASTEROID, 60);
 
+  boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2);
+  quadtree = new QuadTree(boundary, 4);
+  console.log(quadtree);
+
+  for (let i = 0; i < 4; i++) {
+    const p = new Point(randomInt(0, SCREEN_WIDTH), randomInt(0, SCREEN_HEIGHT));
+    quadtree.insert(p);
+  }
+  
+  quadtree.show(ctx);
+  
   frame();
 }
 

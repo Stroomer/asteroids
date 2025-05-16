@@ -5,22 +5,23 @@ import { BULLET_COLOR, BULLET_SPEED, PI } from '../constants.mjs';
 export default class Bullet extends Entity {
   constructor(props) {
     super();
-    
+
     const { x, y, angle } = props;
 
-    this.name = 'Bullet';
+    this.name  = 'Bullet';
     this.x     = x;
-    this.y     = -y;
-    this.dx    = BULLET_SPEED * Math.sin(angle);   //* props.dt;
-    this.dy    = -BULLET_SPEED * Math.cos(angle);  //* props.dt;
+    this.y     = y;
+    this.dx    = BULLET_SPEED * Math.sin(angle); 
+    this.dy    = -BULLET_SPEED * Math.cos(angle);
     this.scale = 1;
     this.angle = angle;
-    this.model = [{ x, y }];
+    
+    this.model = [{ x: 0, y: 0 }];
   }
 
   update(dt) {
-    this.x += -this.dx * dt;
-    this.y +=  this.dy * dt;
+    this.x += this.dx * dt;
+    this.y += this.dy * dt;
     // Don't update super-class to avoid wrapping!
   }
 
