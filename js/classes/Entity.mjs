@@ -4,12 +4,17 @@ import { drawPixelLine, getId  } from '../utils.mjs';
 
 export default class Entity {
   constructor() {
-    this.id = getId();
+    this.id    = getId();
+    this.speed = 0;
   }
 
   update(dt) {
     this.x = (this.x + this.dx * dt + SCREEN_WIDTH)  % SCREEN_WIDTH;
     this.y = (this.y + this.dy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
+  }
+
+  calculateSpeed() {
+    
   }
 
   render(ctx, model, x, y, angle, scale) {

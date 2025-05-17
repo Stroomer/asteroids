@@ -22,6 +22,10 @@ export function degreesToRadians(degrees) {
   return degrees * (PI/180);
 }
 
+export function lerp(a, b, t) {
+  return a + (b - a) * Math.min(Math.max(t, 0), 1);
+}
+
 export function drawPixelLine(ctx, x0, y0, x1, y1) {
 	const dx = Math.abs(x1 - x0);
 	const dy = Math.abs(y1 - y0);

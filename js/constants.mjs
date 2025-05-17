@@ -5,17 +5,24 @@ export const PI               = Math.PI;
 export const DEBUGGING        = true;
 export const DEBUG_COLOR      = "rgba(255, 99, 71, 0.5)";
 
+// Forces & limits
+export const FRICTION         = 0.99;
+export const PLAYER_MAXSPEED  = 80.0;
+export const PLAYER_ROT_SPD   = 5.0;
+export const BULLET_MAXSPEED  = 120.0;
+
+// Ids
 export const PLAYER           = 1;
 export const ASTEROID         = 2;
 export const BULLET           = 3;
 
+// Colors
 export const BACKGROUND_COLOR = 'black';
 export const PLAYER_COLOR     = 'cyan';
 export const ASTEROID_COLOR   = 'white';
 export const BULLET_COLOR     = 'red';
 
-export const BULLET_SPEED     = 50.0;
-
+// Screen
 export const SCREEN_WIDTH     = 320;
 export const SCREEN_HEIGHT    = 320;
 export const SCREEN_MARGIN    = 20;

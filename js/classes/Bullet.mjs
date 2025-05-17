@@ -1,6 +1,6 @@
 // Bullet.mjs
 import Entity from './Entity.mjs';
-import { BULLET_COLOR, BULLET_SPEED, PI } from '../constants.mjs';
+import { BULLET_COLOR, BULLET_MAXSPEED, PI } from '../constants.mjs';
 import { hypotenusa } from '../utils.mjs';
 
 export default class Bullet extends Entity {
@@ -10,8 +10,8 @@ export default class Bullet extends Entity {
     const { x, y, dx, dy, angle, offset } = parent;
 
     this.name  = 'Bullet';
-    this.dx    = dx +  BULLET_SPEED * Math.sin(angle); 
-    this.dy    = dy + -BULLET_SPEED * Math.cos(angle);
+    this.dx    = dx +  BULLET_MAXSPEED * Math.sin(angle); 
+    this.dy    = dy + -BULLET_MAXSPEED * Math.cos(angle);
     this.x     = x + Math.sin(angle) * offset;
     this.y     = y - Math.cos(angle) * offset;
     this.scale = 1;

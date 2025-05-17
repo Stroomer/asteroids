@@ -45,11 +45,11 @@ export function keyup(event) {
   }
 }
 
-export function isDown(key) {
+export function isKeyDown(key) {
   return keys.has(key) ? true : false;
 }
 
-export function isUp(key) {
+export function isKeyUp(key) {
   return keys.has(key) ? false : true;
 }
 
