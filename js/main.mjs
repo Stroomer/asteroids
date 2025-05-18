@@ -1,9 +1,9 @@
-import { PLAYER, ASTEROID, BACKGROUND_COLOR, BULLET, SCREEN_WIDTH, SCREEN_HEIGHT, MPLAYER_MODE } from './constants.mjs';
-import { KEYBOARD } from './constants.mjs';
-import * as listeners from './listeners.mjs';
-import { FpsCounter, randomInt } from './utils.mjs';
-import { resize } from './window.mjs';
-import Factory from './tools/Factory.mjs';
+import { PLAYER, ASTEROID, BACKGROUND_COLOR, SCREEN_WIDTH, SCREEN_HEIGHT, MPLAYER_MODE } from './constants.mjs';
+import * as listeners from '/js/listeners.mjs';
+import { randomInt } from '/js/utils.mjs';
+import { resize } from '/js/window.mjs';
+import Factory from '/js/tools/Factory.mjs';
+import FpsCounter from '/js/tools/FpsCounter.mjs';
 import { Point, QuadTree, Rectangle } from './tools/QuadTree.mjs';
 
 const canvas     = document.getElementById('screen');

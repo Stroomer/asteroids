@@ -47,20 +47,3 @@ export function drawPixelLine(ctx, x0, y0, x1, y1) {
 	  }
 	}
 }
-
-export class FpsCounter {
-	constructor() {
-		this.fps = 0;
-	}
-
-  	update(time) {
-		this.fps = Math.trunc(1 / time);
-	}
-
-	draw(context) {
-		context.font = '14px Arial';
-		context.fillStyle = '#00FF00';
-		context.textAlign = 'right';
-		context.fillText(`${this.fps}`, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
-	}
-}
