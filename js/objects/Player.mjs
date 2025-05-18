@@ -1,8 +1,8 @@
 // Asteroid.mjs
-import Entity from './Entity.mjs';
+import Entity from '../objects/Entity.mjs';
 import { BULLET, BULLET_MAXSPEED, FRICTION, KEYBOARD, PLAYER, PLAYER_COLOR, PLAYER_MAXSPEED, PLAYER_ROT_SPD, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
 import { isKeyDown, isKeyUp } from '../keyboard.mjs';
-import Factory from './Factory.mjs';
+import Factory from '../tools/Factory.mjs';
 import { hypotenusa, lerp } from '../utils.mjs';
 
 export default class Player extends Entity {
@@ -64,7 +64,6 @@ export default class Player extends Entity {
       this.dx *= scale;
       this.dy *= scale;
       this.speed = speed * scale;
-      console.log(`orig_speed: ${speed}  clamped_speed: ${this.speed}`);
     } 
   }
 

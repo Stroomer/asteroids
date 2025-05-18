@@ -1,11 +1,10 @@
 // Bullet.mjs
-import Entity from './Entity.mjs';
-import { BULLET, BULLET_COLOR, BULLET_MAXSPEED, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
-import { hypotenusa } from '../utils.mjs';
-import Factory from './Factory.mjs';
+import Entity from '../objects/Entity.mjs';
+import { BULLET, BULLET_COLOR, BULLET_MAXSPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
+import Factory from '../tools/Factory.mjs';
 
 export default class Bullet extends Entity {
-  constructor({ entities, x, y, dx, dy, angle, offset }) {
+  constructor({ x, y, dx, dy, angle, offset }) {
     super();
 
     this.name  = 'Bullet';
@@ -17,8 +16,6 @@ export default class Bullet extends Entity {
     this.scale = 1;
     this.angle = angle;
     this.model = [{ x: 0, y: 0 }];
-
-    this.entities = entities;
   }
 
   update(dt) {

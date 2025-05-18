@@ -1,7 +1,7 @@
 // Factory.mjs
-import Asteroid from './Asteroid.mjs';
-import Player from './Player.mjs';
-import Bullet from './Bullet.mjs';
+import Asteroid from '../objects/Asteroid.mjs';
+import Player from '../objects/Player.mjs';
+import Bullet from '../objects/Bullet.mjs';
 import { ASTEROID, BULLET, PLAYER } from '../constants.mjs';
 
 export default class Factory {

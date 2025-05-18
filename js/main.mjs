@@ -3,10 +3,8 @@ import { KEYBOARD } from './constants.mjs';
 import * as listeners from './listeners.mjs';
 import { FpsCounter, randomInt } from './utils.mjs';
 import { resize } from './window.mjs';
-
-
-import Factory from './classes/Factory.mjs';
-import { Point, QuadTree, Rectangle } from './classes/QuadTree.mjs';
+import Factory from './tools/Factory.mjs';
+import { Point, QuadTree, Rectangle } from './tools/QuadTree.mjs';
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');

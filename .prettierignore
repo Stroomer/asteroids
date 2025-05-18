@@ -3,8 +3,11 @@
 /js/utils.mjs
 /js/keyboard.mjs
 /js/constants.mjs
-/js/classes/Entity.mjs
-/js/classes/Asteroid.mjs
-/js/classes/Bullet.mjs
-/js/classes/Player.mjs
-/js/classes/Factory.mjs
+
+/js/objects/Entity.mjs
+/js/objects/Asteroid.mjs
+/js/objects/Bullet.mjs
+/js/objects/Player.mjs
+
+/js/tools/Factory.mjs
+/js/tools/FpsCounter.mjs

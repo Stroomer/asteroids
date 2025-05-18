@@ -5,8 +5,6 @@ const player1 = KEYBOARD[0];
 const player2 = KEYBOARD[1];
 
 export function keydown(event) {
-  //console.log(event.ctrlKey);
-  // console.log(event.metaKey);
   event.preventDefault();
   switch (event.code) {
     case 'ArrowUp':      keys.add(player1.up);    break;

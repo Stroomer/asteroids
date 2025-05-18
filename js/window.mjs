@@ -1,10 +1,5 @@
 import { SCREEN_MARGIN } from './constants.mjs';
 
-// export function beforeunload(event) {
-//   event.preventDefault();
-//   event.returnValue = ''; // Needed for some browsers
-// }
-
 export function resize(event) {
   const canvas = document.getElementById('screen');
   const ctx = canvas.getContext('2d');
