@@ -2,7 +2,7 @@ import { SCREEN_MARGIN, SCREEN_WIDTH, SCREEN_HEIGHT, PI } from './constants.mjs'
 
 let uid = 0;
 
-export function getId() {
+export function getUid() {
 	return ++uid;
 }
 

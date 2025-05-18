@@ -1,9 +1,8 @@
+export const MPLAYER_MODE     = false;
+
 export const MAX_FPS          = 60;
 export const FRAME_INTERVAL   = 1 / MAX_FPS;
 export const PI               = Math.PI;
-
-export const DEBUGGING        = true;
-export const DEBUG_COLOR      = "rgba(255, 99, 71, 0.5)";
 
 // Forces & limits
 export const FRICTION         = 0.99;
@@ -45,4 +44,4 @@ const ENTER        = 13;
 export const KEYBOARD = [ { up: CURSOR_UP, down: CURSOR_DOWN, left: CURSOR_LEFT, right: CURSOR_RIGHT, fire: SPACE     },
                           { up: KEY_W,     down: KEY_S,       left: KEY_A,       right: KEY_D,        fire: CTRL_LEFT } ];
                                   
-export const DEBUG     = { space: SPACE, enter: ENTER };
+// export const DEBUG     = { space: SPACE, enter: ENTER };

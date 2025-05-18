@@ -1,16 +1,17 @@
 // Asteroid.mjs
 import Entity from './Entity.mjs';
-import { BULLET, BULLET_MAXSPEED, FRICTION, KEYBOARD, PLAYER_COLOR, PLAYER_MAXSPEED, PLAYER_ROT_SPD, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
+import { BULLET, BULLET_MAXSPEED, FRICTION, KEYBOARD, PLAYER, PLAYER_COLOR, PLAYER_MAXSPEED, PLAYER_ROT_SPD, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
 import { isKeyDown, isKeyUp } from '../keyboard.mjs';
 import Factory from './Factory.mjs';
 import { hypotenusa, lerp } from '../utils.mjs';
 
 export default class Player extends Entity {
-  constructor(index, amountOfPlayer, entities) {
+  constructor({ name, mplayer, entities }) {
     super();
 
-    this.name = `Player`;
-    this.x     = SCREEN_WIDTH  / 4 * (amountOfPlayer === 1 ? 2 : (index === 1 ? 1 : 3));
+    this.name  = name;
+    this.type  = PLAYER;
+    this.x     = SCREEN_WIDTH  / 4 * (!mplayer ? 2 : (name === "Player1" ? 3 : 1));   
     this.y     = SCREEN_HEIGHT / 2;
     this.dx    = 0.0;
     this.dy    = 0.0;
@@ -18,9 +19,8 @@ export default class Player extends Entity {
     this.angle = 0.0;
     this.accel = 200.0;
     this.model = [{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }];
-    this.keys  = KEYBOARD[(index === 1 ? 1 : 0)];
-    this.canShoot = true;
-
+    this.keys  = KEYBOARD[(name === "Player1" ? 0 : 1)];
+    this.armed = true;
     this.entities = entities;
   }
 
@@ -38,18 +38,13 @@ export default class Player extends Entity {
       this.dy *= FRICTION;      
     }
   
-    if (isKeyDown(this.keys.fire) && this.canShoot) {      
-      const x      = this.x;
-      const y      = this.y;
-      const dx     = this.dx;
-      const dy     = this.dy;
-      const angle  = this.angle;
-      const offset = 24;
+    if (isKeyDown(this.keys.fire) && this.armed) {      
+      const { entities, x, y, dx, dy, angle } = this;
+      Factory.create(BULLET, entities, { x, y, dx, dy, angle, offset:24 });
 
-      Factory.CREATE(this.entities, BULLET, 1, { x, y, dx, dy, angle, offset });
-      this.canShoot = false;
+      this.armed = false;
     }else if(isKeyUp(this.keys.fire)) {
-      this.canShoot = true;
+      this.armed = true;
     }
     
     if (isKeyDown(this.keys.up)) {

@@ -1,13 +1,14 @@
 // Asteroid.mjs
 import Entity from "./Entity.mjs";
-import { ASTEROID_COLOR, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants.mjs";
+import { ASTEROID, ASTEROID_COLOR, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants.mjs";
 import { randomInt } from "../utils.mjs";
 
 export default class Asteroid extends Entity {
-    constructor() {
+    constructor({ entities }) {
         super();
 
         this.name  = `Asteroid`;
+        this.type  = ASTEROID;
         this.x     = randomInt(0, SCREEN_WIDTH);
         this.y     = randomInt(0, SCREEN_HEIGHT);
         this.dx    = -10 + randomInt(0, 20);
@@ -15,6 +16,8 @@ export default class Asteroid extends Entity {
         this.scale = randomInt(2, 5);
         this.angle = 0.0;
         this.model = this.generateModel(20, this.scale);
+
+        this.entities = entities;
     }
 
     generateModel(vertexCount, scale) {

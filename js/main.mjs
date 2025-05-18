@@ -1,11 +1,10 @@
-import { PLAYER, ASTEROID, BACKGROUND_COLOR, BULLET, SCREEN_WIDTH, SCREEN_HEIGHT } from './constants.mjs';
+import { PLAYER, ASTEROID, BACKGROUND_COLOR, BULLET, SCREEN_WIDTH, SCREEN_HEIGHT, MPLAYER_MODE } from './constants.mjs';
 import { KEYBOARD } from './constants.mjs';
 import * as listeners from './listeners.mjs';
-import { FpsCounter, randomInt, getId } from './utils.mjs';
+import { FpsCounter, randomInt } from './utils.mjs';
 import { resize } from './window.mjs';
-import Player from './classes/Player.mjs';
-import Asteroid from './classes/Asteroid.mjs';
-import Bullet from './classes/Bullet.mjs';
+
+
 import Factory from './classes/Factory.mjs';
 import { Point, QuadTree, Rectangle } from './classes/QuadTree.mjs';
 
@@ -20,10 +19,22 @@ function init() {
   resize();
 
   ctx.fillStyle = BACKGROUND_COLOR;
+  
+  // Create Players
+  const mplayer     = MPLAYER_MODE;
+  const playerCount = !mplayer ? 1 : 2;
 
-  Factory.CREATE(entities, PLAYER, 1);
-  Factory.CREATE(entities, ASTEROID, 20);
+  for (let i = 0; i < playerCount; i++) {
+    Factory.create(PLAYER, entities, { name:`Player${i+1}`, mplayer });
+  } 
 
+  // Create Asteroids
+  const asteroidCount = 20;
+
+  for (let i = 0; i < asteroidCount; i++) {
+    Factory.create(ASTEROID, entities, { name:`Asteroid${i+1}` });
+  }
+    
   boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2);
   quadtree = new QuadTree(boundary, 4);
   

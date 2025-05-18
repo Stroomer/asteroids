@@ -1,15 +1,15 @@
 // Bullet.mjs
 import Entity from './Entity.mjs';
-import { BULLET_COLOR, BULLET_MAXSPEED, PI } from '../constants.mjs';
+import { BULLET, BULLET_COLOR, BULLET_MAXSPEED, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
 import { hypotenusa } from '../utils.mjs';
+import Factory from './Factory.mjs';
 
 export default class Bullet extends Entity {
-  constructor(parent) {
+  constructor({ entities, x, y, dx, dy, angle, offset }) {
     super();
 
-    const { x, y, dx, dy, angle, offset } = parent;
-
     this.name  = 'Bullet';
+    this.type  = BULLET;
     this.dx    = dx +  BULLET_MAXSPEED * Math.sin(angle); 
     this.dy    = dy + -BULLET_MAXSPEED * Math.cos(angle);
     this.x     = x + Math.sin(angle) * offset;
@@ -17,18 +17,23 @@ export default class Bullet extends Entity {
     this.scale = 1;
     this.angle = angle;
     this.model = [{ x: 0, y: 0 }];
+
+    this.entities = entities;
   }
 
   update(dt) {
     this.x += this.dx * dt;
     this.y += this.dy * dt;
 
-    
-    
+    if (this.x < 0 || this.x > SCREEN_WIDTH || this.y < 0 || this.y > SCREEN_HEIGHT) {
+      //Entity.GARBAGE.push(this.uid);
+    }
 
     //if (hypotenusa(this.dx, this.dy)) {
       
     //}
+
+    //super.checkCollisions();
     // Don't update super-class to avoid wrapping!
   }
 

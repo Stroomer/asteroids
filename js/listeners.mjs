@@ -6,4 +6,3 @@ window.addEventListener('load',    init);
 window.addEventListener('keydown', keydown);
 window.addEventListener('keyup',   keyup);
 window.addEventListener('resize',  resize);
-// window.addEventListener("beforeunload", beforeunload);
