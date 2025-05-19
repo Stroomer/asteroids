@@ -11,7 +11,7 @@ const ctx        = canvas.getContext('2d');
 const entities   = [];
 const fpsCounter = new FpsCounter();
 
-let quadtree, boundary;
+export let quadtree, boundary;
 
 function init() {
   resize();
@@ -27,23 +27,22 @@ function init() {
   } 
 
   // Create Asteroids
-  const asteroidCount = 20;
+  // const asteroidCount = 20;
 
-  for (let i = 0; i < asteroidCount; i++) {
-    Factory.create(ASTEROID, entities, { name:`Asteroid${i+1}` });
-  }
+  // for (let i = 0; i < asteroidCount; i++) {
+  //   Factory.create(ASTEROID, entities, { name:`Asteroid${i+1}` });
+  // }
     
-  boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2, SCREEN_WIDTH/2);
-  quadtree = new QuadTree(boundary, 4);
   
-  console.log(quadtree);
-
-  for (let i = 0; i < 4; i++) {
+  boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+  quadtree = new QuadTree(boundary, 1);
+  
+  for (let i = 0; i < 5000; i++) {  
     const p = new Point(randomInt(0, SCREEN_WIDTH), randomInt(0, SCREEN_HEIGHT));
     quadtree.insert(p);
   }
   
-  quadtree.show(ctx);
+  //quadtree.show(ctx);
   
   frame();
 }
@@ -94,6 +93,8 @@ function draw(ctx) {
   for (let i = 0; i < entityCount; i++) {
     entities[i].draw(ctx);
   }
+
+  quadtree.show(ctx);
 }
 
 export { init };

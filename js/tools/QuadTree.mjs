@@ -41,13 +41,20 @@ export class QuadTree {
   }
 
   show(ctx) {
-    ctx.strokeStyle = 'red';
-    ctx.strokeRect(this.boundary.x, this.boundary.y, this.boundary.w, this.boundary.h);
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1;
+
+    ctx.strokeRect(this.boundary.x - this.boundary.w, this.boundary.y - this.boundary.h, this.boundary.w * 2, this.boundary.h * 2);
     if (this.divided) {
-      this.northeast.show();
-      this.northwest.show();
-      this.southeast.show();
-      this.southeast.show();
+      this.northeast.show(ctx);
+      this.northwest.show(ctx);
+      this.southeast.show(ctx);
+      this.southwest.show(ctx);
+    }
+
+    for (let p of this.points) {
+      ctx.fillStyle = 'yellow';
+      ctx.fillRect(p.x - 1, p.y - 1, 2, 2);
     }
   }
 }
@@ -68,6 +75,6 @@ export class Rectangle {
   }
 
   contains(point) {
-    return point.x > this.x - this.w && point.x < this.x + this.w && point.y > this.y - this.h && point.y < this.y + this.h;
+    return point.x >= this.x - this.w && point.x <= this.x + this.w && point.y >= this.y - this.h && point.y <= this.y + this.h;
   }
 }

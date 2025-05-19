@@ -2,6 +2,7 @@
 /js/listeners.mjs
 /js/utils.mjs
 /js/keyboard.mjs
+/js/mouse.mjs
 /js/constants.mjs
 
 /js/objects/Entity.mjs
