@@ -5,6 +5,7 @@ import { resize } from '/js/window.mjs';
 import Factory from '/js/tools/Factory.mjs';
 import FpsCounter from '/js/tools/FpsCounter.mjs';
 import { Point, QuadTree, Rectangle } from './tools/QuadTree.mjs';
+import { mouseDown, mouseX, mouseY } from './mouse.mjs';
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
@@ -35,15 +36,16 @@ function init() {
     
   
   boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-  quadtree = new QuadTree(boundary, 1);
+  quadtree = new QuadTree(boundary, 4);
   
-  for (let i = 0; i < 5000; i++) {  
-    const p = new Point(randomInt(0, SCREEN_WIDTH), randomInt(0, SCREEN_HEIGHT));
-    quadtree.insert(p);
-  }
+  // for (let i = 0; i < 5; i++) {  
+  //   const p = new Point(randomInt(0, SCREEN_WIDTH), randomInt(0, SCREEN_HEIGHT));
+  //   quadtree.insert(p);
+  // }
+   
+  //console.log(quadtree);
   
-  //quadtree.show(ctx);
-  
+
   frame();
 }
 
@@ -92,6 +94,13 @@ function draw(ctx) {
 
   for (let i = 0; i < entityCount; i++) {
     entities[i].draw(ctx);
+  }
+
+  if (mouseDown) {
+    const x = mouseX - 10 + randomInt(0, 20);
+    const y = mouseY - 10 + randomInt(0, 20);
+    const p = new Point(x, y);
+    quadtree.insert(p);
   }
 
   quadtree.show(ctx);
