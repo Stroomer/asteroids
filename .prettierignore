@@ -12,3 +12,4 @@
 
 /js/tools/Factory.mjs
 /js/tools/FpsCounter.mjs
+/js/tools/QuadTree.mjs

@@ -28,7 +28,7 @@ function init() {
   } 
 
   // Create Asteroids
-  // const asteroidCount = 20;
+  // const asteroidCount = 120;
 
   // for (let i = 0; i < asteroidCount; i++) {
   //   Factory.create(ASTEROID, entities, { name:`Asteroid${i+1}` });
@@ -36,14 +36,14 @@ function init() {
     
   
   boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-  quadtree = new QuadTree(boundary, 4);
+  quadtree = new QuadTree(boundary, 4, 5);
   
   // for (let i = 0; i < 5; i++) {  
   //   const p = new Point(randomInt(0, SCREEN_WIDTH), randomInt(0, SCREEN_HEIGHT));
   //   quadtree.insert(p);
   // }
    
-  //console.log(quadtree);
+  console.log(quadtree);
   
 
   frame();
@@ -101,9 +101,30 @@ function draw(ctx) {
     const y = mouseY - 10 + randomInt(0, 20);
     const p = new Point(x, y);
     quadtree.insert(p);
-  }
 
+  }
+  
+  // console.log(quadtree);
+  
+  
   quadtree.show(ctx);
+  
+
+
+
+
+
+  // if (mouseX !== null && mouseY !== null && !mouseDown) {
+    // ctx.fillStyle   = 'green';  
+    // const range = new Rectangle(mouseX - 32, mouseY - 32, 64, 64);
+    // ctx.strokeRect(range.x, range.y, range.w * 2, range.h * 2);
+    
+    // let points = [];
+      
+    
+
+    
+  // }
 }
 
 export { init };

@@ -1,19 +1,21 @@
 import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./constants.mjs";
 
 export let mouseDown = false;
-export let mouseX    = 0;
-export let mouseY    = 0;
+export let mouseX    = null;
+export let mouseY    = null;
 
 export function mousemove(event) {
+  setMousePosition(event);
+  
   if (mouseDown) {
-    setMousePosition(event);
+    
   }
 }
 
 export function mousedown(event) {
   setMousePosition(event)
   mouseDown = true;
-  console.log('mousedown');
+  //console.log('mousedown');
 }
 
 export function mouseup(event) {
@@ -21,7 +23,7 @@ export function mouseup(event) {
   mouseDown = false;
   mouseX    = null;
   mouseY    = null;
-  console.log('mouseup');
+  //console.log('mouseup');
 }
 
 export function mouseleave() {
