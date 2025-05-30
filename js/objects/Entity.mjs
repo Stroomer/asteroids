@@ -4,8 +4,12 @@ import { drawPixelLine, getUid  } from '../utils.mjs';
 
 export default class Entity {
   constructor() {
-    this.uid    = getUid();
+    this.uid   = getUid();
     this.speed = 0;
+  }
+
+  maxRadius() {
+    return this.model.reduce((max, p) => Math.max(max, Math.sqrt(p.x ** 2 + p.y ** 2)), 0);
   }
 
   update(dt) {

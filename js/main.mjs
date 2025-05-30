@@ -6,13 +6,16 @@ import Factory from '/js/tools/Factory.mjs';
 import FpsCounter from '/js/tools/FpsCounter.mjs';
 import { Point, QuadTree, Rectangle } from './tools/QuadTree.mjs';
 import { mouseDown, mouseX, mouseY } from './mouse.mjs';
+import { distance, generateClusteredPoints } from './utils.mjs';
+
+
 
 const canvas     = document.getElementById('screen');
 const ctx        = canvas.getContext('2d');
 const entities   = [];
 const fpsCounter = new FpsCounter();
 
-export let quadtree, boundary;
+//export let quadtree, boundary;
 
 function init() {
   resize();
@@ -20,30 +23,39 @@ function init() {
   ctx.fillStyle = BACKGROUND_COLOR;
   
   // Create Players
-  const mplayer     = MPLAYER_MODE;
-  const playerCount = !mplayer ? 1 : 2;
+  // const mplayer     = MPLAYER_MODE;
+  // const playerCount = !mplayer ? 1 : 2;
 
-  for (let i = 0; i < playerCount; i++) {
-    Factory.create(PLAYER, entities, { name:`Player${i+1}`, mplayer });
-  } 
+  // for (let i = 0; i < playerCount; i++) {
+  //   Factory.create(PLAYER, entities, { name:`Player${i+1}`, mplayer });
+  // } 
 
   // Create Asteroids
-  // const asteroidCount = 120;
+  const asteroidCount = 30;
 
-  // for (let i = 0; i < asteroidCount; i++) {
-  //   Factory.create(ASTEROID, entities, { name:`Asteroid${i+1}` });
-  // }
+  for (let i = 0; i < asteroidCount; i++) {
+    Factory.create(ASTEROID, entities);
+  }
     
   
-  boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
-  quadtree = new QuadTree(boundary, 4, 5);
+  // boundary = new Rectangle(SCREEN_WIDTH/2, SCREEN_HEIGHT/2, SCREEN_WIDTH/2, SCREEN_HEIGHT/2);
+  // quadtree = new QuadTree(boundary, 3, 9);
   
-  // for (let i = 0; i < 5; i++) {  
-  //   const p = new Point(randomInt(0, SCREEN_WIDTH), randomInt(0, SCREEN_HEIGHT));
+  // const flogPoints = generateClusteredPoints({
+  //   numPoints: 100,
+  //   numClusters: 4,
+  //   range: 320,
+  //   clusterRadius: 25
+  // });
+  
+  // console.log(flogPoints);  
+
+  // for (let i = 0; i < flogPoints.length; i++) {
+  //   const p = new Point(flogPoints[i].x, flogPoints[i].y);
   //   quadtree.insert(p);
   // }
    
-  console.log(quadtree);
+  //console.log(quadtree);
   
 
   frame();
@@ -54,6 +66,7 @@ const MAX_UPDATES    = 5;      // Avoid spiral of death
 
 let previousTimeMs = performance.now();
 let accumulator = 0;
+let qtree;
 
 function frame() {
   requestAnimationFrame((currentTimeMs) => {
@@ -79,9 +92,39 @@ function frame() {
 }
 
 function update(dt) {
+  const boundary    = new Rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
+  const qtree       = new QuadTree(boundary, 4);
   const entityCount = entities.length;
+  let i;
 
-  for (let i = 0; i < entityCount; i++) {
+  for (i = 0; i < entityCount; i++) {
+    const entity = entities[i];
+    qtree.insert(new Point(entity.x, entity.y, entity));
+    entity.collided = false;
+  }
+
+  for (i = 0; i < entityCount; i++) {
+    const entity = entities[i];
+    const range = new Rectangle(entity.x, entity.y, entity.r, entity.r);
+    const others = qtree.query(range);
+    for (let p of others) {
+      const other = p.userData;
+      if (entity === other) continue;
+      const d = distance(entity, other);
+
+      // console.log(d);
+      // console.log(entity);
+      console.log(other);
+      
+
+  //     if (d < entity.r + other.r) {
+  //       entity.collided = true;
+  //       break;
+  //     }
+    }
+  }
+
+  for (i = 0; i < entityCount; i++) {
     entities[i].update(dt);
   }
 }
@@ -96,18 +139,18 @@ function draw(ctx) {
     entities[i].draw(ctx);
   }
 
-  if (mouseDown) {
-    const x = mouseX - 10 + randomInt(0, 20);
-    const y = mouseY - 10 + randomInt(0, 20);
-    const p = new Point(x, y);
-    quadtree.insert(p);
+  // if (mouseDown) {
+  //   const x = mouseX - 10 + randomInt(0, 20);
+  //   const y = mouseY - 10 + randomInt(0, 20);
+  //   const p = new Point(x, y);
+  //   quadtree.insert(p);
 
-  }
+  // }
   
   // console.log(quadtree);
   
   
-  quadtree.show(ctx);
+  // quadtree.show(ctx);
   
 
 

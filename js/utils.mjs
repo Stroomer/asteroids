@@ -10,7 +10,7 @@ export function randomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function hypotenusa(a, b) {
+export function distance(a, b) {
   return Math.sqrt(a*a + b*b)
 }
 
@@ -47,3 +47,43 @@ export function drawPixelLine(ctx, x0, y0, x1, y1) {
 	  }
 	}
 }
+
+export function generateClusteredPoints({
+	numPoints = 100,
+	numClusters = 5,
+	range = 320,
+	clusterRadius = 30
+  } = {}) {
+	const points = [];
+	const clusters = [];
+  
+	// Step 1: Generate random cluster centers
+	for (let i = 0; i < numClusters; i++) {
+	  clusters.push({
+		x: Math.floor(Math.random() * range),
+		y: Math.floor(Math.random() * range)
+	  });
+	}
+  
+	// Step 2: Assign points around random cluster centers
+	for (let i = 0; i < numPoints; i++) {
+	  // Pick a random cluster
+	  const cluster = clusters[Math.floor(Math.random() * numClusters)];
+  
+	  // Random offset around the cluster center
+	  const angle = Math.random() * Math.PI * 2;
+	  const radius = Math.random() * clusterRadius;
+  
+	  const offsetX = Math.round(Math.cos(angle) * radius);
+	  const offsetY = Math.round(Math.sin(angle) * radius);
+  
+	  // Clamp point within 0 and range
+	  const x = Math.min(range, Math.max(0, cluster.x + offsetX));
+	  const y = Math.min(range, Math.max(0, cluster.y + offsetY));
+  
+	  points.push({ x, y });
+	}
+  
+	return points;
+  }
+  
