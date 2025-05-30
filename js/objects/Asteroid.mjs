@@ -4,22 +4,21 @@ import { ASTEROID, ASTEROID_COLOR, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from '../co
 import { randomInt } from '../utils.mjs';
 
 export default class Asteroid extends Entity {
-  constructor() {
+  constructor(x, y) {
     super();
 
     this.type        = ASTEROID;
-    this.x           = randomInt(0, SCREEN_WIDTH);
-    this.y           = randomInt(0, SCREEN_HEIGHT);
+    this.x           = x || randomInt(0, SCREEN_WIDTH);
+    this.y           = y || randomInt(0, SCREEN_HEIGHT);
     this.dx          = -10 + randomInt(0, 20);
     this.dy          = -10 + randomInt(0, 20);
     this.vertexCount = 30;
-    this.scale       = randomInt(2, 5);
+    this.scale       = 6;  //randomInt(2, 5);
     this.angle       = 0.0;
     this.model       = this.generateModel(this.vertexCount, this.scale);
-    this.r           = this.maxRadius();
+    this.r           = this.maxRadius() * this.scale;
     this.collided    = false;
   }
-
 
   generateModel(vertexCount, scale) {
     const points = [];

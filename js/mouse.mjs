@@ -6,24 +6,17 @@ export let mouseY    = null;
 
 export function mousemove(event) {
   setMousePosition(event);
-  
-  if (mouseDown) {
-    
-  }
+  console.log(mouseX, mouseY); 
 }
 
 export function mousedown(event) {
-  setMousePosition(event)
+  setMousePosition(event);
   mouseDown = true;
-  //console.log('mousedown');
 }
 
 export function mouseup(event) {
   setMousePosition(event);
   mouseDown = false;
-  mouseX    = null;
-  mouseY    = null;
-  //console.log('mouseup');
 }
 
 export function mouseleave() {

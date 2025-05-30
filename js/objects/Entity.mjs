@@ -1,5 +1,5 @@
 // Updated Entity.mjs
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../constants.mjs';
+import { SCREEN_WIDTH, SCREEN_HEIGHT, PI } from '../constants.mjs';
 import { drawPixelLine, getUid  } from '../utils.mjs';
 
 export default class Entity {
@@ -42,27 +42,51 @@ export default class Entity {
     return { sx, sy }; // Return for bounding box
   }
 
+  drawCollisionCircle(ctx, x, y) {
+    ctx.save();
+    ctx.strokeStyle = this.collided ? 'red' : 'green';
+    ctx.beginPath();
+    ctx.arc(x, y, this.r, 0, PI * 2);
+    ctx.stroke();
+    ctx.restore();
+  }
+  
+
   draw(ctx) {
-    // Draw main entity
+    // Draw collision circle at main position
+    this.drawCollisionCircle(ctx, this.x, this.y);
+  
+    // Draw main model
     const { sx, sy } = this.render(ctx, this.model, this.x, this.y, this.angle, this.scale);
+  
     const minX = Math.min(...sx);
     const maxX = Math.max(...sx);
     const minY = Math.min(...sy);
     const maxY = Math.max(...sy);
-
+  
     const nearLeft   = minX < 0;
     const nearRight  = maxX > SCREEN_WIDTH;
     const nearTop    = minY < 0;
     const nearBottom = maxY > SCREEN_HEIGHT;
-
-    if (nearLeft)   this.render(ctx, this.model, this.x + SCREEN_WIDTH, this.y, this.angle, this.scale);
-    if (nearRight)  this.render(ctx, this.model, this.x - SCREEN_WIDTH, this.y, this.angle, this.scale);
-    if (nearTop)    this.render(ctx, this.model, this.x, this.y + SCREEN_HEIGHT, this.angle, this.scale);
-    if (nearBottom) this.render(ctx, this.model, this.x, this.y - SCREEN_HEIGHT, this.angle, this.scale);
-
-    if (nearLeft && nearTop)          this.render(ctx, this.model, this.x + SCREEN_WIDTH, this.y + SCREEN_HEIGHT, this.angle, this.scale);
-    else if (nearLeft && nearBottom)  this.render(ctx, this.model, this.x + SCREEN_WIDTH, this.y - SCREEN_HEIGHT, this.angle, this.scale);
-    else if (nearRight && nearTop)    this.render(ctx, this.model, this.x - SCREEN_WIDTH, this.y + SCREEN_HEIGHT, this.angle, this.scale);
-    else if (nearRight && nearBottom) this.render(ctx, this.model, this.x - SCREEN_WIDTH, this.y - SCREEN_HEIGHT, this.angle, this.scale);
+  
+    const offsets = [];
+  
+    if (nearLeft)                    offsets.push([SCREEN_WIDTH, 0]);
+    if (nearRight)                   offsets.push([-SCREEN_WIDTH, 0]);
+    if (nearTop)                     offsets.push([0, SCREEN_HEIGHT]);
+    if (nearBottom)                  offsets.push([0, -SCREEN_HEIGHT]);
+  
+    if (nearLeft && nearTop)         offsets.push([SCREEN_WIDTH, SCREEN_HEIGHT]);
+    if (nearLeft && nearBottom)      offsets.push([SCREEN_WIDTH, -SCREEN_HEIGHT]);
+    if (nearRight && nearTop)        offsets.push([-SCREEN_WIDTH, SCREEN_HEIGHT]);
+    if (nearRight && nearBottom)     offsets.push([-SCREEN_WIDTH, -SCREEN_HEIGHT]);
+  
+    for (const [dx, dy] of offsets) {
+      const wrapX = this.x + dx;
+      const wrapY = this.y + dy;
+      this.render(ctx, this.model, wrapX, wrapY, this.angle, this.scale);
+      this.drawCollisionCircle(ctx, wrapX, wrapY);
+    }
   }
+  
 }

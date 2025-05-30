@@ -18,7 +18,7 @@ export default class Player extends Entity {
     this.angle    = 0.0;
     this.accel    = 200.0;
     this.model    = [{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }];
-    this.r        = this.maxRadius();
+    this.r        = this.maxRadius() * this.scale;
     this.keys     = KEYBOARD[(name === "Player1" ? 0 : 1)];
     this.armed    = true;
     this.collided = false;

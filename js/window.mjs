@@ -7,6 +7,6 @@ export function resize(event) {
 
   canvas.style.width = canvas.style.height = `${size}px`;
   ctx.imageSmoothingEnabled = false;
-  ctx.lineWidth = 8;
+  ctx.lineWidth = 2;
   ctx.strokeStyle = 'yellow';
 }

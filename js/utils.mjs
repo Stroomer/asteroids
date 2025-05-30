@@ -10,9 +10,55 @@ export function randomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-export function distance(a, b) {
-  return Math.sqrt(a*a + b*b)
+export function getDistanceSquared(x1, y1, x2, y2) {
+	const dx = x2 - x1;
+	const dy = y2 - y1;
+	return dx * dx + dy * dy;
 }
+
+export function getDistance(x1, y1, x2, y2) {
+	const dx = x2 - x1;
+	const dy = y2 - y1;
+	return Math.sqrt(dx * dx + dy * dy);
+}
+
+export function polygonsIntersect(polygonA, polygonB) {
+	const polygons = [polygonA, polygonB];
+	let i, j;
+  
+	for (let p = 0; p < polygons.length; p++) {
+	  const polygon = polygons[p];
+  
+	  for (i = 0; i < polygon.length; i++) {
+		const current = polygon[i];
+		const next = polygon[(i + 1) % polygon.length];
+  
+		const edge = { x: next.x - current.x, y: next.y - current.y };
+		const axis = { x: -edge.y, y: edge.x }; // Normal vector
+  
+		let minA = Infinity, maxA = -Infinity;
+		for (j = 0; j < polygonA.length; j++) {
+		  const proj = polygonA[j].x * axis.x + polygonA[j].y * axis.y;
+		  minA = Math.min(minA, proj);
+		  maxA = Math.max(maxA, proj);
+		}
+  
+		let minB = Infinity, maxB = -Infinity;
+		for (j = 0; j < polygonB.length; j++) {
+		  const proj = polygonB[j].x * axis.x + polygonB[j].y * axis.y;
+		  minB = Math.min(minB, proj);
+		  maxB = Math.max(maxB, proj);
+		}
+  
+		if (maxA < minB || maxB < minA) {
+		  return false; // Separating axis found, no collision
+		}
+	  }
+	}
+  
+	return true; // No separating axis found, polygons intersect
+  }
+  
 
 export function radiansToDegrees(radians) {
   return radians * (180/PI);

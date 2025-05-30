@@ -15,7 +15,7 @@ export default class Bullet extends Entity {
     this.scale    = 1;
     this.angle    = angle;
     this.model    = [{ x: 0, y: 0 }];
-    this.r        = this.maxRadius();
+    this.r        = this.maxRadius() * this.scale;
     this.collided = false;
   }
 
