@@ -10,8 +10,8 @@ export default class Asteroid extends Entity {
     this.type        = ASTEROID;
     this.x           = x || randomInt(0, SCREEN_WIDTH);
     this.y           = y || randomInt(0, SCREEN_HEIGHT);
-    this.dx          = -10 + randomInt(0, 20);
-    this.dy          = -10 + randomInt(0, 20);
+    this.dx          = 0; || -10 + randomInt(0, 20);
+    this.dy          = 0; // -10 + randomInt(0, 20);
     this.vertexCount = 30;
     this.scale       = 6;  //randomInt(2, 5);
     this.angle       = 0.0;
