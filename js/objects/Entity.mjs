@@ -6,18 +6,25 @@ export default class Entity {
   constructor() {
     this.uid   = getUid();
     this.speed = 0;
-  }
 
-  maxRadius() {
-    return this.model.reduce((max, p) => Math.max(max, Math.sqrt(p.x ** 2 + p.y ** 2)), 0);
+    console.log(this.uid);
+    
   }
 
   update(dt) {
+
+    console.log('super update');
+    
+
     this.x = (this.x + this.dx * dt + SCREEN_WIDTH)  % SCREEN_WIDTH;
     this.y = (this.y + this.dy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
   }
 
   render(ctx, model, x, y, angle, scale) {
+    
+    //console.log(angle);
+     
+    
     const vertexCount = model.length;
 	  const sx = [];
 	  const sy = [];
@@ -42,19 +49,11 @@ export default class Entity {
     return { sx, sy }; // Return for bounding box
   }
 
-  drawCollisionCircle(ctx, x, y) {
-    ctx.save();
-    ctx.strokeStyle = this.collided ? 'red' : 'green';
-    ctx.beginPath();
-    ctx.arc(x, y, this.r, 0, PI * 2);
-    ctx.stroke();
-    ctx.restore();
-  }
-  
-
   draw(ctx) {
+    console.log("super draw");
+    
     // Draw collision circle at main position
-    this.drawCollisionCircle(ctx, this.x, this.y);
+    //this.drawCollisionCircle(ctx, this.x, this.y);
   
     // Draw main model
     const { sx, sy } = this.render(ctx, this.model, this.x, this.y, this.angle, this.scale);
@@ -85,8 +84,21 @@ export default class Entity {
       const wrapX = this.x + dx;
       const wrapY = this.y + dy;
       this.render(ctx, this.model, wrapX, wrapY, this.angle, this.scale);
-      this.drawCollisionCircle(ctx, wrapX, wrapY);
+      //this.drawCollisionCircle(ctx, wrapX, wrapY);
     }
   }
+  
+  // drawCollisionCircle(ctx, x, y) {
+  //   ctx.save();
+  //   ctx.strokeStyle = this.collided ? 'red' : 'green';
+  //   ctx.beginPath();
+  //   ctx.arc(x, y, this.r, 0, PI * 2);
+  //   ctx.stroke();
+  //   ctx.restore();
+  // }  
+
+  maxRadius() {
+    return this.model.reduce((max, p) => Math.max(max, Math.sqrt(p.x ** 2 + p.y ** 2)), 0);
+  }  
   
 }

@@ -1,12 +1,14 @@
-import { SCREEN_MARGIN } from './constants.mjs';
+import { SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_MARGIN } from './constants.mjs';
 
 export function resize(event) {
   const canvas = document.getElementById('screen');
   const ctx = canvas.getContext('2d');
-  const size = Math.min(window.innerWidth, window.innerHeight) - SCREEN_MARGIN;
+  const iw = window.innerWidth;
+  const ih = window.innerHeight;
 
-  canvas.style.width = canvas.style.height = `${size}px`;
+  canvas.className = 'landscape'; //iw > ih ? 'landscape' : 'portrait'; // CRAP!
+
   ctx.imageSmoothingEnabled = false;
-  ctx.lineWidth = 2;
+  ctx.lineWidth = 1;
   ctx.strokeStyle = 'yellow';
 }

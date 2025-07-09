@@ -1,8 +1,8 @@
-/js/main.mjs
+
 /js/listeners.mjs
 /js/utils.mjs
-/js/keyboard.mjs
-/js/mouse.mjs
+/js/input/keyboard.mjs
+/js/input/mouse.mjs
 /js/constants.mjs
 
 /js/objects/Entity.mjs
@@ -10,6 +10,7 @@
 /js/objects/Bullet.mjs
 /js/objects/Player.mjs
 
-/js/tools/Factory.mjs
 /js/tools/FpsCounter.mjs
 /js/tools/QuadTree.mjs
+/js/tools/ShipFactory.mjs
+/js/tools/AsteroidFactory.mjs

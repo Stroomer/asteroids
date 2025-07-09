@@ -1,4 +1,4 @@
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./constants.mjs";
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./../constants.mjs";
 
 export let mouseDown = false;
 export let mouseX    = null;
@@ -6,7 +6,7 @@ export let mouseY    = null;
 
 export function mousemove(event) {
   setMousePosition(event);
-  console.log(mouseX, mouseY); 
+  //console.log(mouseX, mouseY); 
 }
 
 export function mousedown(event) {

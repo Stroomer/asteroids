@@ -223,238 +223,6 @@ function drawPixelLine(ctx, x0, y0, x1, y1) {
   }
 }
 
-function resize(event) {
-  const canvas = document.getElementById('screen');
-  const ctx = canvas.getContext('2d');
-  const size = Math.min(window.innerWidth, window.innerHeight) - SCREEN_MARGIN;
-
-  canvas.style.width = canvas.style.height = `${size}px`;
-  ctx.imageSmoothingEnabled = false;
-  ctx.lineWidth = 2;
-  ctx.strokeStyle = 'yellow';
-}
-
-class Point {
-  constructor(x, y, data) {
-    this.x = x;
-    this.y = y;
-    this.data = data;
-  }
-
-  // Skips Math.sqrt for faster comparisons
-  sqDistanceFrom(other) {
-    const dx = other.x - this.x;
-    const dy = other.y - this.y;
-    return dx * dx + dy * dy;
-  }
-
-  // Pythagorus: a^2 = b^2 + c^2
-  distanceFrom(other) {
-    return Math.sqrt(this.sqDistanceFrom(other));
-  }
-}
-
-class Rectangle {
-  constructor(x, y, w, h) {
-    this.x = x;
-    this.y = y;
-    this.w = w;
-    this.h = h;
-
-    this.left = x - w / 2;
-    this.right = x + w / 2;
-    this.top = y - h / 2;
-    this.bottom = y + h / 2;
-  }
-
-  contains(point) {
-    return this.left <= point.x && point.x <= this.right && this.top <= point.y && point.y <= this.bottom;
-  }
-
-  intersects(range) {
-    return !(this.right < range.left || range.right < this.left || this.bottom < range.top || range.bottom < this.top);
-  }
-
-  subdivide(quadrant) {
-    switch (quadrant) {
-      case 'ne':
-        return new Rectangle(this.x + this.w / 4, this.y - this.h / 4, this.w / 2, this.h / 2);
-      case 'nw':
-        return new Rectangle(this.x - this.w / 4, this.y - this.h / 4, this.w / 2, this.h / 2);
-      case 'se':
-        return new Rectangle(this.x + this.w / 4, this.y + this.h / 4, this.w / 2, this.h / 2);
-      case 'sw':
-        return new Rectangle(this.x - this.w / 4, this.y + this.h / 4, this.w / 2, this.h / 2);
-    }
-  }
-
-  xDistanceFrom(point) {
-    if (this.left <= point.x && point.x <= this.right) {
-      return 0;
-    }
-
-    return Math.min(Math.abs(point.x - this.left), Math.abs(point.x - this.right));
-  }
-
-  yDistanceFrom(point) {
-    if (this.top <= point.y && point.y <= this.bottom) {
-      return 0;
-    }
-
-    return Math.min(Math.abs(point.y - this.top), Math.abs(point.y - this.bottom));
-  }
-
-  // Skips Math.sqrt for faster comparisons
-  sqDistanceFrom(point) {
-    const dx = this.xDistanceFrom(point);
-    const dy = this.yDistanceFrom(point);
-
-    return dx * dx + dy * dy;
-  }
-
-  // Pythagorus: a^2 = b^2 + c^2
-  distanceFrom(point) {
-    return Math.sqrt(this.sqDistanceFrom(point));
-  }
-}
-
-// circle class for a circle shaped query
-class Circle {
-  constructor(x, y, r) {
-    this.x = x;
-    this.y = y;
-    this.r = r;
-    this.rSquared = this.r * this.r;
-  }
-
-  contains(point) {
-    // check if the point is in the circle by checking if the euclidean distance of
-    // the point and the center of the circle if smaller or equal to the radius of
-    // the circle
-    let d = Math.pow(point.x - this.x, 2) + Math.pow(point.y - this.y, 2);
-    return d <= this.rSquared;
-  }
-
-  intersects(range) {
-    let xDist = Math.abs(range.x - this.x);
-    let yDist = Math.abs(range.y - this.y);
-
-    // radius of the circle
-    let r = this.r;
-    let w = range.w / 2;
-    let h = range.h / 2;
-    let edges = Math.pow(xDist - w, 2) + Math.pow(yDist - h, 2);
-
-    // no intersection
-    if (xDist > r + w || yDist > r + h) return false;
-
-    // intersection within the circle
-    if (xDist <= w || yDist <= h) return true;
-
-    // intersection on the edge of the circle
-    return edges <= this.rSquared;
-  }
-}
-
-class QuadTree {
-  DEFAULT_CAPACITY = 8;
-  MAX_DEPTH = 8;
-
-  constructor(boundary, capacity = this.DEFAULT_CAPACITY, depth = 0) {
-    this.boundary = boundary;
-    this.capacity = capacity;
-    this.points = [];
-    this.divided = false;
-    this.depth = depth;
-  }
-
-  subdivide() {
-    const { x, y, w, h } = this.boundary;
-
-    this.northeast = new QuadTree(new Rectangle(x + w / 2, y - h / 2, w / 2, h / 2), this.capacity);
-    this.northwest = new QuadTree(new Rectangle(x - w / 2, y - h / 2, w / 2, h / 2), this.capacity);
-    this.southeast = new QuadTree(new Rectangle(x + w / 2, y + h / 2, w / 2, h / 2), this.capacity);
-    this.southwest = new QuadTree(new Rectangle(x - w / 2, y + h / 2, w / 2, h / 2), this.capacity);
-
-    this.divided = true;
-  }
-
-  insert(point) {
-    if (!this.boundary.contains(point)) {
-      return false;
-    }
-
-    if (!this.divided) {
-      if (this.points.length < this.capacity || this.depth === this.MAX_DEPTH) {
-        this.points.push(point);
-        return true;
-      }
-
-      this.subdivide();
-    }
-
-    return this.northeast.insert(point) || this.northwest.insert(point) || this.southeast.insert(point) || this.southwest.insert(point);
-  }
-
-  query(range, found) {
-    if (!found) {
-      found = [];
-    }
-
-    if (!range.intersects(this.boundary)) {
-      return found;
-    }
-
-    if (this.divided) {
-      this.northwest.query(range, found);
-      this.northeast.query(range, found);
-      this.southwest.query(range, found);
-      this.southeast.query(range, found);
-      return found;
-    }
-
-    for (const p of this.points) {
-      if (range.contains(p)) {
-        found.push(p);
-      }
-    }
-
-    return found;
-  }
-
-  show(ctx) {
-    ctx.strokeStyle = 'red';
-    ctx.lineWidth = 2;
-
-    // Convert center x/y to top-left corner
-    ctx.strokeRect(this.boundary.x - this.boundary.w, this.boundary.y - this.boundary.h, this.boundary.w * 2, this.boundary.h * 2);
-
-    if (this.divided) {
-      this.northeast.show(ctx);
-      this.northwest.show(ctx);
-      this.southeast.show(ctx);
-      this.southwest.show(ctx);
-    }
-  }
-}
-
-class FpsCounter {
-  constructor() {
-    this.fps = 0;
-  }
-
-  update(time) {
-    this.fps = Math.trunc(1 / time);
-  }
-
-  draw(context) {
-    context.font = '14px Arial';
-    context.fillStyle = '#00FF00';
-    context.textAlign = 'right';
-    context.fillText(`${this.fps}`, SCREEN_WIDTH - 2, SCREEN_HEIGHT - 2);
-  }
-}
-
 class Entity {
   constructor() {
     this.uid = getUid();
@@ -513,57 +281,55 @@ class Entity {
   draw(ctx) {
     this.drawCollisionCircle(ctx, this.x, this.y);
 
-    // Draw main model
-    const { sx, sy } = this.render(ctx, this.model, this.x, this.y, this.angle, this.scale);
+    // // Draw main model
+    // const { sx, sy } = this.render(ctx, this.model, this.x, this.y, this.angle, this.scale);
 
-    const minX = Math.min(...sx);
-    const maxX = Math.max(...sx);
-    const minY = Math.min(...sy);
-    const maxY = Math.max(...sy);
+    // const minX = Math.min(...sx);
+    // const maxX = Math.max(...sx);
+    // const minY = Math.min(...sy);
+    // const maxY = Math.max(...sy);
 
-    const nearLeft = minX < 0;
-    const nearRight = maxX > SCREEN_WIDTH;
-    const nearTop = minY < 0;
-    const nearBottom = maxY > SCREEN_HEIGHT;
+    // const nearLeft = minX < 0;
+    // const nearRight = maxX > SCREEN_WIDTH;
+    // const nearTop = minY < 0;
+    // const nearBottom = maxY > SCREEN_HEIGHT;
 
-    const offsets = [];
+    // const offsets = [];
 
-    if (nearLeft) offsets.push([SCREEN_WIDTH, 0]);
-    if (nearRight) offsets.push([-SCREEN_WIDTH, 0]);
-    if (nearTop) offsets.push([0, SCREEN_HEIGHT]);
-    if (nearBottom) offsets.push([0, -SCREEN_HEIGHT]);
+    // if (nearLeft) offsets.push([SCREEN_WIDTH, 0]);
+    // if (nearRight) offsets.push([-SCREEN_WIDTH, 0]);
+    // if (nearTop) offsets.push([0, SCREEN_HEIGHT]);
+    // if (nearBottom) offsets.push([0, -SCREEN_HEIGHT]);
 
-    if (nearLeft && nearTop) offsets.push([SCREEN_WIDTH, SCREEN_HEIGHT]);
-    if (nearLeft && nearBottom) offsets.push([SCREEN_WIDTH, -SCREEN_HEIGHT]);
-    if (nearRight && nearTop) offsets.push([-SCREEN_WIDTH, SCREEN_HEIGHT]);
-    if (nearRight && nearBottom) offsets.push([-SCREEN_WIDTH, -SCREEN_HEIGHT]);
+    // if (nearLeft && nearTop) offsets.push([SCREEN_WIDTH, SCREEN_HEIGHT]);
+    // if (nearLeft && nearBottom) offsets.push([SCREEN_WIDTH, -SCREEN_HEIGHT]);
+    // if (nearRight && nearTop) offsets.push([-SCREEN_WIDTH, SCREEN_HEIGHT]);
+    // if (nearRight && nearBottom) offsets.push([-SCREEN_WIDTH, -SCREEN_HEIGHT]);
 
-    for (const [dx, dy] of offsets) {
-      const wrapX = this.x + dx;
-      const wrapY = this.y + dy;
-      this.render(ctx, this.model, wrapX, wrapY, this.angle, this.scale);
-      this.drawCollisionCircle(ctx, wrapX, wrapY);
-    }
+    // for (const [dx, dy] of offsets) {
+    //   const wrapX = this.x + dx;
+    //   const wrapY = this.y + dy;
+    //   this.render(ctx, this.model, wrapX, wrapY, this.angle, this.scale);
+    //   this.drawCollisionCircle(ctx, wrapX, wrapY);
+    // }
 
     //this.distanceBetweenAsteroids(ctx);
   }
 }
 
 class Asteroid extends Entity {
-  constructor(x, y) {
+  constructor({ x, y, r }) {
     super();
 
-    this.x = x || randomInt(0, SCREEN_WIDTH);
-    this.y = y || randomInt(0, SCREEN_HEIGHT);
+    this.x = randomInt(0, SCREEN_WIDTH / 2);
+    this.y = randomInt(0, SCREEN_HEIGHT / 2);
     this.dx = randomAsteroidDirection(10);
     this.dy = randomAsteroidDirection(10);
 
-    // console.log(this.dx);
-
     this.vertexCount = 30;
-    this.scale = 1; //randomInt(2, 5);
+    this.scale = 1;
     this.angle = 0.0;
-    this.r = 8;
+    this.r = r || 8;
     this.model = this.generateModel(this.vertexCount, this.r);
     this.collided = false;
   }
@@ -660,18 +426,10 @@ function init() {
 
   ctx.fillStyle = BACKGROUND_COLOR;
 
-  // Create Players
-  // const mplayer     = MPLAYER_MODE;
-  // const playerCount = !mplayer ? 1 : 2;
-
-  // for (let i = 0; i < playerCount; i++) {
-  //   Factory.create(PLAYER, entities, { name:`Player${i+1}`, mplayer });
-  // }
-
   // Create Asteroids
-  const asteroidCount = 200;
+  const asteroidCount = 100;
   for (let i = 0; i < asteroidCount; i++) {
-    entities.push(new Asteroid());
+    entities.push(new Asteroid({ r: 2 }));
   }
 
   frame();
@@ -706,37 +464,11 @@ function frame() {
   });
 }
 
-// function checkAsteroidCollisions(asteroids) {
-//   for (let i = 0; i < asteroids.length; i++) {
-//     for (let j = i + 1; j < asteroids.length; j++) {
-//       const a = asteroids[i];
-//       const b = asteroids[j];
-
-//       const aPositions = a.getWrappedPositions();
-//       const bPositions = b.getWrappedPositions();
-
-//       for (const posA of aPositions) {
-//         for (const posB of bPositions) {
-//           const distSq = getDistanceSquared(posA.x, posA.y, posB.x, posB.y);
-//           const combinedRadius = a.r + b.r;
-
-//           if (distSq < combinedRadius * combinedRadius) {
-//             a.collided = true;
-//             b.collided = true;
-//             break; // exit nested loops early
-//           }
-//         }
-//       }
-//     }
-//   }
-// }
-
 let qtree;
 
 function update(dt) {
   const boundary = new Rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
-  qtree = new QuadTree(boundary, 2);
-  const entityCount = entities.length;
+  qtree = new QuadTree(boundary);
 
   // Insert all entities into the QuadTree
   for (const entity of entities) {
@@ -744,30 +476,9 @@ function update(dt) {
     entity.collided = false;
   }
 
-  // Check collisions
-  for (const entity of entities) {
-    const range = new Rectangle(entity.x, entity.y, entity.r, entity.r); // ✅ correct radius
-    const possible = qtree.query(range);
-
-    for (const p of possible) {
-      const other = p.data;
-
-      if (entity.uid !== other.uid) {
-        const dx = entity.x - p.x;
-        const dy = entity.y - p.y;
-        const dist = Math.hypot(dx, dy);
-
-        if (dist < entity.r + other.r) {
-          entity.collided = true;
-          other.collided = true;
-        }
-      }
-    }
-  }
-
   // Update all entities
-  for (let i = 0; i < entityCount; i++) {
-    entities[i].update(dt);
+  for (const entity of entities) {
+    entity.update(dt);
   }
 }
 
@@ -778,6 +489,27 @@ function draw(ctx) {
   }
   qtree.show(ctx);
 }
+
+// Check collisions
+// for (const entity of entities) {
+//   const range = new Rectangle(entity.x, entity.y, entity.r * 2, entity.r * 2);
+//   const possible = qtree.query(range);
+
+//   for (const p of possible) {
+//     const other = p.data;
+
+//     if (entity.uid !== other.uid) {
+//       const dx = entity.x - p.x;
+//       const dy = entity.y - p.y;
+//       const dist = Math.hypot(dx, dy);
+
+//       if (dist < entity.r + other.r) {
+//         entity.collided = true;
+//         other.collided = true;
+//       }
+//     }
+//   }
+// }
 
 // Allow dragging first entity with the mouse
 // if (mouseX !== null && mouseY !== null) {

@@ -1,6 +1,6 @@
 import { resize } from '../js/window.mjs';
-import { keydown, keyup } from '../js/keyboard.mjs';
-import { mousemove, mousedown, mouseup, mouseleave } from '../js/mouse.mjs'; 
+import { keydown, keyup } from '../js/input/keyboard.mjs';
+import { mousemove, mousedown, mouseup, mouseleave } from '../js/input/mouse.mjs'; 
 import { init } from '../js/main.mjs';
 
 window.addEventListener('load',    init);

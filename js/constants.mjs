@@ -23,7 +23,7 @@ export const BULLET_COLOR     = 'red';
 
 // Screen
 export const SCREEN_WIDTH     = 320;
-export const SCREEN_HEIGHT    = 320;
+export const SCREEN_HEIGHT    = 200;
 export const SCREEN_MARGIN    = 20;
 
 const CURSOR_UP    = 38;

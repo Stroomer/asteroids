@@ -1,24 +1,54 @@
-html,
 body {
   margin: 0;
   padding: 0;
-  height: 100%;
+  background: #555;
   display: flex;
-  align-items: center;
   justify-content: center;
-  background-color: rgb(222, 142, 142);
+  align-items: center;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+#gameCanvas {
+  background: #111;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+  border: 2px solid #333;
+  transition: transform 0.3s ease;
+}
+
+.landscape {
+  /* When width > height, scale based on viewport */
+  width: min(100vw, calc(100vh * 1.6));
+  height: min(100vh, calc(100vw * 0.625));
+}
+
+.portrait {
+  transform: rotate(90deg);
+  width: min(100vh, calc(100vw * 0.625)); /* visual height = 200 */
+  height: min(100vw, calc(100vh * 1.6)); /* visual width = 320 */
+}
+
+.controls {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  color: #fff;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.7);
+  padding: 10px;
+  border-radius: 5px;
 }
 
 canvas {
-  background-color: rgb(101, 11, 11);
+  background-color: rgb(0, 0, 0);
   image-rendering: crisp-edges;
   image-rendering: pixelated;
   width: 100%;
-  height: auto;
+  height: 100%;
   max-width: 100vw;
   max-height: 100vh;
-}
-
-canvas#screen {
-  background-color: black;
 }
