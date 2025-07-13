@@ -15,6 +15,18 @@ export function randomAsteroidDirection(seed) {
 	return result === 0 ? randomAsteroidDirection(seed) : result;
 }
 
+export function getCanvas(id, width, height) {
+	const canvas = document.createElement('canvas');
+	const context = canvas.getContext('2d');
+	
+	canvas.id = id;
+	canvas.width = width;
+	canvas.height = height;
+	
+	context.imageSmoothingEnabled = false;
+	return context;
+}
+
 export function getDistanceSquared(x1, y1, x2, y2) {
 	const dx = x2 - x1;
 	const dy = y2 - y1;

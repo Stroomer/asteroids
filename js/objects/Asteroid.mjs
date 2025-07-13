@@ -17,7 +17,7 @@ export default class Asteroid {
     this.angle       = 0.0;
     this.model       = asteroidFactory.a;
     
-    console.log();
+    //console.log();
     
 
     this.rotation    = 0;
