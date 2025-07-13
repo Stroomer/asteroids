@@ -18,7 +18,7 @@ function init() {
   ctx.fillStyle = BACKGROUND_COLOR;
 
   // Create Asteroids
-  const asteroidCount = 2;
+  const asteroidCount = 20;
   for (let i = 0; i < asteroidCount; i++) {
     asteroids.push(new Asteroid());
   }
