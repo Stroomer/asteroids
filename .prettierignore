@@ -13,4 +13,4 @@
 /js/tools/FpsCounter.mjs
 /js/tools/QuadTree.mjs
 /js/tools/ShipFactory.mjs
-/js/tools/AsteroidFactory.mjs
+/js/tools/Factory.mjs

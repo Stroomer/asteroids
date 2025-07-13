@@ -30,6 +30,18 @@ export function getCanvas(id='', width=100, height=100, color='white', display=f
 	return ctx;
 }
 
+export function getVector2D(angle, magnitude = 1) {
+    return {
+        x: Math.cos(angle) * magnitude,
+        y: Math.sin(angle) * magnitude
+    };
+}
+
+export function getRandomVector2D(magnitude = 1) {
+    const angle = Math.random() * 2 * Math.PI;
+	return getVector2D(angle, magnitude);
+}
+
 export function getDistanceSquared(x1, y1, x2, y2) {
 	const dx = x2 - x1;
 	const dy = y2 - y1;

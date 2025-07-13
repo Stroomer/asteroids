@@ -1,4 +1,4 @@
-import { drawPixelLine, getCanvas } from '../utils.mjs';
+import { drawPixelLine, getCanvas, randomInt } from '../utils.mjs';
 
 class Factory {
   constructor() {
@@ -6,13 +6,28 @@ class Factory {
       return Factory.instance;
     }
 
-    this.asteroid1 = this.createAsteroid({ type: 1, vertices: 13, radius: 10, min: 0.8, max: 1.0 });
+    this.asteroids = [
+      this.createAsteroid({ type: 1, vertices: 5,  radius: 5,  min: 0.8, max: 1.0 }),
+      this.createAsteroid({ type: 2, vertices: 8,  radius: 10, min: 0.8, max: 1.0 }),
+      this.createAsteroid({ type: 3, vertices: 10, radius: 15, min: 0.8, max: 1.0 }),
+      this.createAsteroid({ type: 4, vertices: 12, radius: 20, min: 0.8, max: 1.0 }),
+      this.createAsteroid({ type: 5, vertices: 14, radius: 25, min: 0.8, max: 1.0 }),
+      this.createAsteroid({ type: 6, vertices: 17, radius: 30, min: 0.8, max: 1.0 }),
+      this.createAsteroid({ type: 7, vertices: 20, radius: 40, min: 0.8, max: 1.0 })
+    ];
 
     Factory.instance = this; // Cache the instance
     Object.freeze(this); // Optional: freeze to prevent modification
   }
 
+  getRandomAsteroidType() {
+    const random = randomInt(0, this.asteroids.length-1);
+    return { ...this.asteroids[random] };
+  }
+
   createAsteroid({ type, vertices, radius, min, max }) {
+    const speed = 20;
+
     // Generate base model points (angle 0°)
     const model = [];
     for (let i = 0; i < vertices; i++) {
@@ -61,7 +76,7 @@ class Factory {
       frames.push(ctx.canvas);
     }
 
-    return { name: `asteroid_${type}`, model, models, ids, frames };
+    return { name: `asteroid_${type}`, model, models, ids, frames, speed };
   }
 }
 
