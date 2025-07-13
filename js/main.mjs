@@ -85,17 +85,18 @@ function update(dt) {
   //   asteroids[0].x = mouseX;
   //   asteroids[0].y = mouseY;
   // }
-  // for (let i = 0; i < asteroids.length; i++) {
-  //   asteroids[i].update(dt);
-  // }
+
+  for (let i = 0; i < asteroids.length; i++) {
+    asteroids[i].update(dt);
+  }
 }
 
 function draw(ctx) {
   ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-  // for (let i = 0; i < asteroids.length; i++) {
-  //   asteroids[i].draw(ctx);
-  // }
+  for (let i = 0; i < asteroids.length; i++) {
+    asteroids[i].draw(ctx);
+  }
 }
 
 export { init };

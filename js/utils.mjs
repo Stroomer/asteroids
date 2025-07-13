@@ -15,14 +15,15 @@ export function randomAsteroidDirection(seed) {
 	return result === 0 ? randomAsteroidDirection(seed) : result;
 }
 
-export function getCanvas(id='', width=100, height=100, color='white') {
+export function getCanvas(id='', width=100, height=100, color='white', display=false) {
 	const canvas = document.createElement('canvas');
 	const ctx = canvas.getContext('2d');
 	
 	canvas.id = id;
 	canvas.width = width;
 	canvas.height = height;
-	
+	canvas.style.display = display ? 'block' : 'none';
+
 	ctx.imageSmoothingEnabled = false;
 	ctx.fillStyle = color;
 

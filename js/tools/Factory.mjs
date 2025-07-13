@@ -6,15 +6,13 @@ class Factory {
       return Factory.instance;
     }
 
-    this.asteroid1 = this.createAsteroid({ vertices: 13, radius: 10, min: 0.8, max: 1.0 });
+    this.asteroid1 = this.createAsteroid({ type: 1, vertices: 13, radius: 10, min: 0.8, max: 1.0 });
 
     Factory.instance = this; // Cache the instance
     Object.freeze(this); // Optional: freeze to prevent modification
   }
 
-  createAsteroid({ vertices, radius, min, max }) {
-    console.log(`create Asteroid`);
-
+  createAsteroid({ type, vertices, radius, min, max }) {
     // Generate base model points (angle 0°)
     const model = [];
     for (let i = 0; i < vertices; i++) {
@@ -43,8 +41,11 @@ class Factory {
 
     // Render points for all 360 angles to canvas
     const size = radius * 2;
-    for (let deg = 0; deg < 1; deg++) {
-      const ctx = getCanvas(`asteroid_1_${deg}`, size, size);
+    const ids = [];
+    const frames = [];
+    for (let deg = 0; deg < 360; deg++) {
+      const id = `asteroid_${type}_${deg}`;
+      const ctx = getCanvas(id, size, size);
       const model = models[deg];
       for (let i = 0; i < model.length; i++) {
         const p1 = model[i];
@@ -56,9 +57,11 @@ class Factory {
         drawPixelLine(ctx, x1, y1, x2, y2);
       }
       document.body.appendChild(ctx.canvas);
+      ids.push(id);
+      frames.push(ctx.canvas);
     }
 
-    return models;
+    return { name: `asteroid_${type}`, model, models, ids, frames };
   }
 }
 
