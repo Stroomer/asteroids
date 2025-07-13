@@ -59,27 +59,21 @@ function update(dt) {
   // const boundary    = new Rectangle(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2);
   // const qtree       = new QuadTree(boundary, 4);
   // let i,o;
-
   // for (i = 0; i < entityCount; i++) {
   //   const entity = asteroids[i];
   //   qtree.insert(new Point(entity.x, entity.y, entity));
   //   entity.collided = false;
   // }
-
   // for (i = 0; i < entityCount; i++) {
   //   const entity = asteroids[i];
   //   const range = new Rectangle(entity.x, entity.y, entity.r, entity.r);
   //   const others = qtree.query(range);
   //   const othersCount = others.length;
-
   //   othersLoop: for (o = 0; o < othersCount; o++) {
   //     const other = others[o].userData;
   //     if (entity.uid === other.uid) continue othersLoop;
-
   //     const d = getDistance(entity.x, entity.y, other.x, other.y);
-
   //     console.log(`distance:${d}  r:${entity.r} r:${other.r}`);
-
   //     if (d < entity.r + other.r) {
   //       entity.collided = true;
   //       other.collided = true;
@@ -87,25 +81,21 @@ function update(dt) {
   //     }
   //   }
   // }
-
   // if (mouseX !== null && mouseY !== null) {
   //   asteroids[0].x = mouseX;
   //   asteroids[0].y = mouseY;
   // }
-
-  for (let i = 0; i < asteroids.length; i++) {
-    asteroids[i].update(dt);
-  }
-
-  console.log(asteroids.length);
+  // for (let i = 0; i < asteroids.length; i++) {
+  //   asteroids[i].update(dt);
+  // }
 }
 
 function draw(ctx) {
   ctx.clearRect(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-  for (let i = 0; i < asteroids.length; i++) {
-    asteroids[i].draw(ctx);
-  }
+  // for (let i = 0; i < asteroids.length; i++) {
+  //   asteroids[i].draw(ctx);
+  // }
 }
 
 export { init };

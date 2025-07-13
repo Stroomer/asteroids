@@ -2,7 +2,7 @@
 import Entity from '../objects/Entity.mjs';
 import { ASTEROID, ASTEROID_COLOR, PI, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
 import { randomInt, drawPixelLine } from '../utils.mjs';
-import { asteroidFactory } from '../tools/AsteroidFactory.mjs';
+import { factory } from '../tools/Factory.mjs';
 
 
 
@@ -15,7 +15,7 @@ export default class Asteroid {
     this.dy          = 0;  //-10 + randomInt(0, 20);
     this.size        = 5;  //randomInt(2, 5);
     this.angle       = 0.0;
-    this.model       = asteroidFactory.a;
+    this.model       = factory.asteroid1;
     
     //console.log();
     
