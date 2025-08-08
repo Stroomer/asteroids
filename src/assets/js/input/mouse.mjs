@@ -1,4 +1,4 @@
-import { SCREEN_WIDTH, SCREEN_HEIGHT } from "./../constants.mjs";
+import { SCREEN_WIDTH, SCREEN_HEIGHT } from "../utils/constants.mjs";
 
 export let mouseDown = false;
 export let mouseX    = null;

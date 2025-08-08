@@ -1,16 +1,18 @@
 
-/js/listeners.mjs
-/js/utils.mjs
-/js/input/keyboard.mjs
-/js/input/mouse.mjs
-/js/constants.mjs
+/src/assets/js/listeners.mjs
+/src/assets/js/utils.mjs
+/src/assets/js/input/keyboard.mjs
+/src/assets/js/input/mouse.mjs
+/src/assets/js/constants.mjs
 
-/js/objects/Entity.mjs
-/js/objects/Asteroid.mjs
-/js/objects/Bullet.mjs
-/js/objects/Player.mjs
+/src/assets/js/core/Sprite.mjs
+/src/assets/js/core/Factory.mjs
 
-/js/tools/FpsCounter.mjs
-/js/tools/QuadTree.mjs
-/js/tools/ShipFactory.mjs
-/js/tools/Factory.mjs
+/src/assets/js/objects/Asteroid.mjs
+/src/assets/js/objects/Bullet.mjs
+/src/assets/js/objects/Player.mjs
+
+/src/assets/js/tools/FpsCounter.mjs
+/src/assets/js/tools/QuadTree.mjs
+/src/assets/js/tools/ShipFactory.mjs
+/src/assets/js/tools/Factory.mjs

@@ -7,14 +7,18 @@ class Factory {
     }
 
     this.asteroids = [
-      this.createAsteroid({ type: 1, vertices: 7,  radius: 5,  min: 0.8, max: 1.0, speed:30 }),
-      this.createAsteroid({ type: 2, vertices: 8,  radius: 10, min: 0.8, max: 1.0, speed:21 }),
-      this.createAsteroid({ type: 3, vertices: 10, radius: 15, min: 0.8, max: 1.0, speed:16 }),
-      this.createAsteroid({ type: 4, vertices: 12, radius: 20, min: 0.8, max: 1.0, speed:11 }),
-      this.createAsteroid({ type: 5, vertices: 14, radius: 25, min: 0.8, max: 1.0, speed:8 }),
-      this.createAsteroid({ type: 6, vertices: 17, radius: 30, min: 0.8, max: 1.0, speed:5 }),
-      this.createAsteroid({ type: 7, vertices: 20, radius: 40, min: 0.8, max: 1.0, speed:3 })
+      this.createAsteroidCollection(5),
+
+      // this.createAsteroid({ type: 1, vertices: 7,  radius: 5,  min: 0.8, max: 1.0, speed:30 }),
+      // this.createAsteroid({ type: 2, vertices: 8,  radius: 10, min: 0.8, max: 1.0, speed:21 }),
+      // this.createAsteroid({ type: 3, vertices: 10, radius: 15, min: 0.8, max: 1.0, speed:16 }),
+      // this.createAsteroid({ type: 4, vertices: 12, radius: 20, min: 0.8, max: 1.0, speed:11 }),
+      // this.createAsteroid({ type: 5, vertices: 14, radius: 25, min: 0.8, max: 1.0, speed:8 }),
+      // this.createAsteroid({ type: 6, vertices: 17, radius: 30, min: 0.8, max: 1.0, speed:5 }),
+      // this.createAsteroid({ type: 7, vertices: 20, radius: 40, min: 0.8, max: 1.0, speed:3 })
     ];
+
+    
 
     Factory.instance = this; // Cache the instance
     Object.freeze(this); // Optional: freeze to prevent modification
@@ -23,6 +27,10 @@ class Factory {
   getRandomAsteroidType() {
     const random = randomInt(0, this.asteroids.length-1);
     return { ...this.asteroids[random] };
+  }
+
+  createAsteroidCollection(radius) {
+    this.createAsteroid({ type: 7, vertices: 20, radius: 40, min: 0.8, max: 1.0, speed:3 })
   }
 
   createAsteroid({ type, vertices, radius, min, max, speed }) {
@@ -57,7 +65,7 @@ class Factory {
     const ids = [];
     const frames = [];
     for (let deg = 0; deg < 360; deg++) {
-      const id = `asteroid_${type}_${deg}`;
+      const id = `asteroid_${type}_${radius}_${deg}`;
       const ctx = getCanvas(id, size, size);
       const model = models[deg];
       for (let i = 0; i < model.length; i++) {

@@ -1,4 +1,4 @@
-import { KEYBOARD } from '../constants.mjs';
+import { KEYBOARD } from '../utils/constants.mjs';
 
 const keys    = new Set();
 const player1 = KEYBOARD[0];
