@@ -3,59 +3,50 @@ import { SCREEN_WIDTH, SCREEN_HEIGHT } from '../utils/constants.mjs';
 import { randomUnitVector } from '../utils/math.mjs';
 
 export default class Sprite {
-  constructor() {
-    this.x        = SCREEN_WIDTH / 2;
-    this.y        = SCREEN_HEIGHT / 2;
-    this.vec      = randomUnitVector();
-    this.vx       = this.vec.x;
-    this.vy       = this.vec.y;
-    this.rotation = 0.0;
-    this.frame    = 0;
+  constructor(props) {
+    this.vector   = props.vector    || randomUnitVector();
+    this.speed    = props.moveSpeed || 2;
+    this.rotSpeed = props.rotSpeed  || 2;
+    this.radius   = props.radius    || 10;
+    this.width    = props.width     || this.radius * 2;
+    this.height   = props.height    || this.radius * 2;
+    this.x        = props.x         || SCREEN_WIDTH / 2;
+    this.y        = props.y         || SCREEN_HEIGHT / 2;
+    this.vx       = props.vx        || this.vector.x * this.speed;
+    this.vy       = props.vy        || this.vector.y * this.speed;
+    this.rotation = props.rotation  || 0.0;
+    this.collided = props.collided  || false;
+    this.model    = null;
     this.image    = null;
-    this.collided = false;
-    this.model    = [];
-
-    console.log(`Asteroid[${this.x},${this.y}]`);
-
+    this.models   = [];
+    this.images   = [];
     
-    
+    console.log(`Asteroid x:${this.x} y:${this.y}`);
   }
 
   update(dt) {
-    this.x = (this.x + this.vx * dt + SCREEN_WIDTH) % SCREEN_WIDTH;
-    this.y = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
+    this.x        = (this.x + this.vx * dt + SCREEN_WIDTH) % SCREEN_WIDTH;
+    this.y        = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
+    this.rotation = (this.rotation + this.rotSpeed * dt + 360) % 360;
+
+    console.log(this.rotation);
+    
+
+    this.image    = this.images[this.rotation | 0];
+    this.model    = this.models[this.rotation | 0];
   }
 
   draw(ctx) {
+    //console.log('draw ASTEROID');
+
+    const { width, height }  = this.image.canvas;
+    const x = this.x - (width / 2);
+    const y = this.y - (height / 2);
+    ctx.drawImage(this.image.canvas, x, y, width, height);
+    
+
 
   }
-
-  // render(ctx, model, x, y, angle, scale) {
-  //   //console.log(angle);
-
-  //   const vertexCount = model.length;
-  //   const sx = [];
-  //   const sy = [];
-
-  //   for (let i = 0; i < vertexCount; i++) {
-  //     const vertex = model[i];
-  //     sx[i] = (vertex.x * Math.cos(angle) - vertex.y * Math.sin(angle)) * scale;
-  //     sy[i] = (vertex.x * Math.sin(angle) + vertex.y * Math.cos(angle)) * scale;
-  //     sx[i] = Math.floor(sx[i] + x);
-  //     sy[i] = Math.floor(sy[i] + y);
-  //   }
-
-  //   for (let i = 0; i < vertexCount; i++) {
-  //     const x0 = sx[i];
-  //     const y0 = sy[i];
-  //     const x1 = sx[(i + 1) % vertexCount];
-  //     const y1 = sy[(i + 1) % vertexCount];
-
-  //     drawPixelLine(ctx, x0, y0, x1, y1);
-  //   }
-
-  //   return { sx, sy }; // Return for bounding box
-  // }
 
   // draw(ctx) {
   //   console.log('super draw');

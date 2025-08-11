@@ -1,11 +1,13 @@
 import Sprite from '../core/Sprite.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
-import { COLOR_ASTEROID } from '../utils/constants.mjs';
+import { COLOR_ASTEROID, DEBUG } from '../utils/constants.mjs';
 
 
 export default class Asteroid extends Sprite {
   constructor(props) {
-    super(props);    
+    super(props);
+    
+    this.type = props.type; 
   }
 
   update(dt) {
@@ -13,7 +15,18 @@ export default class Asteroid extends Sprite {
   }
 
   draw(ctx) {
-    // ctx.fillStyle = COLOR_ASTEROID;
+    
+    super.draw(ctx);
+      
+    if (!DEBUG) {
+      ctx.save();
+      ctx.fillStyle = 'red';
+      ctx.fillRect(this.x-1, this.y-1, 2, 2);
+      ctx.restore();
+    }
+
+
+    //ctx.fillStyle = COLOR_ASTEROID;
 
     // drawPixelLine(ctx, 0, 0, 100, 100);
 

@@ -1,3 +1,6 @@
+// MODE
+export const DEBUG = false;
+
 // SCREEN
 export const SCREEN_WIDTH = 320;
 export const SCREEN_HEIGHT = 200;

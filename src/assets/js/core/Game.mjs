@@ -13,7 +13,7 @@ export default class Game {
     this.ship = null;
     this.asteroids = [];
 
-    this.a = this.factory.asteroidFactory.asteroids[0];
+    this.asteroid = this.factory.asteroidFactory._asteroid;
 
     // Game Loop
     this.previousTimeMs = 0;
@@ -54,17 +54,14 @@ export default class Game {
 
   update(dt) {
     //console.log('loop ' + dt);
-    //this.a.update(dt);
+    this.asteroid.update(dt);
   }
 
   draw(ctx) {
-    //ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-    //this.a.draw(ctx);
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
     ctx.fillStyle = COLOR_ASTEROID;
 
-    drawPixelLine(ctx, 50, 10, 50, 100);
-    drawPixelLine(ctx, 50, 50, 10, 10);
+    this.asteroid.draw(ctx);
   }
 }

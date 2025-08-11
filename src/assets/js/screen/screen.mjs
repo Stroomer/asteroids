@@ -17,6 +17,10 @@ export function resize(event) {
 }
 
 export function drawPixelLine(ctx, x0, y0, x1, y1) {
+  x0 = x0 | 0;
+  y0 = y0 | 0;
+  x1 = x1 | 0;
+  y1 = y1 | 0;
   const dx = Math.abs(x1 - x0);
   const dy = Math.abs(y1 - y0);
   const sx = x0 < x1 ? 1 : -1;
