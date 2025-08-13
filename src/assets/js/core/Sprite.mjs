@@ -5,23 +5,21 @@ import { randomUnitVector } from '../utils/math.mjs';
 export default class Sprite {
   constructor(props) {
     this.vector   = props.vector    || randomUnitVector();
-    this.speed    = props.moveSpeed || 2;
-    this.rotSpeed = props.rotSpeed  || 2;
+    this.speed    = props.moveSpeed || 0;
+    this.rotSpeed = props.rotSpeed  || 0;
     this.radius   = props.radius    || 10;
     this.width    = props.width     || this.radius * 2;
     this.height   = props.height    || this.radius * 2;
     this.x        = props.x         || SCREEN_WIDTH / 2;
     this.y        = props.y         || SCREEN_HEIGHT / 2;
-    this.vx       = props.vx        || this.vector.x * this.speed;
-    this.vy       = props.vy        || this.vector.y * this.speed;
+    this.vx       = props.vx        || this.vector.x * 0; //this.speed;
+    this.vy       = props.vy        || this.vector.y * 0; //this.speed;
     this.rotation = props.rotation  || 0.0;
     this.collided = props.collided  || false;
     this.model    = null;
     this.image    = null;
     this.models   = [];
     this.images   = [];
-    
-    console.log(`Asteroid x:${this.x} y:${this.y}`);
   }
 
   update(dt) {
@@ -29,9 +27,8 @@ export default class Sprite {
     this.y        = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
     this.rotation = (this.rotation + this.rotSpeed * dt + 360) % 360;
 
-    console.log(this.rotation);
-    
-
+    //console.log(this.rotation);
+  
     this.image    = this.images[this.rotation | 0];
     this.model    = this.models[this.rotation | 0];
   }
@@ -43,9 +40,6 @@ export default class Sprite {
     const x = this.x - (width / 2);
     const y = this.y - (height / 2);
     ctx.drawImage(this.image.canvas, x, y, width, height);
-    
-
-
   }
 
   // draw(ctx) {
@@ -86,17 +80,11 @@ export default class Sprite {
   //     //this.drawCollisionCircle(ctx, wrapX, wrapY);
   //   }
   // }
+  forceClockwise() {
+    if (this.rotSpeed < 0) this.rotSpeed *= -1;
+  }
 
-  // drawCollisionCircle(ctx, x, y) {
-  //   ctx.save();
-  //   ctx.strokeStyle = this.collided ? 'red' : 'green';
-  //   ctx.beginPath();
-  //   ctx.arc(x, y, this.r, 0, PI * 2);
-  //   ctx.stroke();
-  //   ctx.restore();
-  // }
-
-  // maxRadius() {
-  //   return this.model.reduce((max, p) => Math.max(max, Math.sqrt(p.x ** 2 + p.y ** 2)), 0);
-  // }
+  forceCounterClockwise() {
+    if (this.rotSpeed > 0) this.rotSpeed *= -1;
+  }
 }

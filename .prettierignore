@@ -7,6 +7,9 @@
 
 /src/assets/js/core/Sprite.mjs
 /src/assets/js/core/Factory.mjs
+/src/assets/js/core/AsteroidFactory.mjs
+/src/assets/js/core/ShipFactory.mjs
+
 
 /src/assets/js/objects/Asteroid.mjs
 /src/assets/js/objects/Bullet.mjs
@@ -15,4 +18,4 @@
 /src/assets/js/tools/FpsCounter.mjs
 /src/assets/js/tools/QuadTree.mjs
 /src/assets/js/tools/ShipFactory.mjs
-/src/assets/js/tools/Factory.mjs
+

@@ -11,9 +11,10 @@ export default class Game {
     // Game Objects/Entities
     this.factory = new Factory();
     this.ship = null;
-    this.asteroids = [];
 
-    this.asteroid = this.factory.asteroidFactory._asteroid;
+    this.asteroids = this.factory.createAsteroids(5);
+
+    console.log(this.asteroids);
 
     // Game Loop
     this.previousTimeMs = 0;
@@ -54,7 +55,9 @@ export default class Game {
 
   update(dt) {
     //console.log('loop ' + dt);
-    this.asteroid.update(dt);
+    for (const asteroid of this.asteroids) {
+      asteroid.update(dt);
+    }
   }
 
   draw(ctx) {
@@ -62,6 +65,8 @@ export default class Game {
 
     ctx.fillStyle = COLOR_ASTEROID;
 
-    this.asteroid.draw(ctx);
+    for (const asteroid of this.asteroids) {
+      asteroid.draw(ctx);
+    }
   }
 }
