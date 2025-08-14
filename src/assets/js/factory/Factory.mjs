@@ -1,10 +1,10 @@
-import AsteroidFactory from "./AsteroidFactory.mjs";
-import ShipFactory from "./ShipFactory.mjs";
+import AsteroidFactory from '../factory/AsteroidFactory.mjs';
+import ShipFactory from '../factory/ShipFactory.mjs';
 
 export default class Factory {
   constructor() {
     this.asteroids = new AsteroidFactory();
-    this.ships     = new ShipFactory();  
+    this.ships = new ShipFactory();
   }
 
   createAsteroids(n) {
@@ -15,4 +15,3 @@ export default class Factory {
     return this.ships.createShip();
   }
 }
-

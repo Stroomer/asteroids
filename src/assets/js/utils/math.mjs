@@ -22,10 +22,6 @@ export function randomSign(num) {
   return randomInt(0, 1) === 1 ? num : -num;
 }
 
-export function invertSign(num) {
-  return -num;
-}
-
 export function randomX() {
   return randomInt(0, SCREEN_WIDTH);
 }

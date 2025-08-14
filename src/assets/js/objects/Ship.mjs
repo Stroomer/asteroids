@@ -2,9 +2,8 @@ import Sprite from '../core/Sprite.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
 import { COLOR_SHIP, COLOR_DEBUG, DEBUG } from '../utils/constants.mjs';
 import { randomSign } from '../utils/math.mjs';
-import { isKeyDown, isKeyUp } from '../keyboard.mjs';
 
-export default class Ship extends Entity {
+export default class Ship extends Sprite {
   constructor(props) {
     super(props);
 

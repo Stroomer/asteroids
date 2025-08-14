@@ -1,9 +1,12 @@
 // MODE
 export const DEBUG = true;
+export const SPRITE_TEST = false;
 
 // SCREEN
 export const SCREEN_WIDTH = 320;
 export const SCREEN_HEIGHT = 200;
+export const SCREEN_CENTER_X = SCREEN_WIDTH / 2;
+export const SCREEN_CENTER_Y = SCREEN_HEIGHT / 2;
 
 // KEYS
 export const KEY_UP = 38;

@@ -16,7 +16,7 @@ export default class Sprite {
     this.vy       = props.vy        || this.vector.y * 0; //this.speed;
     this.rotation = props.rotation  || 0.0;
     this.collided = props.collided  || false;
-    this.model    = null;
+    this.model    = props.model     || [];
     this.image    = null;
     this.models   = [];
     this.images   = [];

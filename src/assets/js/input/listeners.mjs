@@ -1,5 +1,5 @@
 import { resize } from '../window.mjs';
-import { keydown, keyup } from './keyboard.mjs';
+import { keydown, keyup } from './old__keyboard.mjs';
 import { mousemove, mousedown, mouseup, mouseleave } from './mouse.mjs';
 import { init } from '../main.mjs';
 
