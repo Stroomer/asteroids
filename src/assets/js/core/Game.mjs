@@ -58,17 +58,13 @@ export default class Game {
     //console.log('loop ' + dt);
     for (const asteroid of this.asteroids) {
       asteroid.update(dt);
-
-      console.log(`asteroid [${asteroid.x},${asteroid.y}] type=${asteroid.type}`);
-      
+      //console.log(`asteroid [${asteroid.x},${asteroid.y}] type=${asteroid.type}`);
     }
-    console.log(`----------------------`);
-    
+    //console.log(`----------------------`);
   }
 
   draw(ctx) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
     ctx.fillStyle = COLOR_ASTEROID;
 
     for (const asteroid of this.asteroids) {

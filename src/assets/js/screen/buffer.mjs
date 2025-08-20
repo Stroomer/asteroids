@@ -1,4 +1,4 @@
-export function getBuffer({ id, width, height, color, display }) {
+export function getBuffer(id, width, height, color, display) {
   const canvas = document.createElement('canvas');
   const ctx = canvas.getContext('2d');
 
@@ -9,6 +9,10 @@ export function getBuffer({ id, width, height, color, display }) {
 
   ctx.imageSmoothingEnabled = false;
   ctx.fillStyle = color;
+
+  if (display) {
+    document.body.appendChild(canvas);
+  }
 
   return ctx;
 }

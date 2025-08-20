@@ -4,16 +4,16 @@ import { drawPixelLine } from '../screen/screen.mjs';
 import { COLOR_ASTEROID, COLOR_DEBUG, DEBUG } from '../utils/constants.mjs';
 import { randomSign } from '../utils/math.mjs';
 
-
 export default class Asteroid extends Sprite {
   constructor(props) {
     super(props);
-    
-    this.type = props.type;
-    this.rotSpeed = randomSign(this.rotSpeed);
 
-    // console.log(`Asteroid created`);
-    // console.log(props);
+    this.rotDir = props.rotDir || randomSign(1);
+    this.color = props.color || COLOR_ASTEROID;
+    
+    console.log("YO NEW ASTEROID");
+    
+    //this.randomize();
   }
 
   update(dt) {
@@ -22,29 +22,35 @@ export default class Asteroid extends Sprite {
 
   draw(ctx) { 
     super.draw(ctx);
+    
       
+
     if (DEBUG) {
       ctx.save();
       ctx.fillStyle = COLOR_DEBUG;
       ctx.strokeStyle = COLOR_DEBUG;
       ctx.lineWidth = 1;
-      ctx.fillRect(this.x - 1, this.y - 1, 2, 2); // Draw center dot
+      ctx.fillRect(this.x, this.y, 1, 1); // Draw center dot
 
       const { x, y, width, height, radius } = this;
       const s = radius;
 
-      if (this.collided) {  
-        drawPixelLine(ctx, this.x-s, this.y-s, this.x+s, this.y-s);
-        drawPixelLine(ctx, this.x-s, this.y+s, this.x+s, this.y+s);
-        drawPixelLine(ctx, this.x-s, this.y-s, this.x-s, this.y+s);
-        drawPixelLine(ctx, this.x+s, this.y-s, this.x+s, this.y+s);
-      }
+      // if (this.collided) {  
+      //   Asteroid.drawCollision(ctx, x, y, s);
+      // }
 
       ctx.restore();
     }
   }
+  
+  static drawCollision(ctx, x, y, s) {
+    drawPixelLine(ctx, x-s, y-s, x+s, y-s);
+    drawPixelLine(ctx, x-s, y+s, x+s, y+s);
+    drawPixelLine(ctx, x-s, y-s, x-s, y+s);
+    drawPixelLine(ctx, x+s, y-s, x+s, y+s);
+  }
 
-  static generateModels(vertices, radius, min, max) {
+  static generateModel({ vertices, radius, min=0.8, max=1.0 }) {
     const baseModel = new Array(vertices);
     // Precompute the base model
     for (let i = 0; i < vertices; i++) {
@@ -75,30 +81,28 @@ export default class Asteroid extends Sprite {
     return models;  
   }
 
-  static generateSprites(type, models, radius, color = COLOR_ASTEROID, debug = false) {
-    const images = new Array(360);
-    const width = radius * 2;
-    const height = radius * 2;
-    for (let deg = 0; deg < 360; deg++) {
-      const id = `asteroid_type${type}_deg${deg}`;
-      const model = models[deg];
-      // Create buffer context (offscreen)
-      const ctx = getBuffer({ id, width, height, color, display: debug });
-      // Draw polygon edges
-      const lastIndex = model.length - 1;
-      for (let i = 0; i < model.length; i++) {
-        const p1 = model[i];
-        const p2 = model[(i + 1) % model.length]; // wrap to first point
-        drawPixelLine(ctx, p1.x+radius, p1.y+radius, p2.x+radius, p2.y+radius);
-      }
-      // Store buffer
-      images[deg] = ctx;
-      // Optional debug display
-      if (debug) {
-        document.body.appendChild(ctx.canvas);
+  static generateBuffer(asteroid) {
+    const { radius, model, width, height } = asteroid;
+    const cols = 36;
+    const total = 360;
+    const buffer = getBuffer("frames", 36 * width, 10 * height, COLOR_ASTEROID, false);
+
+    for (let deg = 0; deg < total; deg++) {
+      const col = deg % cols;
+      const row = (deg / cols) | 0; // faster Math.floor
+      const xOffset = col * width + radius;
+      const yOffset = row * height + radius;
+      
+      const m = model[deg];
+      const len = m.length;
+
+      for (let i = 0; i < len; i++) {
+        const p1 = m[i];
+        const p2 = m[i + 1] || m[0]; // avoid modulo in hot loop
+        drawPixelLine(buffer, xOffset+p1.x, yOffset+p1.y, xOffset+p2.x, yOffset+p2.y);
       }
     }
-    return images;
+        
+    return buffer;
   }
-
 }
