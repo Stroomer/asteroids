@@ -8,7 +8,7 @@ export default class Factory {
   }
 
   createAsteroids(n) {
-    return this.asteroids.createRandomAsteroidsList(n);
+    return this.asteroids.createRandomAsteroids(n);
   }
 
   createShip() {

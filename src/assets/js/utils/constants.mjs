@@ -1,6 +1,6 @@
 // MODE
 export const DEBUG = true;
-export const SPRITE_TEST = false;
+export const SPRITE_TEST = true;
 
 // SCREEN
 export const SCREEN_WIDTH = 320;

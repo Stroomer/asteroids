@@ -1,10 +1,9 @@
-export function getScreen() {
-  const canvas = document.getElementById('screen');
-  const ctx = canvas.getContext('2d');
+import { COLOR_ASTEROID } from "../utils/constants.mjs";
 
+export function getScreen() {
+  const canvas = document.getElementById("screen");
+  const ctx = canvas.getContext("2d");
   ctx.imageSmoothingEnabled = false;
-  ctx.lineWidth = 1;
-  ctx.strokeStyle = 'red';
 
   return ctx;
 }
@@ -16,7 +15,9 @@ export function resize(event) {
   // canvas.className = 'landscape'; //iw > ih ? 'landscape' : 'portrait'; // CRAP!
 }
 
-export function drawPixelLine(ctx, x0, y0, x1, y1) {
+export function drawPixelLine(ctx, x0, y0, x1, y1, color = COLOR_ASTEROID) {
+  ctx.fillStyle = color;
+
   x0 = x0 | 0;
   y0 = y0 | 0;
   x1 = x1 | 0;
