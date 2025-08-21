@@ -12,6 +12,6 @@ export default class Factory {
   }
 
   createShip() {
-    return this.ships.createShip();
+    return this.ships.createShip(1);
   }
 }

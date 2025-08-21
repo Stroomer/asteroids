@@ -1,4 +1,5 @@
 import Sprite from '../core/Sprite.mjs';
+import { getBuffer } from '../screen/buffer.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
 import { COLOR_SHIP, COLOR_DEBUG, DEBUG } from '../utils/constants.mjs';
 import { randomSign } from '../utils/math.mjs';
@@ -7,9 +8,14 @@ export default class Ship extends Sprite {
   constructor(props) {
     super(props);
 
-    this.id = props.id;
+    this.color  = props.color || COLOR_SHIP;
+    this.model  = Sprite.generateModel({ ...props, model:[{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }] });
+    this.buffer = Sprite.generateBuffer(this);
 
-    console.log('SHIP');
+    //console.log(this.model);
+    
+    console.log("THIS SHIP");
+    
 
     //this.keys = KEYBOARD[name === 'Player1' ? 0 : 1];
   }

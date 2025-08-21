@@ -12,7 +12,7 @@ export default class Game {
     // Game Objects/Entities
     this.factory   = new Factory();
     this.keyboard  = new Keyboard();
-    this.ship      = this.factory.createShip(1);
+    this.ships     = [ this.factory.createShip(1) ];
     this.asteroids = this.factory.createAsteroids(5);
 
     
@@ -55,20 +55,25 @@ export default class Game {
   createEntities() {}
 
   update(dt) {
-    //console.log('loop ' + dt);
     for (const asteroid of this.asteroids) {
       asteroid.update(dt);
-      //console.log(`asteroid [${asteroid.x},${asteroid.y}] type=${asteroid.type}`);
     }
-    //console.log(`----------------------`);
+    
+    for (const ship of this.ships) {
+      ship.update(dt);
+    }
+
   }
 
   draw(ctx) {
     ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-    ctx.fillStyle = COLOR_ASTEROID;
-
+    
     for (const asteroid of this.asteroids) {
       asteroid.draw(ctx);
+    }
+
+    for (const ship of this.ships) {
+      ship.draw(ctx);
     }
   }
 }
