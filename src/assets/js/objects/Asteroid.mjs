@@ -1,7 +1,7 @@
 import Sprite from '../core/Sprite.mjs';
 import { getBuffer } from '../screen/buffer.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
-import { COLOR_ASTEROID, COLOR_DEBUG, DEBUG, SPRITE_TEST } from '../utils/constants.mjs';
+import { BUFFER_SPRITE_VISIBLE, COLOR_ASTEROID, COLOR_DEBUG, DEBUG } from '../utils/constants.mjs';
 import { randomSign } from '../utils/math.mjs';
 
 export default class Asteroid extends Sprite {
@@ -9,11 +9,9 @@ export default class Asteroid extends Sprite {
     super(props);
 
     this.rotDir = props.rotDir || randomSign(1);
-    this.color = props.color || COLOR_ASTEROID;
-    
-    console.log("YO NEW ASTEROID");
-    
-    //this.randomize();
+    this.color  = props.color || COLOR_ASTEROID;
+    this.model  = Asteroid.generateModel(props);
+    this.buffer = Asteroid.generateBuffer(this);
   }
 
   update(dt) {
@@ -22,28 +20,8 @@ export default class Asteroid extends Sprite {
 
   draw(ctx) { 
     super.draw(ctx);
-    
-      
-
-    if (DEBUG && SPRITE_TEST) {
-      
-      drawPixelLine(ctx, this.x, this.y, this.x, this.y, 'red');
-
-
-      // ctx.save();
-      // ctx.fillStyle = COLOR_DEBUG;
-      // ctx.strokeStyle = COLOR_DEBUG;
-      // ctx.lineWidth = 1;
-      // ctx.fillRect(this.x, this.y, 1, 1); // Draw center dot
-
-      // const { x, y, width, height, radius } = this;
-      // const s = radius;
-
-      // if (this.collided) {  
-      //   Asteroid.drawCollision(ctx, x, y, s);
-      // }
-
-      //ctx.restore();
+    if (DEBUG) {
+      drawPixelLine(ctx, this.x, this.y, this.x, this.y, COLOR_DEBUG);
     }
   }
   
@@ -86,10 +64,10 @@ export default class Asteroid extends Sprite {
   }
 
   static generateBuffer(asteroid) {
-    const { radius, model, width, height } = asteroid;
+    const { radius, model, width, height, color } = asteroid;
     const cols = 36;
     const total = 360;
-    const buffer = getBuffer("frames", 36 * width, 10 * height, COLOR_ASTEROID, DEBUG && SPRITE_TEST);
+    const buffer = getBuffer("frames", 36 * width, 10 * height, color, BUFFER_SPRITE_VISIBLE);
 
     for (let deg = 0; deg < total; deg++) {
       const col = deg % cols;
@@ -103,9 +81,6 @@ export default class Asteroid extends Sprite {
       for (let i = 0; i < len; i++) {
         const p1 = m[i];
         const p2 = m[i + 1] || m[0]; // avoid modulo in hot loop
-
-        
-
         drawPixelLine(buffer, xOffset+p1.x, yOffset+p1.y, xOffset+p2.x, yOffset+p2.y);
       }
     }

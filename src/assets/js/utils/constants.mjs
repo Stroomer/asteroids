@@ -1,6 +1,6 @@
 // MODE
-export const DEBUG = true;
-export const SPRITE_TEST = true;
+export const DEBUG = false;
+export const BUFFER_SPRITE_VISIBLE = false;
 
 // SCREEN
 export const SCREEN_WIDTH = 320;
@@ -28,6 +28,10 @@ export const COLOR_ASTEROID = 'white';
 export const COLOR_BULLET = 'cyan';
 export const COLOR_COLLISION = 'white';
 export const COLOR_DEBUG = 'red';
+
+// ASTEROID CONSTRAINTS
+export const ASTEROID_ALLOWED_SIZES = [6, 12, 24, 48];
+export const ASTEROID_MIN_INITIAL_DISTANCE = 4;
 
 // PHYSICS
 // export const FRICTION = 0.99;

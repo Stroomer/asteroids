@@ -1,6 +1,6 @@
 // Generic deep copy for any value
 export function deepCopy(value) {
-  if (value === null || typeof value !== "object") return value;
+  if (value === null || typeof value !== 'object') return value;
 
   if (Array.isArray(value)) {
     return value.map(deepCopy);
@@ -9,15 +9,45 @@ export function deepCopy(value) {
     return new Date(value.getTime());
   }
   if (value instanceof Map) {
-    return new Map(
-      [...value.entries()].map(([k, v]) => [deepCopy(k), deepCopy(v)])
-    );
+    return new Map([...value.entries()].map(([k, v]) => [deepCopy(k), deepCopy(v)]));
   }
   if (value instanceof Set) {
     return new Set([...value].map(deepCopy));
   }
 
-  // Fallback: plain object or custom object
+  // --- Canvas handling ---
+  if (value instanceof HTMLCanvasElement) {
+    const newCanvas = document.createElement('canvas');
+    newCanvas.width = value.width;
+    newCanvas.height = value.height;
+    const ctx = newCanvas.getContext('2d');
+    ctx.drawImage(value, 0, 0);
+    return newCanvas;
+  }
+
+  if (value instanceof OffscreenCanvas) {
+    const newCanvas = new OffscreenCanvas(value.width, value.height);
+    const ctx = newCanvas.getContext('2d');
+    ctx.drawImage(value, 0, 0);
+    return newCanvas;
+  }
+
+  if (value instanceof CanvasRenderingContext2D) {
+    const oldCanvas = value.canvas;
+    const newCanvas = deepCopy(oldCanvas); // handled above
+    return newCanvas.getContext('2d');
+  }
+
+  // --- ImageBitmap handling ---
+  if (value instanceof ImageBitmap) {
+    // Draw bitmap into a canvas, then create a new bitmap from it
+    const canvas = new OffscreenCanvas(value.width, value.height);
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(value, 0, 0);
+    return canvas.transferToImageBitmap();
+  }
+
+  // --- Fallback: plain object or custom object ---
   const objClone = Object.create(Object.getPrototypeOf(value));
   for (const key of Reflect.ownKeys(value)) {
     objClone[key] = deepCopy(value[key]);
@@ -27,8 +57,8 @@ export function deepCopy(value) {
 
 // Clone class instances (preserve prototype + copy properties)
 export function deepClone(instance) {
-  if (instance === null || typeof instance !== "object") {
-    throw new TypeError("deepClone expects a class instance (object).");
+  if (instance === null || typeof instance !== 'object') {
+    throw new TypeError('deepClone expects a class instance (object).');
   }
   const clone = Object.create(Object.getPrototypeOf(instance));
   for (const key of Reflect.ownKeys(instance)) {
