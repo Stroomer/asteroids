@@ -9,13 +9,8 @@ export default class Ship extends Sprite {
     super(props);
 
     this.color  = props.color || COLOR_SHIP;
-    this.model  = Sprite.generateModel({ ...props, model:[{ x: 0.0, y: -5.5 }, { x: -2.5, y: 2.5 }, { x: 2.5, y: 2.5 }] });
+    this.model  = Sprite.generateModel({ ...props, model:[{ x: 0.0, y: -0.5 }, { x: -0.25, y: 0.25 }, { x: 0.25, y: 0.25 }] });
     this.buffer = Sprite.generateBuffer(this);
-
-    //console.log(this.model);
-    
-    console.log("THIS SHIP");
-    
 
     //this.keys = KEYBOARD[name === 'Player1' ? 0 : 1];
   }

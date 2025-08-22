@@ -1,5 +1,5 @@
 import Asteroid from '../objects/Asteroid.mjs';
-import { randomInt, randomSign, randomX, randomY, vector2D } from '../utils/math.mjs';
+import { randomInt, randomSign, randomUnitVector, randomX, randomY, vector2D } from '../utils/math.mjs';
 import { deepClone } from '../utils/clone.mjs';
 import { ASTEROID_MIN_INITIAL_DISTANCE } from '../utils/constants.mjs';
 
@@ -25,10 +25,16 @@ export default class AsteroidFactory {
       const randomNum = randomInt(0, this.asteroidTemplates.length - 1);
       const template = this.asteroidTemplates[randomNum];
       const clone = deepClone(template);
+      const { x, y } = uniquePositions[i];
+      const vec = randomUnitVector();
+      const spd = clone.speed;
       
-      clone.randomPosition(uniquePositions[i]);
-      clone.randomRotationDirection();
-      clone.randomMoveDirection();
+      clone.x = x;
+      clone.y = y;  
+      clone.rotDir = randomSign(1);
+      clone.vector = vec;
+      clone.vx = vec.x * spd;
+      clone.vy = vec.y * spd;
       
       list.push(clone);  
     }    

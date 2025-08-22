@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Rotating Triangle</title>
+    <style>
+      body { background: black; }
+      canvas { display: block; margin: auto; background: #111; }
+    </style>
+  </head>
+  <body>
+    <canvas width="500" height="500"></canvas>
+    <script>
+      class Asteroid {
+        static generateModel({ vertices, radius, min=0.8, max=1.0, model }) {
+          if (model) {
+            vertices = model.length; // important fix
+          }
+
+          const baseModel = new Array(vertices);
+
+          for (let i = 0; i < vertices; i++) {
+            if (model) {
+              baseModel[i] = model[i];
+              continue;
+            }
+            const angle = (i / vertices) * Math.PI * 2;
+            const variation = min + Math.random() * (max - min);
+            baseModel[i] = {
+              x: variation * Math.cos(angle),
+              y: variation * Math.sin(angle)
+            };
+          }
+
+          const models = new Array(360);
+          for (let deg = 0; deg < 360; deg++) {
+            const rad = deg * (Math.PI / 180);
+            const cos = Math.cos(rad);
+            const sin = Math.sin(rad);
+            const rotated = new Array(vertices);
+            for (let i = 0; i < vertices; i++) {
+              const p = baseModel[i];
+              rotated[i] = {
+                x: radius * (p.x * cos - p.y * sin),
+                y: radius * (p.x * sin + p.y * cos)
+              };
+            }
+            models[deg] = rotated;
+          }
+          return models;
+        }
+      }
+
+      // Your triangle model
+      const triangle = [
+        { x: 0.0, y: -5.5 },
+        { x: -2.5, y: 2.5 },
+        { x: 2.5, y: 2.5 }
+      ];
+
+      const models = Asteroid.generateModel({ radius: 40, model: triangle });
+
+      const canvas = document.querySelector("canvas");
+      const ctx = canvas.getContext("2d");
+
+      function drawModel(ctx, model, x, y) {
+        ctx.beginPath();
+        ctx.moveTo(model[0].x + x, model[0].y + y);
+        for (let i = 1; i < model.length; i++) {
+          ctx.lineTo(model[i].x + x, model[i].y + y);
+        }
+        ctx.closePath();
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+      }
+
+      let angle = 0;
+
+      function loop() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        drawModel(ctx, models[angle], 250, 250);
+        angle = (angle + 1) % 360;
+        requestAnimationFrame(loop);
+      }
+
+      loop();
+    </script>
+  </body>
+</html>

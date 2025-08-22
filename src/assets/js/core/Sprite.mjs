@@ -26,24 +26,6 @@ export default class Sprite {
     this.validate(this); // validate if props are admissible
   }
 
-  randomPosition(pos = null) {
-    // console.log('Randomize Sprite position');
-    this.x = pos.x || randomX();
-    this.y = pos.y || randomY();  
-  }
-
-  randomRotationDirection() {
-    // console.log('Randomize Sprite rotate-direction');
-    this.rotDir = randomSign(1);
-  }
-
-  randomMoveDirection() {
-    // console.log('Randomize Sprite move-direction');
-    this.vector = randomUnitVector();
-    this.vx     = this.vector.x * this.speed;
-    this.vy     = this.vector.y * this.speed;
-  }
-
   update(dt) {
     this.x = (this.x + this.vx * dt + SCREEN_WIDTH) % SCREEN_WIDTH;
     this.y = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
@@ -60,14 +42,14 @@ export default class Sprite {
   }
 
   draw(ctx) {
-    const rot = this.rotation | 0;   // integer angle index
+    const rot = 0; ///this.rotation | 0;   // integer angle index
     const cols = 36;
     const col = rot % cols;
     const row = (rot / cols) | 0;    // fast floor
 
     const xOffset = col * this.width;
     const yOffset = row * this.height;
-
+    
     ctx.drawImage(
       this.buffer.canvas,   // full sprite sheet
       xOffset, yOffset,    // source x,y in sheet
@@ -85,6 +67,8 @@ export default class Sprite {
   }
 
   static generateModel({ vertices, radius, min=0.8, max=1.0, model }) {
+    // match number of vertices to model
+    if (model) vertices = model.length;
     const baseModel = new Array(vertices);
     // Precompute the base model
     for (let i = 0; i < vertices; i++) {
@@ -99,6 +83,10 @@ export default class Sprite {
         y: variation * Math.sin(angle)
       };
     }
+
+    if(model) console.log(baseModel);
+    
+
     // Precompute all rotated versions (0°–359°)
     const models = new Array(360);
     for (let deg = 0; deg < 360; deg++) {
@@ -133,7 +121,7 @@ export default class Sprite {
       
       const m = model[deg];
       const len = m.length;
-
+      
       for (let i = 0; i < len; i++) {
         const p1 = m[i];
         const p2 = m[i + 1] || m[0]; // avoid modulo in hot loop
