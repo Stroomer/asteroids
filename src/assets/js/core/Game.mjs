@@ -14,9 +14,7 @@ export default class Game {
     this.keyboard  = new Keyboard();
     this.ships     = [ this.factory.createShip(1) ];
     this.asteroids = this.factory.createAsteroids(5);
-
     
-
     // Game Loop
     this.previousTimeMs = 0;
     this.accumulator    = 0;
@@ -27,8 +25,6 @@ export default class Game {
   }
 
   start() {
-    this.createEntities();
-
     requestAnimationFrame(this.loop.bind(this));
   }
 
@@ -52,15 +48,13 @@ export default class Game {
     requestAnimationFrame(this.loop.bind(this));
   }
 
-  createEntities() {}
-
   update(dt) {
     for (const asteroid of this.asteroids) {
       asteroid.update(dt);
     }
     
     for (const ship of this.ships) {
-      ship.update(dt);
+      ship.update(dt, this.keyboard);
     }
 
   }

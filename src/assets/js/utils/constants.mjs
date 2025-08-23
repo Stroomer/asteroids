@@ -29,6 +29,8 @@ export const COLOR_BULLET = 'cyan';
 export const COLOR_COLLISION = 'white';
 export const COLOR_DEBUG = 'red';
 
+export const COLOR_RANDOM = ['red','green','blue','orange','cyan','purple','pink','yellow','grey'];
+
 // ASTEROID CONSTRAINTS
 export const ASTEROID_ALLOWED_SIZES = [6, 12, 24, 48];
 export const ASTEROID_MIN_INITIAL_DISTANCE = 4;

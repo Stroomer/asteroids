@@ -1,24 +1,39 @@
 import Sprite from '../core/Sprite.mjs';
 import { getBuffer } from '../screen/buffer.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
-import { COLOR_SHIP, COLOR_DEBUG, DEBUG } from '../utils/constants.mjs';
-import { randomSign } from '../utils/math.mjs';
+import { COLOR_SHIP, COLOR_DEBUG, DEBUG, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT } from '../utils/constants.mjs';
+import { randomSign, toRadians } from '../utils/math.mjs';
 
 export default class Ship extends Sprite {
   constructor(props) {
-    super(props);
+    super({ ...props, type:'ship' });
 
+    const points = [toRadians(-90), toRadians(120), toRadians(60)];
+    for (let i = 0; i < 3; i++) {
+      const angle = points[i];
+      const x = Math.cos(angle);
+      const y = Math.sin(angle);
+      points[i] = { x, y };
+    }
+
+    console.log(points);
+       
     this.color  = props.color || COLOR_SHIP;
-    this.model  = Sprite.generateModel({ ...props, model:[{ x: 0.0, y: -0.5 }, { x: -0.25, y: 0.25 }, { x: 0.25, y: 0.25 }] });
+    this.model  = Sprite.generateModel({ ...props, model:points });
     this.buffer = Sprite.generateBuffer(this);
 
     //this.keys = KEYBOARD[name === 'Player1' ? 0 : 1];
   }
 
-  update(dt) {
+  update(dt, keyboard) {
     super.update(dt);
 
-    // if (isKeyDown(this.keys.left))  this.angle -= PLAYER_ROT_SPD * dt;
+    if (keyboard.isKeyDown(KEY_UP))    console.log('up');
+    if (keyboard.isKeyDown(KEY_DOWN))  console.log('down');
+    if (keyboard.isKeyDown(KEY_LEFT))  console.log('left');
+    if (keyboard.isKeyDown(KEY_RIGHT)) console.log('right');
+    
+       //this.angle -= PLAYER_ROT_SPD * dt;
     // if (isKeyDown(this.keys.right)) this.angle += PLAYER_ROT_SPD * dt;
     // if (isKeyDown(this.keys.up)) {                            // thrust forward
     //   this.dx +=  Math.sin(this.angle) * this.accel * dt;
@@ -48,6 +63,20 @@ export default class Ship extends Sprite {
   }
 
   draw(ctx) {
+    
+    ctx.fillStyle = 'grey';
+    ctx.fillRect(this.x - this.radius, this.y - this.radius ,this.width, this.height);
+    
+    ctx.strokeStyle = 'red';
+
+    ctx.beginPath();
+    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    ctx.stroke();
+    
+    
+
+    
+
     super.draw(ctx);
   }
 }

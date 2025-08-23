@@ -6,9 +6,7 @@ import { randomSign } from '../utils/math.mjs';
 
 export default class Asteroid extends Sprite {
   constructor(props) {
-    super(props);
-
-    // console.log(props);
+    super({ ...props, type:'asteroid' });
 
     this.rotDir = props.rotDir || randomSign(1);
     this.color  = props.color || COLOR_ASTEROID;
@@ -30,10 +28,10 @@ export default class Asteroid extends Sprite {
     }
   }
   
-  static drawCollision(ctx, x, y, s) {
-    drawPixelLine(ctx, x-s, y-s, x+s, y-s);
-    drawPixelLine(ctx, x-s, y+s, x+s, y+s);
-    drawPixelLine(ctx, x-s, y-s, x-s, y+s);
-    drawPixelLine(ctx, x+s, y-s, x+s, y+s);
+  static drawCollision(ctx, x, y, r) {
+    drawPixelLine(ctx, x-r, y-r, x+r, y-r);
+    drawPixelLine(ctx, x-r, y+r, x+r, y+r);
+    drawPixelLine(ctx, x-r, y-r, x-r, y+r);
+    drawPixelLine(ctx, x+r, y-r, x+r, y+r);
   }
 }

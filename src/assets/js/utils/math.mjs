@@ -29,3 +29,15 @@ export function randomX() {
 export function randomY() {
   return randomInt(0, SCREEN_HEIGHT);
 }
+
+export function randomPick(arr) {
+  return arr[randomInt(0, arr.length-1)];
+}
+
+export function toRadians(degrees) {
+  return degrees * (Math.PI / 180);
+}
+
+export function toDegrees(radians) {
+  return radians * (180 / Math.PI);
+}

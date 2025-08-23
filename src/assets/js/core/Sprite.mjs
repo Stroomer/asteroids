@@ -1,7 +1,6 @@
 import { getBuffer } from '../screen/buffer.mjs';
-import { SCREEN_WIDTH, SCREEN_HEIGHT, BUFFER_SPRITE_VISIBLE } from '../utils/constants.mjs';
-import { randomSign, randomUnitVector, randomX, randomY, vector2D } from '../utils/math.mjs';
-import Asteroid from '../objects/Asteroid.mjs';
+import { SCREEN_WIDTH, SCREEN_HEIGHT, BUFFER_SPRITE_VISIBLE, COLOR_RANDOM } from '../utils/constants.mjs';
+import { randomPick, vector2D } from '../utils/math.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
 
 export default class Sprite {
@@ -23,6 +22,8 @@ export default class Sprite {
     this.model     = props.model     || undefined;
     this.buffer    = props.buffer    || undefined;
     
+    
+    
     this.validate(this); // validate if props are admissible
   }
 
@@ -37,7 +38,7 @@ export default class Sprite {
     //   console.log("this is not a ship!");
     // }
     
-    console.log(`x: ${this.vy}`);
+    //console.log(`x: ${this.vy}`);
     
   }
 
@@ -49,7 +50,7 @@ export default class Sprite {
 
     const xOffset = col * this.width;
     const yOffset = row * this.height;
-    
+
     ctx.drawImage(
       this.buffer.canvas,   // full sprite sheet
       xOffset, yOffset,    // source x,y in sheet
@@ -60,7 +61,7 @@ export default class Sprite {
   }
 
   validate() {
-    if (this instanceof Asteroid) {
+    if (this.type === 'asteroid') {
       if (this.radius % 2 !== 0)                           throw Error("Asteroid radius must be divisible by two");
       //if (!ASTEROID_ALLOWED_SIZES.includes(this.radius)) throw Error("Asteroid radius not found in ASTEROID_ALLOWED_SIZES");
     }
