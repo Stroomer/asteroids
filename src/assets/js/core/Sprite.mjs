@@ -20,17 +20,24 @@ export default class Sprite {
     this.rotation  = props.rotation  || 0.0;
     this.collided  = props.collided  || false;
     this.model     = props.model     || undefined;
-    this.buffer    = props.buffer    || undefined;
+    this.buffer = props.buffer || undefined;
     
+    this.testrot   = 0.0;
     
-    
-    this.validate(this); // validate if props are admissible
+    Sprite.validate(this.type, this.radius); // validate if props are admissible
   }
 
   update(dt) {
     this.x = (this.x + this.vx * dt + SCREEN_WIDTH) % SCREEN_WIDTH;
     this.y = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
-    this.rotation = (this.rotation + (this.rotDir * this.rotSpeed) * dt + 360) % 360;
+    this.rotation = (this.rotation + (this.rotDir * this.rotSpeed) * dt + 360.0) % 360.0;
+    
+    
+    //this.testrot = (this.testrot + (1.0 * 10) * dt + 360.0) % 360.0;
+
+    //console.log(this.rotation);
+    
+
   }
 
   draw(ctx) {
@@ -49,14 +56,24 @@ export default class Sprite {
       this.x - this.radius, this.y - this.radius, // dest x,y on screen
       this.width, this.height // dest w,h
     );
+
+    if (this.front) {
+      // console.log(this.front);
+      
+      const { x, y } = this.front[0];
+      const px = this.x + (this.radius * x);
+      const py = this.y + (this.radius * y);
+      
+      ctx.save();
+      ctx.fillStyle = 'purple';
+      ctx.beginPath();
+      ctx.arc(px, py, 3, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }  
   }
 
-  validate() {
-    if (this.type === 'asteroid') {
-      if (this.radius % 2 !== 0)                           throw Error("Asteroid radius must be divisible by two");
-      //if (!ASTEROID_ALLOWED_SIZES.includes(this.radius)) throw Error("Asteroid radius not found in ASTEROID_ALLOWED_SIZES");
-    }
-  }
+  
 
   static generateModel({ vertices, radius, min=0.8, max=1.0, model }) {
     // match number of vertices to model
@@ -75,9 +92,6 @@ export default class Sprite {
         y: variation * Math.sin(angle)
       };
     }
-
-    if(model) console.log(baseModel);
-    
 
     // Precompute all rotated versions (0°–359°)
     const models = new Array(360);
@@ -122,6 +136,17 @@ export default class Sprite {
     }
         
     return buffer;
+  }
+
+  static getFrontPoint(pivot, radius, vector) {
+
+  }
+
+  static validate(type, radius) {
+    if (type === 'asteroid') {
+      if (radius % 2 !== 0) throw Error("Asteroid radius must be divisible by two");
+      //if (!ASTEROID_ALLOWED_SIZES.includes(this.radius)) throw Error("Asteroid radius not found in ASTEROID_ALLOWED_SIZES");
+    }
   }
 
 }
