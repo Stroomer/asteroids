@@ -30,20 +30,11 @@ export default class Sprite {
   update(dt) {
     this.x = (this.x + this.vx * dt + SCREEN_WIDTH) % SCREEN_WIDTH;
     this.y = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
-    this.rotation = (this.rotation + (this.rotDir * this.rotSpeed) * dt + 360) % 360;    
-
-    //if(this instanceof Ship) console.log('shippert');
-    
-    // if (!(this instanceof Asteroid)) {
-    //   console.log("this is not a ship!");
-    // }
-    
-    //console.log(`x: ${this.vy}`);
-    
+    this.rotation = (this.rotation + (this.rotDir * this.rotSpeed) * dt + 360) % 360;
   }
 
   draw(ctx) {
-    const rot = 0; ///this.rotation | 0;   // integer angle index
+    const rot = this.rotation | 0;   // integer angle index
     const cols = 36;
     const col = rot % cols;
     const row = (rot / cols) | 0;    // fast floor
