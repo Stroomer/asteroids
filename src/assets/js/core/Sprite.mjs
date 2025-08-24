@@ -1,6 +1,6 @@
 import { getBuffer } from '../screen/buffer.mjs';
 import { SCREEN_WIDTH, SCREEN_HEIGHT, BUFFER_SPRITE_VISIBLE, COLOR_RANDOM } from '../utils/constants.mjs';
-import { randomPick, vector2D } from '../utils/math.mjs';
+import { randomPick, toRadians, vector2D } from '../utils/math.mjs';
 import { drawPixelLine } from '../screen/screen.mjs';
 
 export default class Sprite {
@@ -31,6 +31,8 @@ export default class Sprite {
     this.x = (this.x + this.vx * dt + SCREEN_WIDTH) % SCREEN_WIDTH;
     this.y = (this.y + this.vy * dt + SCREEN_HEIGHT) % SCREEN_HEIGHT;
     this.rotation = (this.rotation + (this.rotDir * this.rotSpeed) * dt + 360.0) % 360.0;
+    
+
     
     
     //this.testrot = (this.testrot + (1.0 * 10) * dt + 360.0) % 360.0;
@@ -70,7 +72,22 @@ export default class Sprite {
       ctx.arc(px, py, 3, 0, 2 * Math.PI);
       ctx.fill();
       ctx.restore();
-    }  
+    }
+    
+    if (this.front) {
+      // console.log(this.front);
+      
+      const { x, y } = this.rear[0];
+      const px = this.x + (this.radius * x);
+      const py = this.y + (this.radius * y);
+      
+      ctx.save();
+      ctx.fillStyle = 'yellow';
+      ctx.beginPath();
+      ctx.arc(px, py, 3, 0, 2 * Math.PI);
+      ctx.fill();
+      ctx.restore();
+    }
   }
 
   
@@ -96,7 +113,7 @@ export default class Sprite {
     // Precompute all rotated versions (0°–359°)
     const models = new Array(360);
     for (let deg = 0; deg < 360; deg++) {
-      const rad = deg * (Math.PI / 180);
+      const rad = toRadians(deg);
       const cos = Math.cos(rad);
       const sin = Math.sin(rad);
       // Avoid creating new point objects during render by reusing arrays
@@ -136,10 +153,6 @@ export default class Sprite {
     }
         
     return buffer;
-  }
-
-  static getFrontPoint(pivot, radius, vector) {
-
   }
 
   static validate(type, radius) {

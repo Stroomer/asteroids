@@ -35,8 +35,11 @@ export default class Ship extends Sprite {
     super.update(dt);
 
     // calculate positions for front/back to init bullets and (thrust)fire
-    //this.front = 
-    //this.back  = 
+    //this.front = Sprite.getNormal(this.x, this.y, this.radius, this.vector);
+    
+    
+    this.front = this.getCoordinates([toRadians(270 + (this.rotation | 0))]);
+    this.rear  = this.getCoordinates([toRadians(90  + (this.rotation | 0))]);
     
     // console.log(this.rotation);
     
