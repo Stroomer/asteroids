@@ -28,12 +28,24 @@ export const COLOR_ASTEROID = 'white';
 export const COLOR_BULLET = 'cyan';
 export const COLOR_COLLISION = 'white';
 export const COLOR_DEBUG = 'red';
-
+export const COLOR_DEFAULT = 'hotpink';
 export const COLOR_RANDOM = ['red','green','blue','orange','cyan','purple','pink','yellow','grey'];
 
 // ASTEROID CONSTRAINTS
 export const ASTEROID_ALLOWED_SIZES = [6, 12, 24, 48];
 export const ASTEROID_MIN_INITIAL_DISTANCE = 4;
+
+// PRECOMPUTE SIN/COS LOOKUP TABLE FOR 360 DEGREES
+const DEG2RAD = Math.PI / 180;
+const COS_LOOKUP_TABLE = new Float32Array(360);
+const SIN_LOOKUP_TABLE = new Float32Array(360);
+for (let d = 0; d < 360; d++) {
+  COS_LOOKUP_TABLE[d] = Math.cos(d * DEG2RAD);
+  SIN_LOOKUP_TABLE[d] = Math.sin(d * DEG2RAD);
+}
+export { COS_LOOKUP_TABLE, SIN_LOOKUP_TABLE } 
+
+
 
 // PHYSICS
 // export const FRICTION = 0.99;

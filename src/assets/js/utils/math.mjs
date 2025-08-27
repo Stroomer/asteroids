@@ -41,3 +41,29 @@ export function toRadians(degrees) {
 export function toDegrees(radians) {
   return radians * (180 / Math.PI);
 }
+
+export function randomPointsWithMinimalDistance(n, minDistance, maxIterations=100) {
+  const points = [];
+  for (let i = 0; i < n; i++) {
+    let iterations = 0;
+    let valid = false;
+    let x, y;
+    while (!valid) {
+      x = randomX();
+      y = randomY();
+      valid = true;
+      for (let j = 0; j < points.length; j++) {
+        const dx = x - points[j].x;
+        const dy = y - points[j].y;
+        if (dx * dx + dy * dy < minDistance * minDistance && iterations < maxIterations) {
+          valid = false;
+          iterations++;
+          break;
+        }
+      }
+    }
+    points.push(vector2D(x, y));
+
+  }
+  return points;
+}

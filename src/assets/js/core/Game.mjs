@@ -12,8 +12,10 @@ export default class Game {
     // Game Objects/Entities
     this.factory   = new Factory();
     this.keyboard  = new Keyboard();
+    
     this.ships     = [ this.factory.createShip(1) ];
-    this.asteroids = this.factory.createAsteroids(5);
+    this.asteroids = [ ...this.factory.createAsteroids(5) ];
+    this.bullets   = [];
     
     // Game Loop
     this.previousTimeMs = 0;
@@ -57,6 +59,9 @@ export default class Game {
       ship.update(dt, this.keyboard);
     }
 
+    for (const bullet of this.bullets) {
+      bullet.update(dt, this.keyboard);
+    }
   }
 
   draw(ctx) {
@@ -68,6 +73,10 @@ export default class Game {
 
     for (const ship of this.ships) {
       ship.draw(ctx);
+    }
+
+    for (const bullet of this.bullets) {
+      bullet.draw(ctx);
     }
   }
 }

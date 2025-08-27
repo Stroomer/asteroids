@@ -1,42 +1,35 @@
-// Bullet.mjs
-import Entity from '../objects/Entity.mjs';
-import { BULLET, BULLET_COLOR, BULLET_MAXSPEED, SCREEN_HEIGHT, SCREEN_WIDTH } from '../constants.mjs';
-// import Factory from '../tools/Factory.mjs';
+import Sprite from "../core/Sprite.mjs";
+import { COLOR_BULLET } from "../utils/constants.mjs";
 
-export default class Bullet extends Entity {
-  constructor({ x, y, dx, dy, angle, offset }) {
-    super();
 
-    this.type     = BULLET;
-    this.dx       = dx +  BULLET_MAXSPEED * Math.sin(angle); 
-    this.dy       = dy + -BULLET_MAXSPEED * Math.cos(angle);
-    this.x        = x + Math.sin(angle) * offset;
-    this.y        = y - Math.cos(angle) * offset;
-    this.scale    = 1;
-    this.angle    = angle;
-    this.model    = [{ x: 0, y: 0 }];
-    this.r        = this.maxRadius() * this.scale;
-    this.collided = false;
+export default class Bullet extends Sprite {
+  constructor(props) {
+    super({ ...props, type: 'bullet' });
+    
+    this.color  = props.color || COLOR_BULLET;
+    
+    this.model  = Sprite.generateModel({ ...props, model: Sprite.anglesToPoints([-Math.PI / 2, 2 * Math.PI / 3, Math.PI / 3]) });
+    this.buffer = Sprite.generateBuffer(this);
+
+    // this.buffer
+
+    //this.front = Sprite.anglesToPoints([-Math.PI/2]); 
+    //this.rear  = Sprite.anglesToPoints([ Math.PI/2]); 
   }
 
   update(dt) {
-    this.x += this.dx * dt;
-    this.y += this.dy * dt;
-
-    // if (this.x < 0 || this.x > SCREEN_WIDTH || this.y < 0 || this.y > SCREEN_HEIGHT) {
-      //Entity.GARBAGE.push(this.uid);
-    // }
-
-    //if (distance(this.dx, this.dy)) {
-      
-    //}
-
-    //super.checkCollisions();
-    // Don't update super-class to avoid wrapping!
+    super.update(dt);
   }
 
   draw(ctx) {
-    ctx.fillStyle = BULLET_COLOR;
+    // ctx.fillStyle = 'grey';
+    // ctx.fillRect(this.x - this.radius, this.y - this.radius, this.width, this.height);
+    
+    // ctx.strokeStyle = 'red';
+    // ctx.beginPath();
+    // ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
+    // ctx.stroke();
+    
     super.draw(ctx);
   }
 }
