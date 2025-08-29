@@ -53,7 +53,6 @@ function update(dt) {
   for (const bullet of bullets) {
     bullet.update(dt, keyboard);
   }
-
 }
 
 function draw(ctx) {
