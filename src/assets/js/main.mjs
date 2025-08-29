@@ -1,10 +1,6 @@
-// import Keyboard from '../input/keyboard.mjs';
-// import Factory from '../factory/Factory.mjs';
-// import { COLOR_ASTEROID } from '../utils/constants.mjs';
-
 import { getScreen } from './screen/screen.mjs';
 import Keyboard from './input/Keyboard.mjs';
-import Factory from './factory/Factory.mjs';
+import Factory from './core/Factory.mjs';
 
 const ctx       = getScreen();
 const factory   = new Factory();
@@ -55,8 +51,9 @@ function update(dt) {
   }
 
   for (const bullet of bullets) {
-    //bullet.update(dt, keyboard);
+    bullet.update(dt, keyboard);
   }
+
 }
 
 function draw(ctx) {
@@ -71,6 +68,8 @@ function draw(ctx) {
   }
 
   for (const bullet of bullets) {
-    //bullet.draw(ctx);
+    bullet.draw(ctx);
   }
 }
+
+export { factory, bullets };

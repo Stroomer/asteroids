@@ -1,5 +1,6 @@
 import Sprite from '../core/Sprite.mjs';
-import { COLOR_SHIP, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_SPACE } from '../utils/constants.mjs';
+import { bullets, factory } from '../main.mjs';
+import { COLOR_SHIP, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT, KEY_SPACE, SCREEN_CENTER_X, SCREEN_CENTER_Y } from '../utils/constants.mjs';
 import { toRadians } from '../utils/math.mjs';
 
 export default class Ship extends Sprite {
@@ -34,18 +35,10 @@ export default class Ship extends Sprite {
   }
 
   draw(ctx) {
-    // ctx.fillStyle = 'grey';
-    // ctx.fillRect(this.x - this.radius, this.y - this.radius, this.width, this.height);
-    
-    ctx.strokeStyle = 'blue';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-    ctx.stroke();
-
     super.draw(ctx);
 
-    this.drawMarker(ctx, this.front[0], 'purple');
-    this.drawMarker(ctx, this.rear[0],  'yellow');
+    //this.drawMarker(ctx, this.front[0], 'purple');
+    //this.drawMarker(ctx, this.rear[0],  'yellow');
   }
 
   thrust(direction) {
@@ -60,103 +53,13 @@ export default class Ship extends Sprite {
   fire() {
     if (!this.firing) {
       this.firing = true;
-      console.log('FIRE');
+  
+      const { x, y } = this.front[0];
+      const px = this.x + (x * this.radius);
+      const py = this.y + (y * this.radius);
+      const bullet = factory.createBullet(px, py, this.front[0]);
 
-      
+      bullets.push(bullet);
     }
   }
 }
-
-
-
-// import Sprite from '../core/Sprite.mjs';
-// import { COLOR_SHIP, KEY_LEFT, KEY_UP, KEY_DOWN, KEY_RIGHT } from '../utils/constants.mjs';
-// import { toRadians } from '../utils/math.mjs';
-
-// export default class Ship extends Sprite {
-//   constructor(props) {
-//     super({ ...props, type:'ship' });
-           
-//     this.color  = props.color || COLOR_SHIP;
-//     this.model  = Sprite.generateModel({ ...props, model:this.getCoordinates([toRadians(-90), toRadians(120), toRadians(60)]) });
-//     this.buffer = Sprite.generateBuffer(this);
-
-//     this.rear  = this.getCoordinates([toRadians(-90)]); 
-//     this.front = this.getCoordinates([toRadians(270)]); 
-//   }
-
-//   getCoordinates(points) {
-//     for (let i = 0; i < points.length; i++) {
-//       const angle = points[i];
-//       const x = Math.cos(angle);
-//       const y = Math.sin(angle);
-//       points[i] = { x, y };
-//     }
-//     return points;
-//   }
-
-//   update(dt, keyboard) {
-//     if (keyboard.isKeyDown(KEY_UP))         this.thrust(1);
-//     else if (keyboard.isKeyDown(KEY_DOWN))  this.thrust(-1);
-      
-//     if (keyboard.isKeyDown(KEY_LEFT))       this.rotate(-1);
-//     else if (keyboard.isKeyDown(KEY_RIGHT)) this.rotate(1);
-//     else                                    this.rotate(0);
-
-//     super.update(dt);
-
-//     this.front = this.getCoordinates([toRadians(270 + (this.rotation | 0))]);
-//     this.rear  = this.getCoordinates([toRadians(90  + (this.rotation | 0))]);
-//   }
-
-//   draw(ctx) {
-//     ctx.fillStyle = 'grey';
-//     ctx.fillRect(this.x - this.radius, this.y - this.radius ,this.width, this.height);
-    
-//     ctx.strokeStyle = 'red';
-//     ctx.beginPath();
-//     ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
-//     ctx.stroke();
-    
-//     super.draw(ctx);
-//   }
-
-//   thrust(direction) {
-//     console.log('thrust');
-//   }
-
-//   rotate(direction) {
-//     this.rotDir = direction;
-//     this.rotSpeed = 180;
-//   }
-// }
-
-
-
-//this.angle -= PLAYER_ROT_SPD * dt;
-    // if (isKeyDown(this.keys.right)) this.angle += PLAYER_ROT_SPD * dt;
-    // if (isKeyDown(this.keys.up)) {                            // thrust forward
-    //   this.dx +=  Math.sin(this.angle) * this.accel * dt;
-    //   this.dy += -Math.cos(this.angle) * this.accel * dt;
-    // } else if (isKeyDown(this.keys.down)) {                   // Reverse thrust (smooth braking or backward movement)
-    //   this.dx -=  Math.sin(this.angle) * 50.0 * dt;
-    //   this.dy -= -Math.cos(this.angle) * 50.0 * dt;
-    // } else {
-    //   this.dx *= FRICTION;
-    //   this.dy *= FRICTION;
-    // }
-
-    // if (isKeyDown(this.keys.fire) && this.armed) {
-    //   const { entities, x, y, dx, dy, angle } = this;
-    //   Factory.create(BULLET, entities, { x, y, dx, dy, angle, offset:24 });
-
-    //   this.armed = false;
-    // }else if(isKeyUp(this.keys.fire)) {
-    //   this.armed = true;
-    // }
-
-    // if (isKeyDown(this.keys.up)) {
-    //   this.clamp(PLAYER_MAXSPEED);
-    // } else if (isKeyDown(this.keys.down)) {
-    //   this.clamp(PLAYER_MAXSPEED/4);
-    // }

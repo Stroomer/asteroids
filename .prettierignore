@@ -5,11 +5,8 @@
 
 /src/assets/js/utils/constants.mjs
 
+/src/assets/js/core/Factory.mjs
 /src/assets/js/core/Sprite.mjs
-
-/src/assets/js/factory/Factory.mjs
-/src/assets/js/factory/AsteroidFactory.mjs
-/src/assets/js/factory/ShipFactory.mjs
 
 /src/assets/js/objects/Asteroid.mjs
 /src/assets/js/objects/Bullet.mjs
